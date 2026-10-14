@@ -1,0 +1,3 @@
+# public/robots.txt (development or staging)
+User-agent: *
+Disallow: /

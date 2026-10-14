@@ -1,0 +1,28 @@
+version: '3'
+
+services:
+  #React Nextjs Node Service
+
+  node:
+    image: webskittersdocker/nvmnode22:latest
+
+    container_name: hogan-jets-admin-Nextjs
+
+    restart: unless-stopped
+
+    working_dir: /home/wtsadmin/myapp
+
+    volumes:
+      - ./:/home/wtsadmin/myapp
+
+    ports:
+      - '14596:14596'
+    command: >
+      sh -c "yarn start"
+
+#Docker Networks
+
+networks:
+  default:
+    external:
+      name: webskitters

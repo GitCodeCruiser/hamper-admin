@@ -1,0 +1,27 @@
+export default {
+  success: {},
+  error: {
+    enter_email: 'Enter email',
+    email_format: 'Email address must be in a correct format',
+    enter_password: 'Enter password',
+    phone: 'Please enter valid Phone',
+    phoneLength: 'The phone number should be between 10 and 15 characters long',
+    passwordFormat: 'Your password must include a mix of letters, numbers, and special characters',
+    passwordNotConfirmMatch: 'Old password and password should not be same',
+    passwordConfirmMatch: 'Password and confirm password should be same',
+    passwordLength: 'Password must be between 8 and 15 characters long',
+    username: 'Enter username',
+    fullName: 'Enter Full Name',
+    first_name: 'Enter First Name',
+    last_name: 'Enter Last Name',
+    invalidFileFormat: 'Invalid File Type',
+    invalidImageFileFormat: 'Please upload a valid image file (PNG, JPEG, JPG, AVIF, WEBP or HEIC)',
+
+    // invalidImageFileFormat: "Please upload a valid image file (PNG, GIF, JPEG, JPG, or TIFF)",
+    invalidPDFFileFormat: 'Please upload only PDF files',
+    invalidPDFAndImageFileFormat: 'Please upload a valid image file (PNG, JPEG, JPG, or PDF)',
+    invalidLocationImageFileSize: 'The file size must not exceed 25 MB',
+  },
+  warn: {},
+  info: {},
+};

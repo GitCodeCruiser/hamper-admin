@@ -1,0 +1,32 @@
+export const userActivityData = [
+  { date: '10 March', sessions: 55, activeUsers: 32, events: 20 },
+  { date: '11 March', sessions: 60, activeUsers: 28, events: 28 },
+  { date: '12 March', sessions: 45, activeUsers: 42, events: 18 },
+  { date: '13 March', sessions: 42, activeUsers: 35, events: 32 },
+  { date: '14 March', sessions: 58, activeUsers: 30, events: 40 },
+  { date: '15 March', sessions: 50, activeUsers: 38, events: 28 },
+  { date: '16 March', sessions: 52, activeUsers: 32, events: 25 },
+  { date: '17 March', sessions: 35, activeUsers: 55, events: 15 },
+  { date: '18 March', sessions: 42, activeUsers: 48, events: 25 },
+  { date: '19 March', sessions: 40, activeUsers: 42, events: 32 },
+  { date: '20 March', sessions: 35, activeUsers: 52, events: 20 },
+  { date: '21 March', sessions: 28, activeUsers: 60, events: 18 },
+];
+
+export const userBarChartData = [
+  { id: '1', value: 80 },
+  { id: '2', value: 250 },
+  { id: '3', value: 350 },
+  { id: '4', value: 150 },
+  { id: '5', value: 50 },
+  { id: '6', value: 450 },
+  { id: '7', value: 220 },
+  { id: '8', value: 570 },
+  { id: '9', value: 650 },
+  { id: '10', value: 170 },
+  { id: '11', value: 270 },
+  { id: '12', value: 450 },
+  { id: '12 ', value: 550 },
+  { id: '12  ', value: 250 },
+  { id: '15', value: 350 },
+];

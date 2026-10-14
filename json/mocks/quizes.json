@@ -1,0 +1,39 @@
+[
+  {
+    "id": "1",
+    "title": "Basic Science Quiz",
+    "description": "A simple quiz on general science concepts.",
+    "date": "2025-11-12",
+    "questions": [
+      {
+        "id": "q1",
+        "text": "What is the chemical symbol for water?",
+        "options": ["H2", "H2O", "O2", "HO2"],
+        "correctIndex": 1,
+        "explanation": "Water is H₂O — two hydrogen atoms bonded to one oxygen atom."
+      },
+      {
+        "id": "q2",
+        "text": "Which planet is known as the Red Planet?",
+        "options": ["Earth", "Mars", "Jupiter", "Venus"],
+        "correctIndex": 1,
+        "explanation": "Mars appears red due to iron oxide (rust) on its surface."
+      }
+    ]
+  },
+  {
+    "id": "2",
+    "title": "JavaScript Fundamentals",
+    "description": "Test your basic JavaScript knowledge.",
+    "date": "2025-11-15",
+    "questions": [
+      {
+        "id": "q3",
+        "text": "Which keyword declares a constant in JavaScript?",
+        "options": ["var", "let", "const", "define"],
+        "correctIndex": 2,
+        "explanation": "`const` declares a variable that cannot be reassigned."
+      }
+    ]
+  }
+]
