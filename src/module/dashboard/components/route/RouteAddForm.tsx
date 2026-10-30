@@ -46,8 +46,8 @@ const ogTitleLabel = 'OG Title';
 const ogTitlePlaceholder = 'Enter Open Graph title';
 const ogDescriptionLabel = 'OG Description';
 const ogDescriptionPlaceholder = 'Enter Open Graph description';
-const ogImageLabel = 'OG Image';
-const schemaLabel = 'Schema (JSON-LD)';
+const ogImageLabel = 'OG Image*';
+const schemaLabel = 'Schema (JSON-LD)*';
 const schemaPlaceholder = '{"@context":"https://schema.org",...}';
 
 const RouteAddForm = () => {
@@ -372,6 +372,7 @@ const RouteAddForm = () => {
               form.setValue('departureCountry', val);
               form.setValue('departureCountryId', id);
               form.setValue('departureCountrySlug', (value as TEachLocationCountry).slug);
+              form.clearErrors(['departureCountry', 'departureCountryId']);
             } else {
               form.setValue('departureCountry', '');
               form.setValue('departureCountryId', '');
@@ -389,25 +390,48 @@ const RouteAddForm = () => {
               <Typography variant="body2">{option?.name || String(option)}</Typography>
             </Box>
           )}
-          onInputChange={(_, value) => {
-            if (value !== selectedDepartureCountry) {
-              form.setValue('departureCountry', value);
-              form.clearErrors('departureCountry');
-              departureOnCountryChange(value);
+          onInputChange={(_, value, reason) => {
+            if (reason === 'input') {
+              const matched = departureCountryListData?.find(
+                (item) => item?.name?.toLowerCase() === value?.trim().toLowerCase(),
+              );
+              if (value !== selectedDepartureCountry) {
+                form.setValue('departureCountry', value);
+                if (matched) {
+                  form.setValue('departureCountryId', matched._id);
+                  form.setValue('departureCountrySlug', matched.slug);
+                  form.clearErrors(['departureCountry', 'departureCountryId']);
+                } else {
+                  form.setValue('departureCountryId', '');
+                  form.setValue('departureCountrySlug', '');
+                }
+                departureOnCountryChange(value);
 
+                form.setValue('departureState', '');
+                form.setValue('departureStateId', '');
+                form.setValue('departureStateSlug', '');
+                form.setValue('departureCity', '');
+                form.setValue('departureCityId', '');
+                form.setValue('departureCitySlug', '');
+              }
+            } else if (reason === 'clear') {
+              form.setValue('departureCountry', '');
+              form.setValue('departureCountryId', '');
+              form.setValue('departureCountrySlug', '');
               form.setValue('departureState', '');
               form.setValue('departureStateId', '');
               form.setValue('departureStateSlug', '');
               form.setValue('departureCity', '');
               form.setValue('departureCityId', '');
               form.setValue('departureCitySlug', '');
+              departureOnCountryChange('');
             }
           }}
         />
 
-        {errors.departureCountry ? (
+        {errors.departureCountry || errors.departureCountryId ? (
           <Typography variant="body1" className="error_msg">
-            {errors?.departureCountry.message}
+            {errors?.departureCountry?.message || errors?.departureCountryId?.message}
           </Typography>
         ) : null}
       </Grid>
@@ -439,6 +463,7 @@ const RouteAddForm = () => {
               form.setValue('departureState', val);
               form.setValue('departureStateId', id);
               form.setValue('departureStateSlug', (value as TEachLocationState).slug);
+              form.clearErrors(['departureState', 'departureStateId']);
             } else {
               form.setValue('departureState', '');
               form.setValue('departureStateId', '');
@@ -448,22 +473,42 @@ const RouteAddForm = () => {
             form.setValue('departureCityId', '');
             form.setValue('departureCitySlug', '');
           }}
-          onInputChange={(_e, value) => {
-            if (value !== selectedDepartureState) {
-              form.setValue('departureState', value);
-              form.clearErrors('departureState');
-              departureOnStateChange(value);
+          onInputChange={(_e, value, reason) => {
+            if (reason === 'input') {
+              const matched = departureStatesListData?.find(
+                (item) => item?.name?.toLowerCase() === value?.trim().toLowerCase(),
+              );
+              if (value !== selectedDepartureState) {
+                form.setValue('departureState', value);
+                if (matched) {
+                  form.setValue('departureStateId', matched._id);
+                  form.setValue('departureStateSlug', matched.slug);
+                  form.clearErrors(['departureState', 'departureStateId']);
+                } else {
+                  form.setValue('departureStateId', '');
+                  form.setValue('departureStateSlug', '');
+                }
+                departureOnStateChange(value);
 
+                form.setValue('departureCity', '');
+                form.setValue('departureCityId', '');
+                form.setValue('departureCitySlug', '');
+              }
+            } else if (reason === 'clear') {
+              form.setValue('departureState', '');
+              form.setValue('departureStateId', '');
+              form.setValue('departureStateSlug', '');
               form.setValue('departureCity', '');
               form.setValue('departureCityId', '');
               form.setValue('departureCitySlug', '');
+              departureOnStateChange('');
             }
           }}
         />
 
-        {errors.departureState ? (
+        {errors.departureState || errors.departureStateId ? (
           <Typography variant="body1" className="error_msg">
-            {errors?.departureState.message}
+            {errors?.departureState?.message || errors?.departureStateId?.message}
           </Typography>
         ) : null}
       </Grid>
@@ -498,24 +543,42 @@ const RouteAddForm = () => {
               form.setValue('departureCity', val);
               form.setValue('departureCityId', id);
               form.setValue('departureCitySlug', (value as TEachLocationCity).slug);
+              form.clearErrors(['departureCity', 'departureCityId']);
             } else {
               form.setValue('departureCity', '');
               form.setValue('departureCityId', '');
               form.setValue('departureCitySlug', '');
             }
           }}
-          onInputChange={(_e, value) => {
-            if (value !== selectedDepartureCity) {
-              form.setValue('departureCity', value);
-              form.clearErrors('departureCity');
-              departureOnCityChange(value);
+          onInputChange={(_e, value, reason) => {
+            if (reason === 'input') {
+              const matched = departureCityListData?.find(
+                (item) => item?.name?.toLowerCase() === value?.trim().toLowerCase(),
+              );
+              if (value !== selectedDepartureCity) {
+                form.setValue('departureCity', value);
+                if (matched) {
+                  form.setValue('departureCityId', matched._id);
+                  form.setValue('departureCitySlug', matched.slug);
+                  form.clearErrors(['departureCity', 'departureCityId']);
+                } else {
+                  form.setValue('departureCityId', '');
+                  form.setValue('departureCitySlug', '');
+                }
+                departureOnCityChange(value);
+              }
+            } else if (reason === 'clear') {
+              form.setValue('departureCity', '');
+              form.setValue('departureCityId', '');
+              form.setValue('departureCitySlug', '');
+              departureOnCityChange('');
             }
           }}
         />
 
-        {errors.departureCity ? (
+        {errors.departureCity || errors.departureCityId ? (
           <Typography variant="body1" className="error_msg">
-            {errors?.departureCity.message}
+            {errors?.departureCity?.message || errors?.departureCityId?.message}
           </Typography>
         ) : null}
       </Grid>
@@ -547,6 +610,7 @@ const RouteAddForm = () => {
               form.setValue('arrivalCountry', val);
               form.setValue('arrivalCountryId', id);
               form.setValue('arrivalCountrySlug', (value as TEachLocationCountry).slug);
+              form.clearErrors(['arrivalCountry', 'arrivalCountryId']);
             } else {
               form.setValue('arrivalCountry', '');
               form.setValue('arrivalCountryId', '');
@@ -564,25 +628,48 @@ const RouteAddForm = () => {
               <Typography variant="body2">{option?.name || String(option)}</Typography>
             </Box>
           )}
-          onInputChange={(_, value) => {
-            if (value !== selectedArrivalCountry) {
-              form.setValue('arrivalCountry', value);
-              form.clearErrors('arrivalCountry');
-              arrivalOnCountryChange(value);
+          onInputChange={(_, value, reason) => {
+            if (reason === 'input') {
+              const matched = arrivalCountryListData?.find(
+                (item) => item?.name?.toLowerCase() === value?.trim().toLowerCase(),
+              );
+              if (value !== selectedArrivalCountry) {
+                form.setValue('arrivalCountry', value);
+                if (matched) {
+                  form.setValue('arrivalCountryId', matched._id);
+                  form.setValue('arrivalCountrySlug', matched.slug);
+                  form.clearErrors(['arrivalCountry', 'arrivalCountryId']);
+                } else {
+                  form.setValue('arrivalCountryId', '');
+                  form.setValue('arrivalCountrySlug', '');
+                }
+                arrivalOnCountryChange(value);
 
+                form.setValue('arrivalState', '');
+                form.setValue('arrivalStateId', '');
+                form.setValue('arrivalStateSlug', '');
+                form.setValue('arrivalCity', '');
+                form.setValue('arrivalCityId', '');
+                form.setValue('arrivalCitySlug', '');
+              }
+            } else if (reason === 'clear') {
+              form.setValue('arrivalCountry', '');
+              form.setValue('arrivalCountryId', '');
+              form.setValue('arrivalCountrySlug', '');
               form.setValue('arrivalState', '');
               form.setValue('arrivalStateId', '');
               form.setValue('arrivalStateSlug', '');
               form.setValue('arrivalCity', '');
               form.setValue('arrivalCityId', '');
               form.setValue('arrivalCitySlug', '');
+              arrivalOnCountryChange('');
             }
           }}
         />
 
-        {errors.arrivalCountry ? (
+        {errors.arrivalCountry || errors.arrivalCountryId ? (
           <Typography variant="body1" className="error_msg">
-            {errors?.arrivalCountry.message}
+            {errors?.arrivalCountry?.message || errors?.arrivalCountryId?.message}
           </Typography>
         ) : null}
       </Grid>
@@ -612,6 +699,7 @@ const RouteAddForm = () => {
               form.setValue('arrivalState', val);
               form.setValue('arrivalStateId', id);
               form.setValue('arrivalStateSlug', (value as TEachLocationState).slug);
+              form.clearErrors(['arrivalState', 'arrivalStateId']);
             } else {
               form.setValue('arrivalState', '');
               form.setValue('arrivalStateId', '');
@@ -621,22 +709,42 @@ const RouteAddForm = () => {
             form.setValue('arrivalCityId', '');
             form.setValue('arrivalCitySlug', '');
           }}
-          onInputChange={(_e, value) => {
-            if (value !== selectedArrivalState) {
-              form.setValue('arrivalState', value);
-              form.clearErrors('arrivalState');
-              arrivalOnStateChange(value);
+          onInputChange={(_e, value, reason) => {
+            if (reason === 'input') {
+              const matched = arrivalStatesListData?.find(
+                (item) => item?.name?.toLowerCase() === value?.trim().toLowerCase(),
+              );
+              if (value !== selectedArrivalState) {
+                form.setValue('arrivalState', value);
+                if (matched) {
+                  form.setValue('arrivalStateId', matched._id);
+                  form.setValue('arrivalStateSlug', matched.slug);
+                  form.clearErrors(['arrivalState', 'arrivalStateId']);
+                } else {
+                  form.setValue('arrivalStateId', '');
+                  form.setValue('arrivalStateSlug', '');
+                }
+                arrivalOnStateChange(value);
 
+                form.setValue('arrivalCity', '');
+                form.setValue('arrivalCityId', '');
+                form.setValue('arrivalCitySlug', '');
+              }
+            } else if (reason === 'clear') {
+              form.setValue('arrivalState', '');
+              form.setValue('arrivalStateId', '');
+              form.setValue('arrivalStateSlug', '');
               form.setValue('arrivalCity', '');
               form.setValue('arrivalCityId', '');
               form.setValue('arrivalCitySlug', '');
+              arrivalOnStateChange('');
             }
           }}
         />
 
-        {errors.arrivalState ? (
+        {errors.arrivalState || errors.arrivalStateId ? (
           <Typography variant="body1" className="error_msg">
-            {errors?.arrivalState.message}
+            {errors?.arrivalState?.message || errors?.arrivalStateId?.message}
           </Typography>
         ) : null}
       </Grid>
@@ -669,24 +777,42 @@ const RouteAddForm = () => {
               form.setValue('arrivalCity', val);
               form.setValue('arrivalCityId', id);
               form.setValue('arrivalCitySlug', (value as TEachLocationCity).slug);
+              form.clearErrors(['arrivalCity', 'arrivalCityId']);
             } else {
               form.setValue('arrivalCity', '');
               form.setValue('arrivalCityId', '');
               form.setValue('arrivalCitySlug', '');
             }
           }}
-          onInputChange={(_e, value) => {
-            if (value !== selectedArrivalCity) {
-              form.setValue('arrivalCity', value);
-              form.clearErrors('arrivalCity');
-              arrivalOnCityChange(value);
+          onInputChange={(_e, value, reason) => {
+            if (reason === 'input') {
+              const matched = arrivalCityListData?.find(
+                (item) => item?.name?.toLowerCase() === value?.trim().toLowerCase(),
+              );
+              if (value !== selectedArrivalCity) {
+                form.setValue('arrivalCity', value);
+                if (matched) {
+                  form.setValue('arrivalCityId', matched._id);
+                  form.setValue('arrivalCitySlug', matched.slug);
+                  form.clearErrors(['arrivalCity', 'arrivalCityId']);
+                } else {
+                  form.setValue('arrivalCityId', '');
+                  form.setValue('arrivalCitySlug', '');
+                }
+                arrivalOnCityChange(value);
+              }
+            } else if (reason === 'clear') {
+              form.setValue('arrivalCity', '');
+              form.setValue('arrivalCityId', '');
+              form.setValue('arrivalCitySlug', '');
+              arrivalOnCityChange('');
             }
           }}
         />
 
-        {errors.arrivalCity ? (
+        {errors.arrivalCity || errors.arrivalCityId ? (
           <Typography variant="body1" className="error_msg">
-            {errors?.arrivalCity.message}
+            {errors?.arrivalCity?.message || errors?.arrivalCityId?.message}
           </Typography>
         ) : null}
       </Grid>
@@ -702,7 +828,7 @@ const RouteAddForm = () => {
               mb: 1,
             }}
           >
-            Thumbnail Image
+            Thumbnail Image*
           </InputLabel>
 
           <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap', alignItems: 'flex-start' }}>
@@ -839,7 +965,7 @@ const RouteAddForm = () => {
               mb: 1,
             }}
           >
-            Hero Image
+            Hero Image*
           </InputLabel>
 
           <Box

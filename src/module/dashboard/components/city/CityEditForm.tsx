@@ -50,8 +50,8 @@ const ogTitleLabel = 'OG Title';
 const ogTitlePlaceholder = 'Enter Open Graph title';
 const ogDescriptionLabel = 'OG Description';
 const ogDescriptionPlaceholder = 'Enter Open Graph description';
-const ogImageLabel = 'OG Image';
-const schemaLabel = 'Schema (JSON-LD)';
+const ogImageLabel = 'OG Image*';
+const schemaLabel = 'Schema (JSON-LD)*';
 const schemaPlaceholder = '{"@context":"https://schema.org",...}';
 
 type TCityEditFormProps = {
@@ -78,8 +78,11 @@ const CityEditForm = ({ slug, destinationsId }: TCityEditFormProps) => {
       title: '',
       slug: '',
       country: '',
+      countryId: '',
       state: '',
+      stateId: '',
       city: '',
+      cityId: '',
       countrySlug: '',
       stateSlug: '',
       citySlug: '',
@@ -410,6 +413,7 @@ const CityEditForm = ({ slug, destinationsId }: TCityEditFormProps) => {
               form.setValue('country', val);
               form.setValue('countryId', id);
               form.setValue('countrySlug', (value as TEachLocationCountry).slug);
+              form.clearErrors(['country', 'countryId']);
             } else {
               form.setValue('country', '');
               form.setValue('countryId', '');
@@ -427,25 +431,48 @@ const CityEditForm = ({ slug, destinationsId }: TCityEditFormProps) => {
               <Typography variant="body2">{option?.name || String(option)}</Typography>
             </Box>
           )}
-          onInputChange={(_, value) => {
-            if (value !== selectedCountry) {
-              form.setValue('country', value);
-              form.clearErrors('country');
-              onCountryChange(value);
+          onInputChange={(_, value, reason) => {
+            if (reason === 'input') {
+              const matched = countryListData?.find(
+                (item) => item?.name?.toLowerCase() === value?.trim().toLowerCase(),
+              );
+              if (value !== selectedCountry) {
+                form.setValue('country', value);
+                if (matched) {
+                  form.setValue('countryId', matched._id);
+                  form.setValue('countrySlug', matched.slug);
+                  form.clearErrors(['country', 'countryId']);
+                } else {
+                  form.setValue('countryId', '');
+                  form.setValue('countrySlug', '');
+                }
+                onCountryChange(value);
 
+                form.setValue('state', '');
+                form.setValue('stateId', '');
+                form.setValue('stateSlug', '');
+                form.setValue('city', '');
+                form.setValue('cityId', '');
+                form.setValue('citySlug', '');
+              }
+            } else if (reason === 'clear') {
+              form.setValue('country', '');
+              form.setValue('countryId', '');
+              form.setValue('countrySlug', '');
               form.setValue('state', '');
               form.setValue('stateId', '');
               form.setValue('stateSlug', '');
               form.setValue('city', '');
               form.setValue('cityId', '');
               form.setValue('citySlug', '');
+              onCountryChange('');
             }
           }}
         />
 
-        {errors.country ? (
+        {errors.country || errors.countryId ? (
           <Typography variant="body1" className="error_msg">
-            {errors?.country.message}
+            {errors?.country?.message || errors?.countryId?.message}
           </Typography>
         ) : null}
       </Grid>
@@ -475,6 +502,7 @@ const CityEditForm = ({ slug, destinationsId }: TCityEditFormProps) => {
               form.setValue('state', val);
               form.setValue('stateId', id);
               form.setValue('stateSlug', (value as TEachLocationState).slug);
+              form.clearErrors(['state', 'stateId']);
             } else {
               form.setValue('state', '');
               form.setValue('stateId', '');
@@ -484,22 +512,42 @@ const CityEditForm = ({ slug, destinationsId }: TCityEditFormProps) => {
             form.setValue('cityId', '');
             form.setValue('citySlug', '');
           }}
-          onInputChange={(_e, value) => {
-            if (value !== selectedState) {
-              form.setValue('state', value);
-              form.clearErrors('state');
-              onStateChange(value);
+          onInputChange={(_e, value, reason) => {
+            if (reason === 'input') {
+              const matched = statesListData?.find(
+                (item) => item?.name?.toLowerCase() === value?.trim().toLowerCase(),
+              );
+              if (value !== selectedState) {
+                form.setValue('state', value);
+                if (matched) {
+                  form.setValue('stateId', matched._id);
+                  form.setValue('stateSlug', matched.slug);
+                  form.clearErrors(['state', 'stateId']);
+                } else {
+                  form.setValue('stateId', '');
+                  form.setValue('stateSlug', '');
+                }
+                onStateChange(value);
 
+                form.setValue('city', '');
+                form.setValue('cityId', '');
+                form.setValue('citySlug', '');
+              }
+            } else if (reason === 'clear') {
+              form.setValue('state', '');
+              form.setValue('stateId', '');
+              form.setValue('stateSlug', '');
               form.setValue('city', '');
               form.setValue('cityId', '');
               form.setValue('citySlug', '');
+              onStateChange('');
             }
           }}
         />
 
-        {errors.state ? (
+        {errors.state || errors.stateId ? (
           <Typography variant="body1" className="error_msg">
-            {errors?.state.message}
+            {errors?.state?.message || errors?.stateId?.message}
           </Typography>
         ) : null}
       </Grid>
@@ -532,24 +580,42 @@ const CityEditForm = ({ slug, destinationsId }: TCityEditFormProps) => {
               form.setValue('city', val);
               form.setValue('cityId', id);
               form.setValue('citySlug', (value as TEachLocationCity).slug);
+              form.clearErrors(['city', 'cityId']);
             } else {
               form.setValue('city', '');
               form.setValue('cityId', '');
               form.setValue('citySlug', '');
             }
           }}
-          onInputChange={(_e, value) => {
-            if (value !== selectedCity) {
-              form.setValue('city', value);
-              form.clearErrors('city');
-              onCityChange(value);
+          onInputChange={(_e, value, reason) => {
+            if (reason === 'input') {
+              const matched = cityListData?.find(
+                (item) => item?.name?.toLowerCase() === value?.trim().toLowerCase(),
+              );
+              if (value !== selectedCity) {
+                form.setValue('city', value);
+                if (matched) {
+                  form.setValue('cityId', matched._id);
+                  form.setValue('citySlug', matched.slug);
+                  form.clearErrors(['city', 'cityId']);
+                } else {
+                  form.setValue('cityId', '');
+                  form.setValue('citySlug', '');
+                }
+                onCityChange(value);
+              }
+            } else if (reason === 'clear') {
+              form.setValue('city', '');
+              form.setValue('cityId', '');
+              form.setValue('citySlug', '');
+              onCityChange('');
             }
           }}
         />
 
-        {errors.city ? (
+        {errors.city || errors.cityId ? (
           <Typography variant="body1" className="error_msg">
-            {errors?.city.message}
+            {errors?.city?.message || errors?.cityId?.message}
           </Typography>
         ) : null}
       </Grid>
@@ -565,7 +631,7 @@ const CityEditForm = ({ slug, destinationsId }: TCityEditFormProps) => {
               mb: 1,
             }}
           >
-            Thumbnail Image
+            Thumbnail Image*
           </InputLabel>
 
           <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap', alignItems: 'flex-start' }}>
@@ -701,7 +767,7 @@ const CityEditForm = ({ slug, destinationsId }: TCityEditFormProps) => {
               mb: 1,
             }}
           >
-            Hero Image
+            Hero Image*
           </InputLabel>
 
           <Box
