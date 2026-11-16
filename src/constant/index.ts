@@ -115,8 +115,6 @@ export const DEFAULT_OG_IMAGES = [
 
 // ----------- Storage
 export const REDUX_STORAGE = 'hogan-jets-house';
-export const INBUILT_API_ACCESS_KEY = process.env.NEXT_APP_ACCESS_KEY!;
-export const COOKIE_SECRET_KEY = process.env.NEXT_APP_COOKIE_SECRET_KEY!;
 
 // ----------- Format
 export const VALID_DATE_TIME_FORMAT = 'YYYY-MM-DDTHH:mm:ss';
@@ -134,6 +132,7 @@ export const PageTypeValue: {
   cms: {
     homepage: TSeoStaticPage;
     city: TSeoStaticPage;
+    tailNumber: TSeoStaticPage;
     airport: TSeoStaticPage;
     contactUs: TSeoStaticPage;
     aboutUs: TSeoStaticPage;
@@ -181,6 +180,10 @@ export const PageTypeValue: {
     city: {
       pageName: 'City Page',
       pageSlug: 'city',
+    },
+    tailNumber: {
+      pageName: 'Tail Number Page',
+      pageSlug: 'tail-number',
     },
     airport: {
       pageName: 'Airport Page',
@@ -407,6 +410,7 @@ export const PurposeTypeValue: {
     },
     emptyLegFlight: {
       emptyLegFlightsContent: 'emptyLegFlightsContent',
+      emptyLegFlightsFaq: 'emptyLegFlightsFaq',
     },
     cookiePolicy: {
       cookiePolicyContent: 'cookiePolicyContent',
@@ -461,6 +465,7 @@ export const PurposeTypeValue: {
       safetyOperatorVettingContent: 'safetyOperatorVettingContent',
       safetyOperatorVettingTopContent: 'safetyOperatorVettingTopContent',
       safetyOperatorVettingBottomContent: 'safetyOperatorVettingBottomContent',
+      safetyOperatorVettingFaq: 'safetyOperatorVettingFaq',
     },
     onDemandCharter: {
       onDemandCharterContent: 'onDemandCharterContent',

@@ -19,6 +19,7 @@ export type TEachCityList = {
   image: string;
   imageSize: number;
   status: string;
+  priority?: number | null;
   isDeleted: boolean;
   createdAt: string;
   updatedAt: string;

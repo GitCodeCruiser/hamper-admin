@@ -18,6 +18,13 @@ const imageFieldSchema = (label: string) =>
       { message: 'Invalid image format. Please upload a valid image.' },
     );
 
+const priorityFieldSchema = zod
+  .string()
+  .trim()
+  .refine((v) => v === '' || /^\d+$/.test(v), { message: 'Priority must be a whole number' })
+  .refine((v) => v === '' || Number(v) >= 1, { message: 'Priority must be 1 or greater' })
+  .optional();
+
 export const cityListAddSchema = () => {
   return zod.object({
     name: zod.string().trim().min(1, { message: 'City is required' }),
@@ -26,6 +33,7 @@ export const cityListAddSchema = () => {
     state: zod.string().optional(),
     stateId: zod.string().optional(),
     image: imageFieldSchema('Thumbnail image'),
+    priority: priorityFieldSchema,
   });
 };
 
@@ -38,6 +46,7 @@ export const cityListEditSchema = () => {
     state: zod.string().optional(),
     stateId: zod.string().optional(),
     image: imageFieldSchema('Thumbnail image'),
+    priority: priorityFieldSchema,
   });
 };
 

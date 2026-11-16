@@ -6,6 +6,7 @@ import CampaignIcon from '@mui/icons-material/Campaign';
 import DeleteIcon from '@mui/icons-material/Delete';
 import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
 import EditIcon from '@mui/icons-material/Edit';
+import GridViewIcon from '@mui/icons-material/GridView';
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import {
   Box,
@@ -18,7 +19,7 @@ import {
   Typography,
   useTheme,
 } from '@mui/material';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 import NewCmsContentAdd from './NewCmsContentAdd';
 import NewCmsContentEdit from './NewCmsContentEdit';
@@ -26,6 +27,7 @@ import NewCmsContentEdit from './NewCmsContentEdit';
 import { CommonModalContentWrap } from '@/@core/components/images/ImgComp';
 import PageLoader from '@/@core/components/others/PageLoader';
 import {
+  useCmsContentCreate,
   useCmsContentDelete,
   useCmsContentGetAll,
   useCmsContentReorder,
@@ -43,11 +45,24 @@ type TNewCmsContentProps = {
   pageName: string;
   purpose: string;
   isDraggable?: boolean;
+  /**
+   * Country content pages only. Keeps a non-editable "Destination Cards" block in the
+   * listing that marks where the city cards grid sits on the website, so content can be
+   * dragged above or below it.
+   */
+  hasCityListDivider?: boolean;
 };
 
-const NewCmsContent = ({ slug, pageName, purpose, isDraggable = true }: TNewCmsContentProps) => {
+const NewCmsContent = ({
+  slug,
+  pageName,
+  purpose,
+  isDraggable = true,
+  hasCityListDivider = false,
+}: TNewCmsContentProps) => {
   const [currentPageValue, setCurrentPageValue] = useState<number>(1);
   const [items, setItems] = useState<TEachCmsContent[]>([]);
+  const dividerEnsuredRef = useRef(false);
 
   const {
     data: cmsContentList,
@@ -67,11 +82,43 @@ const NewCmsContent = ({ slug, pageName, purpose, isDraggable = true }: TNewCmsC
     },
   });
 
+  const { mutateAsync: createContent } = useCmsContentCreate({
+    optionalCallback: () => {},
+    errorCallback: () => {},
+  });
+
   useEffect(() => {
     if (cmsContentList?.docs) {
       setItems(cmsContentList.docs);
     }
   }, [cmsContentList?.docs]);
+
+  // The divider is a regular content block, so it reorders with everything else. Create it
+  // once (at the top, i.e. everything already there stays below the cards) if it is missing.
+  useEffect(() => {
+    if (!hasCityListDivider || cmsContentListLoading || !cmsContentList?.docs) return;
+    if (dividerEnsuredRef.current) return;
+    if (cmsContentList.docs.some((eachDoc) => eachDoc?.isCityListDivider)) return;
+
+    dividerEnsuredRef.current = true;
+
+    const formData = new FormData();
+    formData.append('pageName', pageName);
+    formData.append('pageSlug', slug);
+    formData.append('purpose', purpose);
+    formData.append('title', '');
+    formData.append('description', '');
+    formData.append('isCityListDivider', 'true');
+
+    createContent(formData)
+      .then(() => {
+        refetchTheList();
+      })
+      .catch(() => {
+        dividerEnsuredRef.current = false;
+      });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [hasCityListDivider, cmsContentListLoading, cmsContentList?.docs, pageName, slug, purpose]);
 
   const handleReorder = (newItems: TEachCmsContent[]) => {
     setItems(newItems);
@@ -211,10 +258,13 @@ const EachNewCmsContent = ({
 
   const isCTA = Boolean(eachContent?.showCTA);
   const isFaq = Boolean(eachContent?.hasFaq);
+  const isDivider = Boolean(eachContent?.isCityListDivider);
   const shouldShowFaqTitle =
     isFaq && eachContent?.title?.trim().toLowerCase() !== 'frequently asked questions';
   const faqPlaceholderText =
     'The FAQ list for this page will render here on the website. This block only marks the FAQ section position in the content order.';
+  const dividerPlaceholderText =
+    'The destination (city) cards grid renders here on the website. Drag content above this block to show it before the cards, or below it to show it after.';
 
   return (
     <Grid
@@ -226,14 +276,14 @@ const EachNewCmsContent = ({
         sx={{
           background: isDragging
             ? 'rgba(212, 175, 55, 0.15)'
-            : isFaq
+            : isFaq || isDivider
               ? 'linear-gradient(135deg, rgba(212, 175, 55, 0.1) 0%, rgba(255, 255, 255, 0.035) 100%)'
               : isCTA
                 ? 'linear-gradient(135deg, rgba(212, 175, 55, 0.12) 0%, rgba(255, 255, 255, 0.03) 100%)'
                 : 'rgba(255, 255, 255, 0.03)',
           border: isDragging
             ? '1px solid rgba(212, 175, 55, 0.8)'
-            : isFaq
+            : isFaq || isDivider
               ? '1px solid rgba(212, 175, 55, 0.45)'
               : isCTA
                 ? '1px dashed rgba(212, 175, 55, 0.5)'
@@ -248,13 +298,13 @@ const EachNewCmsContent = ({
           position: 'relative',
           boxShadow: isDragging
             ? '0 8px 32px 0 rgba(0, 0, 0, 0.37), 0 0 15px rgba(212, 175, 55, 0.2)'
-            : isFaq
+            : isFaq || isDivider
               ? '0 4px 20px 0 rgba(212, 175, 55, 0.06)'
               : isCTA
                 ? '0 4px 20px 0 rgba(212, 175, 55, 0.05)'
                 : 'none',
           '&:hover': {
-            background: isFaq
+            background: isFaq || isDivider
               ? 'linear-gradient(135deg, rgba(212, 175, 55, 0.14) 0%, rgba(255, 255, 255, 0.055) 100%)'
               : isCTA
                 ? 'linear-gradient(135deg, rgba(212, 175, 55, 0.16) 0%, rgba(255, 255, 255, 0.05) 100%)'
@@ -275,13 +325,13 @@ const EachNewCmsContent = ({
               justifyContent: 'center',
               px: 1.5,
               cursor: 'grab',
-              color: isFaq || isCTA ? 'rgba(212, 175, 55, 0.6)' : 'rgba(255, 255, 255, 0.3)',
+              color: isFaq || isCTA || isDivider ? 'rgba(212, 175, 55, 0.6)' : 'rgba(255, 255, 255, 0.3)',
               borderRight:
-                isFaq || isCTA
+                isFaq || isCTA || isDivider
                   ? '1px solid rgba(212, 175, 55, 0.2)'
                   : '1px solid rgba(255, 255, 255, 0.05)',
               backgroundColor:
-                isFaq || isCTA ? 'rgba(212, 175, 55, 0.03)' : 'rgba(255, 255, 255, 0.01)',
+                isFaq || isCTA || isDivider ? 'rgba(212, 175, 55, 0.03)' : 'rgba(255, 255, 255, 0.01)',
               transition: 'all 0.2s ease',
               '&:hover': {
                 color: '#D4AF37',
@@ -306,7 +356,67 @@ const EachNewCmsContent = ({
             position: 'relative',
           }}
         >
-          {isFaq ? (
+          {isDivider ? (
+            <CardContent
+              sx={{
+                flex: '1 0 auto',
+                p: '0 !important',
+                display: 'flex',
+                alignItems: 'flex-start',
+                gap: 2,
+              }}
+            >
+              <Box
+                sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  width: 44,
+                  height: 44,
+                  minWidth: 44,
+                  borderRadius: '10px',
+                  background: 'rgba(212, 175, 55, 0.14)',
+                  border: '1px solid rgba(212, 175, 55, 0.35)',
+                  color: '#D4AF37',
+                }}
+              >
+                <GridViewIcon sx={{ fontSize: 24 }} />
+              </Box>
+              <Box sx={{ minWidth: 0 }}>
+                <Box
+                  sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 1, flexWrap: 'wrap' }}
+                >
+                  <Typography
+                    variant="h6"
+                    sx={{ color: '#D4AF37', fontWeight: 700, fontSize: '1.05rem' }}
+                  >
+                    Destination Cards
+                  </Typography>
+                  <Box
+                    sx={{
+                      fontSize: '0.65rem',
+                      fontWeight: 700,
+                      px: 1,
+                      py: 0.25,
+                      borderRadius: '4px',
+                      backgroundColor: 'rgba(212, 175, 55, 0.18)',
+                      color: '#D4AF37',
+                      border: '1px solid rgba(212, 175, 55, 0.35)',
+                      textTransform: 'uppercase',
+                    }}
+                  >
+                    Divider
+                  </Box>
+                </Box>
+                <Typography
+                  variant="body2"
+                  sx={{ color: 'rgba(255, 255, 255, 0.7)', fontSize: '0.875rem', lineHeight: 1.6 }}
+                >
+                  {dividerPlaceholderText}
+                </Typography>
+              </Box>
+            </CardContent>
+          ) : isFaq ? (
             <CardContent
               sx={{
                 flex: '1 0 auto',
@@ -483,7 +593,7 @@ const EachNewCmsContent = ({
           )}
 
           {/* --------- */}
-          {!isFaq ? (
+          {!isFaq && !isDivider ? (
             <ENewCmsContentEditDelete
               key={`each_content_edit_delete_${eachContent?._id}`}
               eachContent={eachContent}

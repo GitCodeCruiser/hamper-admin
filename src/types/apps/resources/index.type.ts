@@ -74,6 +74,7 @@ export type TEachResources = {
   isDeleted: boolean;
   updatedAt: string;
   isShowUpdatedAt?: boolean;
+  lastUpdatedAt?: string;
   category: TEachResourcesCategory;
   openGraphImageSize?: number | string;
   bannerImageSize?: number;

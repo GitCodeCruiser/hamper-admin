@@ -1,6 +1,7 @@
 export type TSeoStaticSlug =
   | 'home'
   | 'city'
+  | 'tail-number'
   | 'blog'
   | 'airport'
   | 'contact-us'

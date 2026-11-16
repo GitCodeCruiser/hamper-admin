@@ -126,6 +126,7 @@ const BlogEditForm = ({ slug, blogId }: TBlogEditFormProps) => {
       metaRobotsIndex: 'noindex' as const,
       metaRobotsFollow: 'nofollow' as const,
       isShowUpdatedAt: false,
+      lastUpdatedAt: '',
     },
   });
 
@@ -184,6 +185,7 @@ const BlogEditForm = ({ slug, blogId }: TBlogEditFormProps) => {
     formData.append('metaRobotsIndex', data?.metaRobotsIndex);
     formData.append('metaRobotsFollow', data?.metaRobotsFollow);
     formData.append('isShowUpdatedAt', String(data?.isShowUpdatedAt ?? false));
+    formData.append('lastUpdatedAt', data?.lastUpdatedAt ?? '');
 
     if (typeof data?.openGraphImage !== 'string') {
       formData.append('openGraphImage', data?.openGraphImage);
@@ -214,6 +216,9 @@ const BlogEditForm = ({ slug, blogId }: TBlogEditFormProps) => {
         metaRobotsIndex: (blogDetails?.metaRobotsIndex ?? 'noindex') as 'noindex' | 'index',
         metaRobotsFollow: (blogDetails?.metaRobotsFollow ?? 'nofollow') as 'nofollow' | 'follow',
         isShowUpdatedAt: blogDetails?.isShowUpdatedAt ?? false,
+        lastUpdatedAt: blogDetails?.lastUpdatedAt
+          ? dayjs(blogDetails?.lastUpdatedAt).format('YYYY-MM-DDTHH:mm')
+          : '',
 
         ...(blogDetails?.openGraphImage && blogDetails?.openGraphImage?.length > 0
           ? { openGraphImage: blogDetails?.openGraphImage ?? '' }
@@ -269,6 +274,7 @@ const BlogEditForm = ({ slug, blogId }: TBlogEditFormProps) => {
     blogDetails?.metaRobotsIndex,
     blogDetails?.metaRobotsFollow,
     blogDetails?.isShowUpdatedAt,
+    blogDetails?.lastUpdatedAt,
     blogDetails?.openGraphImage,
     blogDetails?.openGraphImageSize,
     blogDetails?.bannerImage,
@@ -991,6 +997,25 @@ const BlogEditForm = ({ slug, blogId }: TBlogEditFormProps) => {
               rows={5}
               error={!!errors?.structuredData}
               helperText={errors?.structuredData?.message}
+            />
+          )}
+        />
+      </Grid>
+
+      {/* Custom Last Updated Date */}
+      <Grid size={{ xs: 12 }}>
+        <InputLabel sx={{ color: '#FFFFFF' }}>
+          Last Updated Date (leave empty to use the automatic date)
+        </InputLabel>
+        <Controller
+          control={form.control}
+          name="lastUpdatedAt"
+          render={({ field: { onChange, value } }) => (
+            <InputFieldCommon
+              labelName="Last Updated Date"
+              type="datetime-local"
+              value={value ?? ''}
+              onChange={onChange}
             />
           )}
         />

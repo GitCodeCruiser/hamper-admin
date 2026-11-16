@@ -58,6 +58,7 @@ export type TEachRoute = {
   destination: TEachSrcDest;
   redirectUrl?: string;
   isShowUpdatedAt?: boolean;
+  lastUpdatedAt?: string;
   bannerImageSize?: number;
   thumbnailImageSize?: number;
   openGraphImageSize?: number | string;

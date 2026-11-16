@@ -55,6 +55,7 @@ const CityListAddForm = () => {
       countryId: '',
       country: '',
       state: '',
+      priority: '',
     },
   });
 
@@ -83,6 +84,7 @@ const CityListAddForm = () => {
     formData.append('name', data?.name ?? '');
     formData.append('stateId', data?.stateId ?? '');
     formData.append('countryId', data?.countryId ?? '');
+    formData.append('priority', data?.priority ?? '');
     if (data?.image) {
       formData.append('image', data?.image);
     }
@@ -105,6 +107,30 @@ const CityListAddForm = () => {
               onChange={onChange}
               error={!!errors?.name}
               helperText={errors?.name?.message}
+            />
+          )}
+        />
+      </Grid>
+
+      {/* Priority */}
+      <Grid size={{ xs: 12, md: 6 }}>
+        <InputLabel sx={{ color: '#FFFFFF' }}>Priority (optional)</InputLabel>
+        <Controller
+          control={form.control}
+          name="priority"
+          render={({ field: { onChange, value } }) => (
+            <InputFieldCommon
+              labelName="Priority"
+              placeholder="e.g. 1"
+              type="number"
+              slotProps={{ htmlInput: { min: 1, step: 1 } }}
+              value={value ?? ''}
+              onChange={onChange}
+              error={!!errors?.priority}
+              helperText={
+                errors?.priority?.message ??
+                'Lower number shows first. Leave blank to sort alphabetically after numbered cities.'
+              }
             />
           )}
         />

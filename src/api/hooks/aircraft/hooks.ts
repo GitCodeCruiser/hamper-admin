@@ -1,6 +1,6 @@
 'use client';
 
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useInfiniteQuery, useMutation, useQuery } from '@tanstack/react-query';
 import { HttpStatusCode } from 'axios';
 
 import { AircraftEnum } from './key';
@@ -419,7 +419,43 @@ const useAircraftListing = ({
   });
 };
 
+/**
+ * Server-paginated, server-searched aircraft for dropdowns (scroll to load the next page).
+ * Only Active, non-deleted aircraft; sorted A-Z by name.
+ */
+const useAircraftInfinite = ({
+  search,
+  perPage = PAGE_LIMIT_FOR_PAGINATION,
+}: {
+  search: string;
+  perPage?: number;
+}) => {
+  return useInfiniteQuery({
+    queryKey: [AircraftEnum.AircraftGetAll, 'infinite', search, perPage],
+    queryFn: ({ pageParam = 1 }: { pageParam: number }) =>
+      aircraftGetAllFn({
+        limit: perPage,
+        page: pageParam,
+        search,
+        status: 'Active',
+        sortField: 'name',
+        sortOrder: 'asc',
+      }),
+    initialPageParam: 1,
+    getNextPageParam: (lastPage, _allPages, lastPageParam) =>
+      lastPage?.data?.data?.meta?.hasNextPage ? lastPageParam + 1 : undefined,
+    getPreviousPageParam: () => undefined,
+    refetchOnMount: true,
+    staleTime: 0,
+    gcTime: 0,
+    select(data) {
+      return (data?.pages?.flatMap((p) => p?.data?.data?.docs ?? []) ?? []).filter(Boolean);
+    },
+  });
+};
+
 export {
+  useAircraftInfinite,
   useAircraftCategoryChangeStatus,
   useAircraftCategoryCreate,
   useAircraftCategoryDelete,

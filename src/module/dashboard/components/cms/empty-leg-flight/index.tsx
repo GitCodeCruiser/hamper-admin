@@ -19,6 +19,7 @@ import { useState } from 'react';
 
 import HeroSectionBannerComp from '../../hero-section/HeroSectionBannerComp';
 import NewCmsContent from '../newContent/NewCmsContent';
+import NewFaqContent from '../newFaqContent/NewFaqContent';
 
 import { PageTypeValue, PurposeTypeValue } from '@/constant';
 import SeoCompForm from '@/module/seo/components/SeoCompForm';
@@ -29,13 +30,14 @@ import {
 } from '@/styles/StyledComponents/HeroSectionStyled';
 
 // ─── Section Config ─────────────────────────────────────────────────────────
-type TSectionKey = 'banner' | 'seo' | 'content';
+type TSectionKey = 'banner' | 'seo' | 'content' | 'faq';
 
 const REQUIRED_SECTIONS: TSectionKey[] = ['seo'];
 
 const ALL_SECTIONS: { key: TSectionKey; label: string }[] = [
   { key: 'banner', label: 'Banner' },
   { key: 'content', label: 'Content' },
+  { key: 'faq', label: 'FAQs' },
   { key: 'seo', label: 'SEO Settings' },
 ];
 
@@ -48,6 +50,7 @@ const CMSEmptyLegFlightForm = () => {
     'seo',
     'banner',
     'content',
+    'faq',
   ]);
 
   // Which enabled sections are currently expanded
@@ -55,6 +58,7 @@ const CMSEmptyLegFlightForm = () => {
     banner: true,
     seo: true,
     content: true,
+    faq: true,
   });
 
   // ── Section dropdown handlers ──────────────────────────────────
@@ -205,6 +209,8 @@ const CMSEmptyLegFlightForm = () => {
                     pageName={PageTypeValue.cms.emptyLegFlight.pageName}
                     purpose={PurposeTypeValue.cms.emptyLegFlight.emptyLegFlightsContent}
                   />
+                ) : section.key === 'faq' ? (
+                  <NewFaqContent purpose={PurposeTypeValue.cms.emptyLegFlight.emptyLegFlightsFaq} />
                 ) : null}
               </AccordionDetails>
             </HeroSectionAccordion>

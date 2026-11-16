@@ -1,11 +1,9 @@
-import { createCipheriv, createDecipheriv, randomBytes } from 'crypto';
-
 import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 import { KeyboardEvent } from 'react';
 
 import { baseUrlMedia } from '@/api/endpoints';
-import { COOKIE_SECRET_KEY, HUMAN_READABLE_DATE_TIME_FORMAT } from '@/constant';
+import { HUMAN_READABLE_DATE_TIME_FORMAT } from '@/constant';
 import { TEachAirportDataListing } from '@/types/apps/airport-data/index.type';
 
 dayjs.extend(customParseFormat);
@@ -425,74 +423,4 @@ export const getAirportLabel = (airport?: TEachAirportDataListing | string | nul
   if (airport.country?.name) parts.push(airport.country.name);
 
   return parts.join(', ');
-};
-
-// ===============================================================================
-// -----------------------  Encryption Functions below----------------------------
-// ===============================================================================
-const IV = randomBytes(16);
-
-/**
- *
- * Encrypt function using AES
- *
- * @param data Value to Encode
- * @returns Encoded value or empty string if data is invalid
- */
-export const encryptData = (data: string): string => {
-  if (!data || data.length <= 0) {
-    // console.error("Invalid data to encrypt");
-
-    return '';
-  }
-
-  try {
-    const cipher = createCipheriv('aes-128-cbc', Buffer.from(COOKIE_SECRET_KEY), IV);
-
-    let encrypted = cipher.update(data, 'utf-8', 'hex');
-    encrypted += cipher.final('hex');
-
-    return `${IV.toString('hex')}:${encrypted}`;
-  } catch (error) {
-    // console.error("Error during encryption:", error);
-
-    return '';
-  }
-};
-
-/**
- *
- * Decrypt function using AES
- * @param encryptedData Encrypted value
- * @returns Decoded value or empty string if data is invalid or decryption fails
- */
-export const decryptData = (encryptedData: string): string => {
-  if (!encryptedData || encryptedData.length <= 0) {
-    // console.error("Invalid data to decrypt");
-
-    return '';
-  }
-
-  try {
-    const [ivHex, encryptedText] = encryptedData.split(':');
-
-    if (!ivHex || !encryptedText) {
-      // console.error("Invalid encrypted data format");
-
-      return '';
-    }
-
-    const ivBuffer = Buffer.from(ivHex, 'hex');
-
-    const decipher = createDecipheriv('aes-128-cbc', Buffer.from(COOKIE_SECRET_KEY), ivBuffer);
-
-    let decrypted = decipher.update(encryptedText, 'hex', 'utf-8');
-    decrypted += decipher.final('utf-8');
-
-    return decrypted;
-  } catch (error) {
-    // console.error("Error during decryption:", error);
-
-    return '';
-  }
 };

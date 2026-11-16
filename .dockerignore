@@ -1,0 +1,20 @@
+# Never send local secrets or build leftovers into the image
+# (.env and .env.local exist on dev machines and would otherwise be baked into the build)
+.env
+.env.*
+*.env
+node_modules
+.next
+out
+
+# Repo / tooling noise
+.git
+.github
+.gitlab-ci.yml
+docker-compose*.yml
+docker-compose*.yaml
+.vscode
+.idea
+.husky
+npm-debug.log*
+yarn-error.log*

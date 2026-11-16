@@ -70,6 +70,7 @@ const DashboardWrapper: React.FC<TDashboardLayoutData> = ({ children }) => {
     [`${PAGE_ROUTE.dashboard.master.cityList.list}`]: 'City List',
     [`${PAGE_ROUTE.dashboard.master.stateList.list}`]: 'State List',
     [`${PAGE_ROUTE.dashboard.master.countryList.list}`]: 'Country List',
+    [`${PAGE_ROUTE.dashboard.master.regionList.list}`]: 'Region List',
   };
 
   const headerTitle = titles[pathname] ?? '';

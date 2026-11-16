@@ -47,6 +47,7 @@ import MuiModalWrapper from '@/ui/Modal/MuiModalWrapper';
 const tableHeadData = [
   'Action',
   'Country',
+  'Priority',
   'Status',
   'Show in CMS',
   'Published Date',
@@ -72,7 +73,7 @@ const CountryListMain = () => {
     perPage: limitValue,
     search: countryListSearchValue,
     status: countryListStatusValue,
-    sortField: 'name',
+    sortField: 'priority',
     sortOrder: 'asc',
   });
 
@@ -109,7 +110,7 @@ const CountryListMain = () => {
           <Suspense fallback={<PageLoader wrapperCls="page-loader" />}>
             <ReusableDataTable
               headArray={tableHeadData}
-              columnWidths={[undefined, undefined, undefined, undefined, 200, 200]}
+              columnWidths={[undefined, undefined, undefined, undefined, undefined, 200, 200]}
               data={
                 (countryListData?.docs?.length ?? 0 > 0)
                   ? (countryListData?.docs as TEachCountryList[])
@@ -139,6 +140,7 @@ const CountryListMain = () => {
                   >
                     {row?.name}
                   </TableCell>
+                  <TableCell>{row?.priority ?? '-'}</TableCell>
                   <TableCell>
                     <Box
                       className="status-chip"

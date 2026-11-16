@@ -95,6 +95,7 @@ export const airportAddSchema = () => {
     metaRobotsFollow: zod.enum(['nofollow', 'follow']),
     redirectUrl: zod.string().trim().optional(),
     isShowUpdatedAt: zod.boolean().optional(),
+    lastUpdatedAt: zod.string().optional(),
   });
 };
 
@@ -153,6 +154,7 @@ export const airportEditSchema = () => {
     metaRobotsFollow: zod.enum(['nofollow', 'follow']),
     redirectUrl: zod.string().trim().optional(),
     isShowUpdatedAt: zod.boolean().optional(),
+    lastUpdatedAt: zod.string().optional(),
   });
 };
 

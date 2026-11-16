@@ -34,6 +34,7 @@ export type TEachInsiderGuide = {
   isDeleted: boolean;
   updatedAt: string;
   isShowUpdatedAt?: boolean;
+  lastUpdatedAt?: string;
   openGraphImageSize?: number | string;
   bannerImageSize?: number;
   thumbnailImageSize?: number;

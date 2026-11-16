@@ -50,6 +50,15 @@ export const PAGE_ROUTE = {
       list: `${RouteConfig.availableAircraft}/aircraft`,
       add: `${RouteConfig.availableAircraft}/aircraft/add`,
       edit: `${RouteConfig.availableAircraft}/aircraft/edit`,
+      /** Tail numbers of one aircraft (opened from the aircraft list / edit page) */
+      aircraftTailNumbers: (aircraftId: string) =>
+        `${RouteConfig.availableAircraft}/aircraft/${aircraftId}/tail-numbers`,
+    },
+    tailNumbers: {
+      list: `${RouteConfig.availableAircraft}/tail-numbers`,
+      add: `${RouteConfig.availableAircraft}/tail-numbers/add`,
+      edit: (id: string) => `${RouteConfig.availableAircraft}/tail-numbers/${id}/edit`,
+      faq: (id: string) => `${RouteConfig.availableAircraft}/tail-numbers/${id}/faq`,
     },
     destinations: {
       list: `${RouteConfig.dashboard}/destinations`,
@@ -126,6 +135,11 @@ export const PAGE_ROUTE = {
         list: `${RouteConfig.dashboard}/master/country-list`,
         add: `${RouteConfig.dashboard}/master/country-list/add`,
         edit: `${RouteConfig.dashboard}/master/country-list/edit`,
+      },
+      regionList: {
+        list: `${RouteConfig.dashboard}/master/region-list`,
+        add: `${RouteConfig.dashboard}/master/region-list/add`,
+        edit: `${RouteConfig.dashboard}/master/region-list/edit`,
       },
       stateList: {
         list: `${RouteConfig.dashboard}/master/state-list`,

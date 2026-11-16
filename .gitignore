@@ -106,3 +106,8 @@ lerna-debug.log*
 *.lcov
 *.tgz
 *.zip
+
+# Env files in any naming: never commit (secrets live in server env / GitHub secrets)
+env.*.txt
+.env*.txt
+*.env.txt

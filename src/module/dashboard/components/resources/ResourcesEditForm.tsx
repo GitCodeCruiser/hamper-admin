@@ -12,6 +12,7 @@ import {
   Typography,
   useTheme,
 } from '@mui/material';
+import dayjs from 'dayjs';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
@@ -125,6 +126,7 @@ const ResourcesEditForm = ({ resourcesCatId, resourcesId }: TResourcesEditFormPr
       metaRobotsIndex: 'noindex' as const,
       metaRobotsFollow: 'nofollow' as const,
       isShowUpdatedAt: false,
+      lastUpdatedAt: '',
     },
   });
 
@@ -180,6 +182,7 @@ const ResourcesEditForm = ({ resourcesCatId, resourcesId }: TResourcesEditFormPr
     formData.append('metaRobotsIndex', data?.metaRobotsIndex);
     formData.append('metaRobotsFollow', data?.metaRobotsFollow);
     formData.append('isShowUpdatedAt', String(data?.isShowUpdatedAt ?? false));
+    formData.append('lastUpdatedAt', data?.lastUpdatedAt ?? '');
 
     if (typeof data?.openGraphImage !== 'string') {
       formData.append('openGraphImage', data?.openGraphImage);
@@ -209,6 +212,9 @@ const ResourcesEditForm = ({ resourcesCatId, resourcesId }: TResourcesEditFormPr
         metaRobotsFollow: (resourcesDetail?.metaRobotsFollow ?? 'nofollow') as
           'nofollow' | 'follow',
         isShowUpdatedAt: resourcesDetail?.isShowUpdatedAt ?? false,
+        lastUpdatedAt: resourcesDetail?.lastUpdatedAt
+          ? dayjs(resourcesDetail?.lastUpdatedAt).format('YYYY-MM-DDTHH:mm')
+          : '',
 
         ...(resourcesDetail?.openGraphImage && resourcesDetail?.openGraphImage?.length > 0
           ? { openGraphImage: resourcesDetail?.openGraphImage ?? '' }
@@ -262,6 +268,7 @@ const ResourcesEditForm = ({ resourcesCatId, resourcesId }: TResourcesEditFormPr
     resourcesDetail?.metaRobotsIndex,
     resourcesDetail?.metaRobotsFollow,
     resourcesDetail?.isShowUpdatedAt,
+    resourcesDetail?.lastUpdatedAt,
     resourcesDetail?.bannerImage,
     resourcesDetail?.bannerImageSize,
     resourcesDetail?.bannerImageTag,
@@ -931,6 +938,25 @@ const ResourcesEditForm = ({ resourcesCatId, resourcesId }: TResourcesEditFormPr
               rows={5}
               error={!!errors?.structuredData}
               helperText={errors?.structuredData?.message}
+            />
+          )}
+        />
+      </Grid>
+
+      {/* Custom Last Updated Date */}
+      <Grid size={{ xs: 12 }}>
+        <InputLabel sx={{ color: '#FFFFFF' }}>
+          Last Updated Date (leave empty to use the automatic date)
+        </InputLabel>
+        <Controller
+          control={form.control}
+          name="lastUpdatedAt"
+          render={({ field: { onChange, value } }) => (
+            <InputFieldCommon
+              labelName="Last Updated Date"
+              type="datetime-local"
+              value={value ?? ''}
+              onChange={onChange}
             />
           )}
         />

@@ -20,6 +20,12 @@ import {
   TAircraftCatAddSchemaType,
 } from '../../validation/aircraft/index.zod';
 
+import GenericHeroField, {
+  appendGenericHero,
+  genericHeroDefaultValues,
+  genericHeroValuesFrom,
+} from './GenericHeroField';
+
 import { mediaUrl } from '@/api/endpoints';
 import { useAircraftCategoryCreate } from '@/api/hooks/aircraft/hooks';
 import ImgPreviewMainComp from '@/components/Other/ImgMainComp/ImgPreviewMainComp';
@@ -29,6 +35,7 @@ import { PAGE_ROUTE } from '@/routes/index.route';
 import InputFieldCommon from '@/ui/CommonInput/CommonInput';
 import CustomButtonPrimary from '@/ui/CustomButtons/CustomButtonPrimary';
 import PlusIconUpload from '@/ui/Icons/PlusIconUpload';
+
 
 type TAircraftCatAddFormProps = {};
 
@@ -44,6 +51,7 @@ const AircraftCatAddForm = ({}: TAircraftCatAddFormProps) => {
     defaultValues: {
       title: '',
       description: '',
+      ...genericHeroDefaultValues,
       tierOne: undefined,
       tierTwo: undefined,
       tierThree: undefined,
@@ -130,6 +138,7 @@ const AircraftCatAddForm = ({}: TAircraftCatAddFormProps) => {
       formData.append('speedBreakDownAsDistance', JSON.stringify(data?.speedBreakDownAsDistance));
 
     if (data?.featureImage) formData.append('featureImage', data?.featureImage);
+    appendGenericHero(formData, data, { isEdit: false });
 
     aircraftCategorySave(formData);
   };
@@ -1054,6 +1063,13 @@ const AircraftCatAddForm = ({}: TAircraftCatAddFormProps) => {
           ) : null}
         </Box>
       </Grid>
+
+      {/* Generic tail page hero for every model in this class */}
+      <GenericHeroField
+        form={form}
+        label="Generic Hero Image (class)"
+        helper="Generic heading image (not a specific aircraft) for the tail pages of every model in this class. Falls back to the site-wide default on the Tail numbers page."
+      />
 
       <Grid size={{ xs: 12 }} gap={2} display="flex">
         <CustomButtonPrimary

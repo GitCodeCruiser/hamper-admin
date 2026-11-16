@@ -55,6 +55,7 @@ export type TEachAirport = {
   longitude?: string;
   redirectUrl?: string;
   isShowUpdatedAt?: boolean;
+  lastUpdatedAt?: string;
   bannerImageSize?: number;
   thumbnailImageSize?: number;
   openGraphImageSize?: number | string;

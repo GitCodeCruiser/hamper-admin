@@ -57,6 +57,7 @@ export const resourcesAddSchema = () => {
     metaRobotsIndex: zod.enum(['noindex', 'index']),
     metaRobotsFollow: zod.enum(['nofollow', 'follow']),
     isShowUpdatedAt: zod.boolean().optional(),
+    lastUpdatedAt: zod.string().optional(),
   });
 };
 
@@ -100,6 +101,7 @@ export const resourcesEditSchema = () => {
     metaRobotsIndex: zod.enum(['noindex', 'index']),
     metaRobotsFollow: zod.enum(['nofollow', 'follow']),
     isShowUpdatedAt: zod.boolean().optional(),
+    lastUpdatedAt: zod.string().optional(),
   });
 };
 

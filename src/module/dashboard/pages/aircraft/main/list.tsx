@@ -4,6 +4,7 @@ import { StarOutlineOutlined, StarPurple500Outlined } from '@mui/icons-material'
 import ChangeCircleIcon from '@mui/icons-material/ChangeCircle';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
+import FlightIcon from '@mui/icons-material/Flight';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import QuizOutlinedIcon from '@mui/icons-material/QuizOutlined';
 import {
@@ -432,6 +433,19 @@ const AircraftActionComp = ({
             <EditOutlinedIcon fontSize="small" sx={{ color: theme.palette.text.secondary }} />
           </ListItemIcon>
           <Typography variant="body2">Edit</Typography>
+        </MenuItem>
+
+        <MenuItem
+          onClick={() => {
+            router.push(PAGE_ROUTE.dashboard.availableAircraft.aircraftTailNumbers(row?._id));
+            handleMenuClose();
+          }}
+          sx={{ gap: 1, py: 1, px: 2 }}
+        >
+          <ListItemIcon sx={{ minWidth: 'auto' }}>
+            <FlightIcon fontSize="small" sx={{ color: theme.palette.text.secondary }} />
+          </ListItemIcon>
+          <Typography variant="body2">Tail Numbers</Typography>
         </MenuItem>
 
         <Divider sx={{ my: 0.5 }} />

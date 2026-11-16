@@ -18,6 +18,10 @@ import { Controller, useForm } from 'react-hook-form';
 
 import { aircraftAddSchema, TAircraftAddSchemaType } from '../../validation/aircraft/index.zod';
 
+import AircraftTailPageFields, {
+  appendTailPageFields,
+  tailPageDefaultValues,
+} from './AircraftTailPageFields';
 import SlidingImageItemRow from './SlidingImageItemRow';
 
 import { mediaUrl } from '@/api/endpoints';
@@ -128,9 +132,10 @@ const AircraftAddForm = () => {
       charterRatePerHrMin: 0,
       climbRate: 0,
       cruiseSpeed: 0,
-      // landingDistance: 0,
+      landingDistance: 0,
       manufacturer: '',
       maxPassengers: '',
+      mtow: 0,
       range: 0,
       serviceCeiling: 0,
       takeoffDistance: 0,
@@ -139,6 +144,7 @@ const AircraftAddForm = () => {
       baggageCapacity: 0,
       title: '',
       aircraftName: '',
+      pageHeading: '',
       description: '',
       metaTitle: '',
       metaDescription: '',
@@ -151,10 +157,12 @@ const AircraftAddForm = () => {
       slidingImagesData: [],
       bannerImageTag: '',
       thumbnailImageTag: '',
+      ...tailPageDefaultValues,
       redirectUrl: '',
       metaRobotsIndex: 'noindex' as const,
       metaRobotsFollow: 'nofollow' as const,
       isShowUpdatedAt: false,
+      lastUpdatedAt: '',
     },
   });
 
@@ -334,6 +342,7 @@ const AircraftAddForm = () => {
     formData.append('categoryId', data?.categoryId);
     formData.append('title', data?.title);
     formData.append('name', data?.aircraftName);
+    formData.append('pageHeading', data?.pageHeading ?? '');
     // formData.append('description', data?.description ?? '');
     formData.append('slug', data?.slug);
     formData.append('bannerImage', data?.bannerImage);
@@ -342,6 +351,7 @@ const AircraftAddForm = () => {
     formData.append('salesFeatureImage', data?.salesFeatureImage);
     formData.append('bannerImageTag', data?.bannerImageTag ?? '');
     formData.append('thumbnailImageTag', data?.thumbnailImageTag ?? '');
+    appendTailPageFields(formData, data);
 
     //
     formData.append('manufacturer', data?.manufacturer);
@@ -356,8 +366,9 @@ const AircraftAddForm = () => {
 
     formData.append('baggageCapacity', `${data?.baggageCapacity}`);
     formData.append('cabinNoise', `${data?.cabinNoise}`);
-    formData.append('takeoffDistance', `${data?.takeoffDistance}`);
-    // formData.append('landingDistance', `${data?.landingDistance}`);
+    formData.append('mtow', `${data?.mtow}`);
+    formData.append('takeoffDistance', `${data?.takeoffDistance ?? 0}`);
+    formData.append('landingDistance', `${data?.landingDistance ?? 0}`);
     formData.append('serviceCeiling', `${data?.serviceCeiling}`);
     formData.append('climbRate', `${data?.climbRate}`);
 
@@ -394,6 +405,7 @@ const AircraftAddForm = () => {
     formData.append('metaRobotsIndex', data?.metaRobotsIndex);
     formData.append('metaRobotsFollow', data?.metaRobotsFollow);
     formData.append('isShowUpdatedAt', String(data?.isShowUpdatedAt ?? false));
+    formData.append('lastUpdatedAt', data?.lastUpdatedAt ?? '');
 
     if (typeof data?.openGraphImage !== 'string') {
       formData.append('openGraphImage', data?.openGraphImage);
@@ -458,6 +470,25 @@ const AircraftAddForm = () => {
               onChange={onChange}
               error={!!errors?.aircraftName}
               helperText={errors?.aircraftName?.message}
+            />
+          )}
+        />
+      </Grid>
+
+      {/* Page Heading (H1) */}
+      <Grid size={{ xs: 12 }}>
+        <InputLabel sx={{ color: '#FFFFFF' }}>Page Heading (H1) (optional)</InputLabel>
+        <Controller
+          control={form.control}
+          name="pageHeading"
+          render={({ field: { onChange, value } }) => (
+            <InputFieldCommon
+              labelName="Page Heading (H1)"
+              placeholder="e.g. Charter a Phenom 300E Private Jet (leave blank to use Aircraft Name)"
+              value={value ?? ''}
+              onChange={onChange}
+              error={!!errors?.pageHeading}
+              helperText={errors?.pageHeading?.message}
             />
           )}
         />
@@ -1307,11 +1338,30 @@ const AircraftAddForm = () => {
         <InputLabel sx={{ color: '#FFFFFF' }}>Max Take Off Weight (MTOW) (lbs)*</InputLabel>
         <Controller
           control={form.control}
-          name="takeoffDistance"
+          name="mtow"
           render={({ field: { onChange, value } }) => (
             <InputFieldCommon
               labelName="Max Take Off Weight (MTOW)"
               placeholder="Max take off weight (mtow) in pounds"
+              value={value ?? ''}
+              onChange={onChange}
+              error={!!errors?.mtow}
+              helperText={errors?.mtow?.message}
+              onKeyDown={handleAmountKeys}
+            />
+          )}
+        />
+      </Grid>
+
+      <Grid size={{ xs: 6 }}>
+        <InputLabel sx={{ color: '#FFFFFF' }}>Takeoff Distance (ft)</InputLabel>
+        <Controller
+          control={form.control}
+          name="takeoffDistance"
+          render={({ field: { onChange, value } }) => (
+            <InputFieldCommon
+              labelName="Takeoff Distance"
+              placeholder="Takeoff distance in feet"
               value={value ?? ''}
               onChange={onChange}
               error={!!errors?.takeoffDistance}
@@ -1322,8 +1372,8 @@ const AircraftAddForm = () => {
         />
       </Grid>
 
-      {/* <Grid size={{ xs: 6 }}>
-        <InputLabel sx={{ color: '#FFFFFF' }}>Landing Distance (ft)*</InputLabel>
+      <Grid size={{ xs: 6 }}>
+        <InputLabel sx={{ color: '#FFFFFF' }}>Landing Distance (ft)</InputLabel>
         <Controller
           control={form.control}
           name="landingDistance"
@@ -1339,7 +1389,7 @@ const AircraftAddForm = () => {
             />
           )}
         />
-      </Grid> */}
+      </Grid>
 
       <Grid size={{ xs: 6 }}>
         <InputLabel sx={{ color: '#FFFFFF' }}>Service Ceiling (ft)*</InputLabel>
@@ -1446,6 +1496,8 @@ const AircraftAddForm = () => {
       {/* ═══════════════════════════════════════════════════════════════════
           SEO PRIMARY META TAGS
          ═══════════════════════════════════════════════════════════════════ */}
+
+      <AircraftTailPageFields form={form} />
 
       <Grid size={{ xs: 12 }} sx={{ mt: 10 }}>
         <AircraftGroupHeading>Seo Details</AircraftGroupHeading>
@@ -1773,6 +1825,25 @@ const AircraftAddForm = () => {
               rows={5}
               error={!!errors?.structuredData}
               helperText={errors?.structuredData?.message}
+            />
+          )}
+        />
+      </Grid>
+
+      {/* Custom Last Updated Date */}
+      <Grid size={{ xs: 12 }}>
+        <InputLabel sx={{ color: '#FFFFFF' }}>
+          Last Updated Date (leave empty to use the automatic date)
+        </InputLabel>
+        <Controller
+          control={form.control}
+          name="lastUpdatedAt"
+          render={({ field: { onChange, value } }) => (
+            <InputFieldCommon
+              labelName="Last Updated Date"
+              type="datetime-local"
+              value={value ?? ''}
+              onChange={onChange}
             />
           )}
         />

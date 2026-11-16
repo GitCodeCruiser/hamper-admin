@@ -106,6 +106,7 @@ const AirportAddForm = ({ slug }: TAirportAddFormProps) => {
       metaRobotsIndex: 'noindex' as const,
       metaRobotsFollow: 'nofollow' as const,
       isShowUpdatedAt: false,
+      lastUpdatedAt: '',
     },
   });
 
@@ -247,6 +248,7 @@ const AirportAddForm = ({ slug }: TAirportAddFormProps) => {
     formData.append('metaRobotsIndex', data?.metaRobotsIndex);
     formData.append('metaRobotsFollow', data?.metaRobotsFollow);
     formData.append('isShowUpdatedAt', String(data?.isShowUpdatedAt ?? false));
+    formData.append('lastUpdatedAt', data?.lastUpdatedAt ?? '');
 
     if (typeof data?.openGraphImage !== 'string') {
       formData.append('openGraphImage', data?.openGraphImage);
@@ -1258,6 +1260,25 @@ const AirportAddForm = ({ slug }: TAirportAddFormProps) => {
               rows={5}
               error={!!errors?.structuredData}
               helperText={errors?.structuredData?.message}
+            />
+          )}
+        />
+      </Grid>
+
+      {/* Custom Last Updated Date */}
+      <Grid size={{ xs: 12 }}>
+        <InputLabel sx={{ color: '#FFFFFF' }}>
+          Last Updated Date (leave empty to use the automatic date)
+        </InputLabel>
+        <Controller
+          control={form.control}
+          name="lastUpdatedAt"
+          render={({ field: { onChange, value } }) => (
+            <InputFieldCommon
+              labelName="Last Updated Date"
+              type="datetime-local"
+              value={value ?? ''}
+              onChange={onChange}
             />
           )}
         />

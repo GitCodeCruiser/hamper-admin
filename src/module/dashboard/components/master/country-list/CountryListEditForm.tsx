@@ -124,7 +124,7 @@ const CountryListEditForm = ({ countryListId }: TCountryListEditFormProps) => {
     resolver: zodResolver(countryListEditSchema()),
     defaultValues: {
       name: '',
-      isCaribbean: false,
+      pageHeading: '',
       imageTag: '',
       bannerImageTag: '',
       metaTitle: '',
@@ -137,6 +137,7 @@ const CountryListEditForm = ({ countryListId }: TCountryListEditFormProps) => {
       metaRobotsIndex: 'noindex' as const,
       metaRobotsFollow: 'nofollow' as const,
       isShowUpdatedAt: false,
+      priority: '',
     },
   });
 
@@ -146,7 +147,7 @@ const CountryListEditForm = ({ countryListId }: TCountryListEditFormProps) => {
     optionalCallback: () => {
       router.replace(PAGE_ROUTE.dashboard.master.countryList.list);
     },
-    errorCallback: () => {},
+    errorCallback: () => { },
   });
 
   const { data: countryDetails, isLoading: countryDetailsLoading } = useCountryListGet({
@@ -158,7 +159,7 @@ const CountryListEditForm = ({ countryListId }: TCountryListEditFormProps) => {
 
     formData.append('id', countryListId ?? '');
     formData.append('name', data?.name ?? '');
-    formData.append('isCaribbean', String(data?.isCaribbean ?? false));
+    formData.append('pageHeading', data?.pageHeading ?? '');
     if (data?.image) {
       formData.append('image', data?.image);
     }
@@ -175,6 +176,7 @@ const CountryListEditForm = ({ countryListId }: TCountryListEditFormProps) => {
     formData.append('metaRobotsIndex', data?.metaRobotsIndex);
     formData.append('metaRobotsFollow', data?.metaRobotsFollow);
     formData.append('isShowUpdatedAt', String(data?.isShowUpdatedAt ?? false));
+    formData.append('priority', data?.priority ?? '');
 
     if (typeof data?.openGraphImage !== 'string') {
       formData.append('openGraphImage', data?.openGraphImage);
@@ -188,7 +190,7 @@ const CountryListEditForm = ({ countryListId }: TCountryListEditFormProps) => {
       form.reset({
         id: countryListId,
         name: countryDetails?.name ?? '',
-        isCaribbean: countryDetails?.isCaribbean ?? false,
+        pageHeading: countryDetails?.pageHeading ?? '',
         imageTag: countryDetails?.imageTag ?? '',
         bannerImageTag: countryDetails?.bannerImageTag ?? '',
         metaTitle: countryDetails?.metaTitle ?? '',
@@ -201,6 +203,10 @@ const CountryListEditForm = ({ countryListId }: TCountryListEditFormProps) => {
         metaRobotsIndex: (countryDetails?.metaRobotsIndex ?? 'noindex') as 'noindex' | 'index',
         metaRobotsFollow: (countryDetails?.metaRobotsFollow ?? 'nofollow') as 'nofollow' | 'follow',
         isShowUpdatedAt: countryDetails?.isShowUpdatedAt ?? false,
+        priority:
+          countryDetails?.priority !== null && countryDetails?.priority !== undefined
+            ? String(countryDetails.priority)
+            : '',
 
         ...(countryDetails?.image && countryDetails?.image?.length > 0
           ? { image: countryDetails?.image ?? '' }
@@ -234,7 +240,7 @@ const CountryListEditForm = ({ countryListId }: TCountryListEditFormProps) => {
       );
     }
 
-    return () => {};
+    return () => { };
   }, [form, form.reset, countryListId, countryDetails]);
 
   if (countryDetailsLoading) {
@@ -243,8 +249,8 @@ const CountryListEditForm = ({ countryListId }: TCountryListEditFormProps) => {
 
   return (
     <Grid container rowSpacing={3}>
-      {/* Country Name */}
-      <Grid size={{ xs: 12 }}>
+      {/* Country Name (short label: listing cards, breadcrumbs, search) */}
+      <Grid size={{ xs: 12, md: 6 }} sx={{ pr: { md: 1.5 } }}>
         <InputLabel sx={{ color: '#FFFFFF' }}>Country Name*</InputLabel>
         <Controller
           control={form.control}
@@ -256,7 +262,55 @@ const CountryListEditForm = ({ countryListId }: TCountryListEditFormProps) => {
               value={value ?? ''}
               onChange={onChange}
               error={!!errors?.name}
-              helperText={errors?.name?.message}
+              helperText={
+                errors?.name?.message ?? 'Shown on listing cards, breadcrumbs and search.'
+              }
+            />
+          )}
+        />
+      </Grid>
+
+      {/* Page Title (H1 on the country page; falls back to Country Name) */}
+      <Grid size={{ xs: 12, md: 6 }} sx={{ pl: { md: 1.5 } }}>
+        <InputLabel sx={{ color: '#FFFFFF' }}>Page Title (H1) (optional)</InputLabel>
+        <Controller
+          control={form.control}
+          name="pageHeading"
+          render={({ field: { onChange, value } }) => (
+            <InputFieldCommon
+              labelName="Page Title"
+              placeholder="e.g. Private Jet Charter USA"
+              value={value ?? ''}
+              onChange={onChange}
+              error={!!errors?.pageHeading}
+              helperText={
+                errors?.pageHeading?.message ??
+                'Main heading on the country page. Leave blank to use Country Name.'
+              }
+            />
+          )}
+        />
+      </Grid>
+
+      {/* Priority */}
+      <Grid size={{ xs: 12, md: 6 }}>
+        <InputLabel sx={{ color: '#FFFFFF' }}>Priority (optional)</InputLabel>
+        <Controller
+          control={form.control}
+          name="priority"
+          render={({ field: { onChange, value } }) => (
+            <InputFieldCommon
+              labelName="Priority"
+              placeholder="e.g. 1"
+              type="number"
+              slotProps={{ htmlInput: { min: 1, step: 1 } }}
+              value={value ?? ''}
+              onChange={onChange}
+              error={!!errors?.priority}
+              helperText={
+                errors?.priority?.message ??
+                'Lower number shows first. Leave blank to sort alphabetically after numbered countries.'
+              }
             />
           )}
         />
@@ -332,7 +386,7 @@ const CountryListEditForm = ({ countryListId }: TCountryListEditFormProps) => {
                     thumbnailImage instanceof File
                       ? thumbnailImage.name === thumb.url.split('/').pop()
                       : typeof thumbnailImage === 'string' &&
-                        (thumbnailImage.includes(thumb.url) || thumb.url.includes(thumbnailImage));
+                      (thumbnailImage.includes(thumb.url) || thumb.url.includes(thumbnailImage));
 
                   return (
                     <Box
@@ -473,7 +527,7 @@ const CountryListEditForm = ({ countryListId }: TCountryListEditFormProps) => {
                     bannerImage instanceof File
                       ? bannerImage.name === banner.url.split('/').pop()
                       : typeof bannerImage === 'string' &&
-                        (bannerImage.includes(banner.url) || banner.url.includes(bannerImage));
+                      (bannerImage.includes(banner.url) || banner.url.includes(bannerImage));
 
                   return (
                     <Box
@@ -536,32 +590,6 @@ const CountryListEditForm = ({ countryListId }: TCountryListEditFormProps) => {
               onChange={onChange}
               error={!!errors?.bannerImageTag}
               helperText={errors?.bannerImageTag?.message}
-            />
-          )}
-        />
-      </Grid>
-
-      {/* Is Caribbean Checkbox */}
-      <Grid size={{ xs: 12 }}>
-        <Controller
-          control={form.control}
-          name="isCaribbean"
-          render={({ field: { onChange, value } }) => (
-            <FormControlLabel
-              control={
-                <Checkbox
-                  checked={!!value}
-                  onChange={(e) => onChange(e.target.checked)}
-                  sx={{
-                    color: '#FFFFFF',
-                    '&.Mui-checked': {
-                      color: '#FFFFFF',
-                    },
-                  }}
-                />
-              }
-              label="Is Caribbean"
-              sx={{ color: '#FFFFFF' }}
             />
           )}
         />
@@ -773,7 +801,7 @@ const CountryListEditForm = ({ countryListId }: TCountryListEditFormProps) => {
                     seoOgImage instanceof File
                       ? seoOgImage.name === og.url.split('/').pop()
                       : typeof seoOgImage === 'string' &&
-                        (seoOgImage.includes(og.url) || og.url.includes(seoOgImage));
+                      (seoOgImage.includes(og.url) || og.url.includes(seoOgImage));
 
                   return (
                     <Box

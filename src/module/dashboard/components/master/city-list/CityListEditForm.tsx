@@ -60,6 +60,7 @@ const CityListEditForm = ({ cityListId }: TCityListEditFormProps) => {
       countryId: '',
       country: '',
       state: '',
+      priority: '',
     },
   });
 
@@ -93,6 +94,7 @@ const CityListEditForm = ({ cityListId }: TCityListEditFormProps) => {
     formData.append('name', data?.name ?? '');
     formData.append('stateId', data?.stateId ?? '');
     formData.append('countryId', data?.countryId ?? '');
+    formData.append('priority', data?.priority ?? '');
     if (data?.image) {
       formData.append('image', data?.image);
     }
@@ -108,6 +110,10 @@ const CityListEditForm = ({ cityListId }: TCityListEditFormProps) => {
         countryId: cityDetails?.countryId ?? '',
         state: cityDetails?.state?.name,
         country: cityDetails?.country?.name,
+        priority:
+          cityDetails?.priority !== null && cityDetails?.priority !== undefined
+            ? String(cityDetails.priority)
+            : '',
         ...(cityDetails?.image && cityDetails?.image?.length > 0
           ? { image: cityDetails?.image ?? '' }
           : {}),
@@ -129,6 +135,7 @@ const CityListEditForm = ({ cityListId }: TCityListEditFormProps) => {
     cityDetails?.country?.name,
     cityDetails?.image,
     cityDetails?.imageSize,
+    cityDetails?.priority,
   ]);
 
   if (cityDetailsLoading) {
@@ -151,6 +158,30 @@ const CityListEditForm = ({ cityListId }: TCityListEditFormProps) => {
               onChange={onChange}
               error={!!errors?.name}
               helperText={errors?.name?.message}
+            />
+          )}
+        />
+      </Grid>
+
+      {/* Priority */}
+      <Grid size={{ xs: 12, md: 6 }}>
+        <InputLabel sx={{ color: '#FFFFFF' }}>Priority (optional)</InputLabel>
+        <Controller
+          control={form.control}
+          name="priority"
+          render={({ field: { onChange, value } }) => (
+            <InputFieldCommon
+              labelName="Priority"
+              placeholder="e.g. 1"
+              type="number"
+              slotProps={{ htmlInput: { min: 1, step: 1 } }}
+              value={value ?? ''}
+              onChange={onChange}
+              error={!!errors?.priority}
+              helperText={
+                errors?.priority?.message ??
+                'Lower number shows first. Leave blank to sort alphabetically after numbered cities.'
+              }
             />
           )}
         />

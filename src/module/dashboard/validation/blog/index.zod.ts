@@ -60,6 +60,7 @@ export const blogAddSchema = () => {
     metaRobotsIndex: zod.enum(['noindex', 'index']),
     metaRobotsFollow: zod.enum(['nofollow', 'follow']),
     isShowUpdatedAt: zod.boolean().optional(),
+    lastUpdatedAt: zod.string().optional(),
   });
 };
 
@@ -106,6 +107,7 @@ export const blogEditSchema = () => {
     metaRobotsIndex: zod.enum(['noindex', 'index']),
     metaRobotsFollow: zod.enum(['nofollow', 'follow']),
     isShowUpdatedAt: zod.boolean().optional(),
+    lastUpdatedAt: zod.string().optional(),
   });
 };
 

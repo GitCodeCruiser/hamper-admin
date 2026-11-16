@@ -236,6 +236,7 @@ const CountryListContentForm = ({ countryListId }: TCountryListContentFormProps)
                     slug={PageTypeValue.cms.allPages.pageSlug}
                     pageName={PageTypeValue.cms.allPages.pageName}
                     purpose={`${PageTypeValue.cms.allPages.pageSlug}${countryListData?.slug}`}
+                    hasCityListDivider
                   />
                 ) : null}
               </AccordionDetails>

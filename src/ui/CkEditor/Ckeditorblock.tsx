@@ -212,6 +212,12 @@ function PasteSanitizerPlugin(editor: any) {
   );
 }
 
+// GHS model attributes that hold structure, not formatting. They also start with "html",
+// but removing them breaks the element: without `htmlElementName`, a custom element
+// (e.g. pasted <o:p>, <font>, <center>) downcasts with an undefined tag name and the
+// editor crashes with "can't access property 'toLowerCase', e is undefined".
+const PROTECTED_HTML_ATTRIBUTES = new Set(['htmlA', 'htmlElementName', 'htmlContent']);
+
 // Custom plugin to add a text button that clears all formatting
 function ClearFormattingPlugin(editor: any) {
   editor.ui.componentFactory.add('clearFormatting', (locale: any) => {
@@ -246,8 +252,8 @@ function ClearFormattingPlugin(editor: any) {
                 attr === 'fontColor' ||
                 attr === 'fontBackgroundColor'
               ) {
-                // Preserve link attributes
-                if (attr === 'htmlA') continue;
+                // Preserve link attributes and GHS structural attributes
+                if (PROTECTED_HTML_ATTRIBUTES.has(attr)) continue;
                 writer.removeAttribute(attr, item);
               }
             }
@@ -264,8 +270,8 @@ function ClearFormattingPlugin(editor: any) {
               attr === 'class' ||
               attr === 'alignment'
             ) {
-              // Preserve link attributes on block level if any
-              if (attr === 'htmlA') continue;
+              // Preserve link attributes and GHS structural attributes
+              if (PROTECTED_HTML_ATTRIBUTES.has(attr)) continue;
               writer.removeAttribute(attr, block);
             }
           }

@@ -115,6 +115,7 @@ const InsiderGuideEditForm = ({ slug, guideId }: TInsiderGuideEditFormProps) => 
       metaRobotsIndex: 'noindex' as const,
       metaRobotsFollow: 'nofollow' as const,
       isShowUpdatedAt: false,
+      lastUpdatedAt: '',
     },
   });
 
@@ -174,6 +175,7 @@ const InsiderGuideEditForm = ({ slug, guideId }: TInsiderGuideEditFormProps) => 
     formData.append('metaRobotsIndex', data.metaRobotsIndex);
     formData.append('metaRobotsFollow', data.metaRobotsFollow);
     formData.append('isShowUpdatedAt', String(data?.isShowUpdatedAt ?? false));
+    formData.append('lastUpdatedAt', data?.lastUpdatedAt ?? '');
 
     if (data.openGraphImage && typeof data.openGraphImage !== 'string') {
       formData.append('openGraphImage', data.openGraphImage);
@@ -202,6 +204,9 @@ const InsiderGuideEditForm = ({ slug, guideId }: TInsiderGuideEditFormProps) => 
         metaRobotsIndex: (guideDetails?.metaRobotsIndex ?? 'noindex') as 'noindex' | 'index',
         metaRobotsFollow: (guideDetails?.metaRobotsFollow ?? 'nofollow') as 'nofollow' | 'follow',
         isShowUpdatedAt: guideDetails?.isShowUpdatedAt ?? false,
+        lastUpdatedAt: guideDetails?.lastUpdatedAt
+          ? dayjs(guideDetails?.lastUpdatedAt).format('YYYY-MM-DDTHH:mm')
+          : '',
 
         ...(guideDetails?.openGraphImage && guideDetails?.openGraphImage?.length > 0
           ? { openGraphImage: guideDetails?.openGraphImage ?? '' }
@@ -255,6 +260,7 @@ const InsiderGuideEditForm = ({ slug, guideId }: TInsiderGuideEditFormProps) => 
     guideDetails?.metaRobotsIndex,
     guideDetails?.metaRobotsFollow,
     guideDetails?.isShowUpdatedAt,
+    guideDetails?.lastUpdatedAt,
     guideDetails?.openGraphImage,
     guideDetails?.openGraphImageSize,
     guideDetails?.bannerImage,
@@ -927,6 +933,25 @@ const InsiderGuideEditForm = ({ slug, guideId }: TInsiderGuideEditFormProps) => 
               rows={5}
               error={!!errors?.structuredData}
               helperText={errors?.structuredData?.message}
+            />
+          )}
+        />
+      </Grid>
+
+      {/* Custom Last Updated Date */}
+      <Grid size={{ xs: 12 }}>
+        <InputLabel sx={{ color: '#FFFFFF' }}>
+          Last Updated Date (leave empty to use the automatic date)
+        </InputLabel>
+        <Controller
+          control={form.control}
+          name="lastUpdatedAt"
+          render={({ field: { onChange, value } }) => (
+            <InputFieldCommon
+              labelName="Last Updated Date"
+              type="datetime-local"
+              value={value ?? ''}
+              onChange={onChange}
             />
           )}
         />

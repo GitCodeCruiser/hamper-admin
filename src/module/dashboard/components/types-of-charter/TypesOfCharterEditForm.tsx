@@ -12,6 +12,7 @@ import {
   Typography,
   useTheme,
 } from '@mui/material';
+import dayjs from 'dayjs';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
@@ -125,6 +126,7 @@ const TypesOfCharterEditForm = ({ charterCatId, charterId }: TTypesOfCharterEdit
       metaRobotsIndex: 'noindex' as const,
       metaRobotsFollow: 'nofollow' as const,
       isShowUpdatedAt: false,
+      lastUpdatedAt: '',
     },
   });
 
@@ -182,6 +184,7 @@ const TypesOfCharterEditForm = ({ charterCatId, charterId }: TTypesOfCharterEdit
     formData.append('metaRobotsIndex', data?.metaRobotsIndex);
     formData.append('metaRobotsFollow', data?.metaRobotsFollow);
     formData.append('isShowUpdatedAt', String(data?.isShowUpdatedAt ?? false));
+    formData.append('lastUpdatedAt', data?.lastUpdatedAt ?? '');
 
     if (typeof data?.openGraphImage !== 'string') {
       formData.append('openGraphImage', data?.openGraphImage);
@@ -212,6 +215,9 @@ const TypesOfCharterEditForm = ({ charterCatId, charterId }: TTypesOfCharterEdit
         metaRobotsFollow: (typesOfCharterDetail?.metaRobotsFollow ?? 'nofollow') as
           'nofollow' | 'follow',
         isShowUpdatedAt: typesOfCharterDetail?.isShowUpdatedAt ?? false,
+        lastUpdatedAt: typesOfCharterDetail?.lastUpdatedAt
+          ? dayjs(typesOfCharterDetail?.lastUpdatedAt).format('YYYY-MM-DDTHH:mm')
+          : '',
 
         ...(typesOfCharterDetail?.openGraphImage && typesOfCharterDetail?.openGraphImage?.length > 0
           ? { openGraphImage: typesOfCharterDetail?.openGraphImage ?? '' }
@@ -267,6 +273,7 @@ const TypesOfCharterEditForm = ({ charterCatId, charterId }: TTypesOfCharterEdit
     typesOfCharterDetail?.metaRobotsIndex,
     typesOfCharterDetail?.metaRobotsFollow,
     typesOfCharterDetail?.isShowUpdatedAt,
+    typesOfCharterDetail?.lastUpdatedAt,
     typesOfCharterDetail?.bannerImage,
     typesOfCharterDetail?.bannerImageSize,
     typesOfCharterDetail?.bannerImageTag,
@@ -955,6 +962,25 @@ const TypesOfCharterEditForm = ({ charterCatId, charterId }: TTypesOfCharterEdit
               rows={5}
               error={!!errors?.structuredData}
               helperText={errors?.structuredData?.message}
+            />
+          )}
+        />
+      </Grid>
+
+      {/* Custom Last Updated Date */}
+      <Grid size={{ xs: 12 }}>
+        <InputLabel sx={{ color: '#FFFFFF' }}>
+          Last Updated Date (leave empty to use the automatic date)
+        </InputLabel>
+        <Controller
+          control={form.control}
+          name="lastUpdatedAt"
+          render={({ field: { onChange, value } }) => (
+            <InputFieldCommon
+              labelName="Last Updated Date"
+              type="datetime-local"
+              value={value ?? ''}
+              onChange={onChange}
             />
           )}
         />

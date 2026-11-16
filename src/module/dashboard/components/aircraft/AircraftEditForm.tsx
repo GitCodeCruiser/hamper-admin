@@ -12,6 +12,7 @@ import {
   Typography,
   useTheme,
 } from '@mui/material';
+import dayjs from 'dayjs';
 import { useRouter } from 'next/navigation';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
@@ -19,6 +20,11 @@ import { Controller, useForm } from 'react-hook-form';
 import { aircraftEditSchema, TAircraftEditSchemaType } from '../../validation/aircraft/index.zod';
 
 import { AircraftGroupHeading } from './AircraftAddForm';
+import AircraftTailPageFields, {
+  appendTailPageFields,
+  tailPageDefaultValues,
+  tailPageValuesFromAircraft,
+} from './AircraftTailPageFields';
 import SlidingImageItemRow from './SlidingImageItemRow';
 
 import PageLoader from '@/@core/components/others/PageLoader';
@@ -114,9 +120,10 @@ const AircraftEditForm = ({ aircraftId }: TAircraftEditFormProps) => {
       charterRatePerHrMin: 0,
       climbRate: 0,
       cruiseSpeed: 0,
-      // landingDistance: 0,
+      landingDistance: 0,
       manufacturer: '',
       maxPassengers: '',
+      mtow: 0,
       range: 0,
       serviceCeiling: 0,
       takeoffDistance: 0,
@@ -125,6 +132,7 @@ const AircraftEditForm = ({ aircraftId }: TAircraftEditFormProps) => {
       baggageCapacity: 0,
       title: '',
       aircraftName: '',
+      pageHeading: '',
       description: '',
       metaTitle: '',
       metaDescription: '',
@@ -137,10 +145,12 @@ const AircraftEditForm = ({ aircraftId }: TAircraftEditFormProps) => {
       slidingImagesData: [],
       bannerImageTag: '',
       thumbnailImageTag: '',
+      ...tailPageDefaultValues,
       redirectUrl: '',
       metaRobotsIndex: 'noindex' as const,
       metaRobotsFollow: 'nofollow' as const,
       isShowUpdatedAt: false,
+      lastUpdatedAt: '',
     },
   });
 
@@ -329,6 +339,7 @@ const AircraftEditForm = ({ aircraftId }: TAircraftEditFormProps) => {
     formData.append('categoryId', data?.categoryId);
     formData.append('title', data?.title);
     formData.append('name', data?.aircraftName);
+    formData.append('pageHeading', data?.pageHeading ?? '');
     // formData.append('description', data?.description);
     formData.append('slug', data?.slug);
     formData.append('bannerImage', data?.bannerImage);
@@ -337,6 +348,7 @@ const AircraftEditForm = ({ aircraftId }: TAircraftEditFormProps) => {
     formData.append('salesFeatureImage', data?.salesFeatureImage);
     formData.append('bannerImageTag', data?.bannerImageTag ?? '');
     formData.append('thumbnailImageTag', data?.thumbnailImageTag ?? '');
+    appendTailPageFields(formData, data);
 
     //
     formData.append('manufacturer', data?.manufacturer);
@@ -351,8 +363,9 @@ const AircraftEditForm = ({ aircraftId }: TAircraftEditFormProps) => {
 
     formData.append('baggageCapacity', `${data?.baggageCapacity}`);
     formData.append('cabinNoise', `${data?.cabinNoise}`);
-    formData.append('takeoffDistance', `${data?.takeoffDistance}`);
-    // formData.append('landingDistance', `${data?.landingDistance}`);
+    formData.append('mtow', `${data?.mtow ?? 0}`);
+    formData.append('takeoffDistance', `${data?.takeoffDistance ?? 0}`);
+    formData.append('landingDistance', `${data?.landingDistance ?? 0}`);
     formData.append('serviceCeiling', `${data?.serviceCeiling}`);
     formData.append('climbRate', `${data?.climbRate}`);
 
@@ -389,6 +402,7 @@ const AircraftEditForm = ({ aircraftId }: TAircraftEditFormProps) => {
     formData.append('metaRobotsIndex', data?.metaRobotsIndex);
     formData.append('metaRobotsFollow', data?.metaRobotsFollow);
     formData.append('isShowUpdatedAt', String(data?.isShowUpdatedAt ?? false));
+    formData.append('lastUpdatedAt', data?.lastUpdatedAt ?? '');
 
     if (typeof data?.openGraphImage !== 'string') {
       formData.append('openGraphImage', data?.openGraphImage);
@@ -452,6 +466,7 @@ const AircraftEditForm = ({ aircraftId }: TAircraftEditFormProps) => {
         categoryId: aircraftDetail?.categoryId,
         title: aircraftDetail?.title ?? '',
         aircraftName: aircraftDetail?.name ?? '',
+        pageHeading: aircraftDetail?.pageHeading ?? '',
         // description: aircraftDetail?.description ?? '',
         slug: aircraftDetail?.slug ?? '',
         baggageCapacity: aircraftDetail?.baggageCapacity ?? 0,
@@ -463,9 +478,10 @@ const AircraftEditForm = ({ aircraftId }: TAircraftEditFormProps) => {
         charterRatePerHrMin: aircraftDetail?.charterRatePerHr?.min ?? 0,
         climbRate: aircraftDetail?.climbRate ?? 0,
         cruiseSpeed: aircraftDetail?.cruiseSpeed ?? 0,
-        // landingDistance: aircraftDetail?.landingDistance ?? 0,
+        landingDistance: aircraftDetail?.landingDistance ?? 0,
         manufacturer: aircraftDetail?.manufacturer ?? '',
         maxPassengers: aircraftDetail?.maxPassengers ?? '',
+        mtow: aircraftDetail?.mtow ?? 0,
         range: aircraftDetail?.range ?? 0,
         serviceCeiling: aircraftDetail?.serviceCeiling ?? 0,
         takeoffDistance: aircraftDetail?.takeoffDistance ?? 0,
@@ -484,10 +500,14 @@ const AircraftEditForm = ({ aircraftId }: TAircraftEditFormProps) => {
         structuredData: aircraftDetail?.structuredData ?? '',
         bannerImageTag: aircraftDetail?.bannerImageTag ?? '',
         thumbnailImageTag: aircraftDetail?.thumbnailImageTag ?? '',
+        ...tailPageValuesFromAircraft(aircraftDetail),
         redirectUrl: aircraftDetail?.redirectUrl ?? '',
         metaRobotsIndex: (aircraftDetail?.metaRobotsIndex ?? 'noindex') as 'noindex' | 'index',
         metaRobotsFollow: (aircraftDetail?.metaRobotsFollow ?? 'nofollow') as 'nofollow' | 'follow',
         isShowUpdatedAt: aircraftDetail?.isShowUpdatedAt ?? false,
+        lastUpdatedAt: aircraftDetail?.lastUpdatedAt
+          ? dayjs(aircraftDetail?.lastUpdatedAt).format('YYYY-MM-DDTHH:mm')
+          : '',
 
         ...(aircraftDetail?.featureImage && aircraftDetail?.featureImage?.length > 0
           ? { featureImage: aircraftDetail?.featureImage ?? '' }
@@ -590,6 +610,7 @@ const AircraftEditForm = ({ aircraftId }: TAircraftEditFormProps) => {
     aircraftDetail?._id,
     aircraftDetail?.title,
     aircraftDetail?.name,
+    aircraftDetail?.pageHeading,
     aircraftDetail?.description,
     aircraftDetail?.slug,
     aircraftDetail?.metaTitle,
@@ -615,8 +636,9 @@ const AircraftEditForm = ({ aircraftId }: TAircraftEditFormProps) => {
     aircraftDetail?.maxPassengers,
     aircraftDetail?.baggageCapacity,
     aircraftDetail?.cabinNoise,
+    aircraftDetail?.mtow,
     aircraftDetail?.takeoffDistance,
-    // aircraftDetail?.landingDistance,
+    aircraftDetail?.landingDistance,
     aircraftDetail?.serviceCeiling,
     aircraftDetail?.climbRate,
     aircraftDetail?.cabinDimensions?.height,
@@ -632,6 +654,7 @@ const AircraftEditForm = ({ aircraftId }: TAircraftEditFormProps) => {
     aircraftDetail?.metaRobotsIndex,
     aircraftDetail?.metaRobotsFollow,
     aircraftDetail?.isShowUpdatedAt,
+    aircraftDetail?.lastUpdatedAt,
     // aircraftDetail?.cabinPressure?.max,
     // aircraftDetail?.cabinPressure?.min,
     aircraftDetail?.slidingImages,
@@ -672,6 +695,25 @@ const AircraftEditForm = ({ aircraftId }: TAircraftEditFormProps) => {
               onChange={onChange}
               error={!!errors?.aircraftName}
               helperText={errors?.aircraftName?.message}
+            />
+          )}
+        />
+      </Grid>
+
+      {/* Page Heading (H1) */}
+      <Grid size={{ xs: 12 }}>
+        <InputLabel sx={{ color: '#FFFFFF' }}>Page Heading (H1) (optional)</InputLabel>
+        <Controller
+          control={form.control}
+          name="pageHeading"
+          render={({ field: { onChange, value } }) => (
+            <InputFieldCommon
+              labelName="Page Heading (H1)"
+              placeholder="e.g. Charter a Phenom 300E Private Jet (leave blank to use Aircraft Name)"
+              value={value ?? ''}
+              onChange={onChange}
+              error={!!errors?.pageHeading}
+              helperText={errors?.pageHeading?.message}
             />
           )}
         />
@@ -1517,14 +1559,33 @@ const AircraftEditForm = ({ aircraftId }: TAircraftEditFormProps) => {
       </Grid>
 
       <Grid size={{ xs: 6 }}>
-        <InputLabel sx={{ color: '#FFFFFF' }}>Max Take Off Weight (MTOW) (lbs)*</InputLabel>
+        <InputLabel sx={{ color: '#FFFFFF' }}>Max Take Off Weight (MTOW) (lbs)</InputLabel>
+        <Controller
+          control={form.control}
+          name="mtow"
+          render={({ field: { onChange, value } }) => (
+            <InputFieldCommon
+              labelName="Max Take Off Weight (MTOW)"
+              placeholder="Max take off weight (mtow) in pounds"
+              value={value ?? ''}
+              onChange={onChange}
+              error={!!errors?.mtow}
+              helperText={errors?.mtow?.message}
+              onKeyDown={handleAmountKeys}
+            />
+          )}
+        />
+      </Grid>
+
+      <Grid size={{ xs: 6 }}>
+        <InputLabel sx={{ color: '#FFFFFF' }}>Takeoff Distance (ft)</InputLabel>
         <Controller
           control={form.control}
           name="takeoffDistance"
           render={({ field: { onChange, value } }) => (
             <InputFieldCommon
-              labelName="Max Take Off Weight (MTOW)"
-              placeholder="Max take off weight (mtow) in pounds"
+              labelName="Takeoff Distance"
+              placeholder="Takeoff distance in feet"
               value={value ?? ''}
               onChange={onChange}
               error={!!errors?.takeoffDistance}
@@ -1535,8 +1596,8 @@ const AircraftEditForm = ({ aircraftId }: TAircraftEditFormProps) => {
         />
       </Grid>
 
-      {/* <Grid size={{ xs: 6 }}>
-        <InputLabel sx={{ color: '#FFFFFF' }}>Landing Distance (ft)*</InputLabel>
+      <Grid size={{ xs: 6 }}>
+        <InputLabel sx={{ color: '#FFFFFF' }}>Landing Distance (ft)</InputLabel>
         <Controller
           control={form.control}
           name="landingDistance"
@@ -1552,7 +1613,7 @@ const AircraftEditForm = ({ aircraftId }: TAircraftEditFormProps) => {
             />
           )}
         />
-      </Grid> */}
+      </Grid>
 
       <Grid size={{ xs: 6 }}>
         <InputLabel sx={{ color: '#FFFFFF' }}>Service Ceiling (ft)*</InputLabel>
@@ -1659,6 +1720,8 @@ const AircraftEditForm = ({ aircraftId }: TAircraftEditFormProps) => {
       {/* ═══════════════════════════════════════════════════════════════════
           SEO PRIMARY META TAGS
          ═══════════════════════════════════════════════════════════════════ */}
+
+      <AircraftTailPageFields form={form} aircraftId={aircraftId} />
 
       <Grid size={{ xs: 12 }} sx={{ mt: 10 }}>
         <AircraftGroupHeading>Seo Details</AircraftGroupHeading>
@@ -1986,6 +2049,25 @@ const AircraftEditForm = ({ aircraftId }: TAircraftEditFormProps) => {
               rows={5}
               error={!!errors?.structuredData}
               helperText={errors?.structuredData?.message}
+            />
+          )}
+        />
+      </Grid>
+
+      {/* Custom Last Updated Date */}
+      <Grid size={{ xs: 12 }}>
+        <InputLabel sx={{ color: '#FFFFFF' }}>
+          Last Updated Date (leave empty to use the automatic date)
+        </InputLabel>
+        <Controller
+          control={form.control}
+          name="lastUpdatedAt"
+          render={({ field: { onChange, value } }) => (
+            <InputFieldCommon
+              labelName="Last Updated Date"
+              type="datetime-local"
+              value={value ?? ''}
+              onChange={onChange}
             />
           )}
         />

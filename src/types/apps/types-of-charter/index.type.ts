@@ -74,6 +74,7 @@ export type TEachTypesOfCharter = {
   isDeleted: boolean;
   updatedAt: string;
   isShowUpdatedAt?: boolean;
+  lastUpdatedAt?: string;
   category: TEachTypesOfCharterCategory;
   openGraphImageSize?: number | string;
   bannerImageSize?: number;

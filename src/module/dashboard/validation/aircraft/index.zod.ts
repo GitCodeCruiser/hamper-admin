@@ -62,11 +62,62 @@ const optionalNumberFieldSchema = (label: string) =>
       .optional(),
   );
 
+/** Optional distance (ft): blank or 0 is allowed (means "not set"), negatives are not. */
+const distanceFieldSchema = (label: string) =>
+  zod.preprocess(
+    (value) => {
+      if (value === '' || value === null || value === undefined) {
+        return undefined;
+      }
+
+      if (typeof value === 'string') {
+        const parsed = Number(value);
+        return Number.isNaN(parsed) ? value : parsed;
+      }
+
+      return value;
+    },
+    zod
+      .number({ invalid_type_error: `${label} must be a number` })
+      .min(0, { message: `${label} cannot be negative` })
+      .optional(),
+  );
+
+const tailPageImageSchema = zod
+  .union([zod.string(), zod.instanceof(File)])
+  .optional()
+  .nullable()
+  .refine(
+    (value) => {
+      if (value === null || value === undefined || typeof value === 'string') return true;
+      return IMAGE_ACCEPT.split(',').includes(value.type);
+    },
+    { message: 'Invalid image format. Please upload a valid image.' },
+  );
+
+/** Model-level fields used by the public tail number pages */
+const tailPageFields = {
+  typeCertificateHolder: zod.string().trim().optional(),
+  minFlightCrew: zod
+    .string()
+    .trim()
+    .refine((v) => v === '' || /^[1-9]\d?$/.test(v), {
+      message: 'Minimum flight crew must be a whole number',
+    })
+    .optional(),
+  tcdsNumber: zod.string().trim().optional(),
+  tailPageImage: tailPageImageSchema,
+  tailPageImageTag: zod.string().trim().optional(),
+  similarModelIds: zod.array(zod.string()).max(4, 'You can pick up to 4 similar models').optional(),
+};
+
 export const aircraftAddSchema = () => {
   return zod.object({
     title: zod.string().trim().min(1, { message: 'Title is required' }),
     aircraftName: zod.string().trim().min(1, { message: 'Aircraft name is required' }),
+    pageHeading: zod.string().trim().optional(),
     description: zod.string().optional(),
+    ...tailPageFields,
 
     slug: zod
       .string()
@@ -113,8 +164,9 @@ export const aircraftAddSchema = () => {
 
     baggageCapacity: numberFieldSchema('Baggage capacity'),
     cabinNoise: numberFieldSchema('Cabin noise'),
-    takeoffDistance: numberFieldSchema('Takeoff distance'),
-    // landingDistance: numberFieldSchema('Landing distance'),
+    mtow: numberFieldSchema('Max take off weight'),
+    takeoffDistance: distanceFieldSchema('Takeoff distance'),
+    landingDistance: distanceFieldSchema('Landing distance'),
     serviceCeiling: numberFieldSchema('Service ceiling'),
     climbRate: numberFieldSchema('Climb rate'),
 
@@ -151,6 +203,7 @@ export const aircraftAddSchema = () => {
       .optional(),
     redirectUrl: zod.string().trim().optional(),
     isShowUpdatedAt: zod.boolean().optional(),
+    lastUpdatedAt: zod.string().optional(),
   });
 };
 
@@ -160,7 +213,9 @@ export const aircraftEditSchema = () => {
 
     title: zod.string().trim().min(1, { message: 'Title is required' }),
     aircraftName: zod.string().trim().min(1, { message: 'Aircraft name is required' }),
+    pageHeading: zod.string().trim().optional(),
     description: zod.string().optional(),
+    ...tailPageFields,
 
     slug: zod
       .string()
@@ -207,8 +262,9 @@ export const aircraftEditSchema = () => {
 
     baggageCapacity: numberFieldSchema('Baggage capacity'),
     cabinNoise: numberFieldSchema('Cabin noise'),
-    takeoffDistance: numberFieldSchema('Takeoff distance'),
-    // landingDistance: numberFieldSchema('Landing distance'),
+    mtow: distanceFieldSchema('Max take off weight'),
+    takeoffDistance: distanceFieldSchema('Takeoff distance'),
+    landingDistance: distanceFieldSchema('Landing distance'),
     serviceCeiling: numberFieldSchema('Service ceiling'),
     climbRate: numberFieldSchema('Climb rate'),
 
@@ -244,6 +300,7 @@ export const aircraftEditSchema = () => {
       .optional(),
     redirectUrl: zod.string().trim().optional(),
     isShowUpdatedAt: zod.boolean().optional(),
+    lastUpdatedAt: zod.string().optional(),
   });
 };
 
@@ -311,6 +368,8 @@ export const aircraftCatAddSchema = () => {
     }),
 
     featureImage: imageFieldSchema('Feature image'),
+    genericHeroImage: tailPageImageSchema,
+    genericHeroImageTag: zod.string().trim().optional(),
   });
 };
 
@@ -379,6 +438,8 @@ export const aircraftCatEditSchema = () => {
     }),
 
     featureImage: imageFieldSchema('Feature image'),
+    genericHeroImage: tailPageImageSchema,
+    genericHeroImageTag: zod.string().trim().optional(),
   });
 };
 

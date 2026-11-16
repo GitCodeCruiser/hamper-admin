@@ -20,6 +20,7 @@ import { useState } from 'react';
 import HeroSectionBannerComp from '../../hero-section/HeroSectionBannerComp';
 import CmsContent from '../content/CmsContent';
 import NewCmsContent from '../newContent/NewCmsContent';
+import NewFaqContent from '../newFaqContent/NewFaqContent';
 
 import { PageTypeValue, PurposeTypeValue } from '@/constant';
 import SeoCompForm from '@/module/seo/components/SeoCompForm';
@@ -35,7 +36,8 @@ type TSectionKey =
   | 'seo'
   | 'content'
   | 'safetyOperatorVettingTopContent'
-  | 'safetyOperatorVettingBottomContent';
+  | 'safetyOperatorVettingBottomContent'
+  | 'faq';
 
 const REQUIRED_SECTIONS: TSectionKey[] = ['seo'];
 
@@ -44,6 +46,7 @@ const ALL_SECTIONS: { key: TSectionKey; label: string }[] = [
   { key: 'safetyOperatorVettingTopContent', label: 'Safety Operator Vetting Top Content' },
   { key: 'content', label: 'Content' },
   { key: 'safetyOperatorVettingBottomContent', label: 'Safety Operator Vetting Bottom Content' },
+  { key: 'faq', label: 'FAQs' },
   { key: 'seo', label: 'SEO Settings' },
 ];
 
@@ -52,7 +55,7 @@ const CMSSafetyOperatorVettingForm = () => {
   const theme = useTheme();
 
   // Which sections are enabled (selected from dropdown)
-  const [enabledSections, setEnabledSections] = useState<TSectionKey[]>(['seo', 'banner']);
+  const [enabledSections, setEnabledSections] = useState<TSectionKey[]>(['seo', 'banner', 'faq']);
 
   // Which enabled sections are currently expanded
   const [expandedSections, setExpandedSections] = useState<Record<TSectionKey, boolean>>({
@@ -61,6 +64,7 @@ const CMSSafetyOperatorVettingForm = () => {
     content: true,
     safetyOperatorVettingTopContent: false,
     safetyOperatorVettingBottomContent: false,
+    faq: true,
   });
 
   // ── Section dropdown handlers ──────────────────────────────────
@@ -236,6 +240,10 @@ const CMSSafetyOperatorVettingForm = () => {
                     purpose={
                       PurposeTypeValue.cms.safetyOperatorVetting.safetyOperatorVettingBottomContent
                     }
+                  />
+                ) : section.key === 'faq' ? (
+                  <NewFaqContent
+                    purpose={PurposeTypeValue.cms.safetyOperatorVetting.safetyOperatorVettingFaq}
                   />
                 ) : null}
               </AccordionDetails>

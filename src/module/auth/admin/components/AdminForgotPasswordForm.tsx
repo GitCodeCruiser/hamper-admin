@@ -40,7 +40,6 @@ const AdminForgotPasswordForm = () => {
   const onSubmit = (data: TAdminForgotPasswordSchemaType) => {
     forgotPassword({
       email: data?.email,
-      baseUrl: `${process.env.NEXT_APP_FRONTEND_BASE_URL}`,
     });
   };
 

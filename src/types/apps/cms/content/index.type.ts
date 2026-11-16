@@ -32,6 +32,7 @@ export type TEachCmsContent = {
   imagesData?: TCmsImageData[];
   showCTA?: boolean;
   hasFaq?: boolean;
+  isCityListDivider?: boolean;
 };
 
 export type TCmsImageData = {

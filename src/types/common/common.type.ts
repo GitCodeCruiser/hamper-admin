@@ -58,7 +58,7 @@ export type THomePagePurposeValueType =
 export type TContactUsPurposeValueType = 'contactUsTopDetails' | 'contactUsRightDetails';
 export type TCompareAircraftPurposeValueType = 'compareAircraftTopDetails';
 export type TPrivacyPolicyPurposeValueType = 'privacyPolicyContent';
-export type TEmptyLegFlightPurposeValueType = 'emptyLegFlightsContent';
+export type TEmptyLegFlightPurposeValueType = 'emptyLegFlightsContent' | 'emptyLegFlightsFaq';
 export type TCookiePolicyPurposeValueType = 'cookiePolicyContent';
 export type TTermsAndConditionPurposeValueType = 'termsConditionContent';
 export type TPricingCalculatorPurposeValueType = 'pricingCalculatorTopContent';
@@ -82,7 +82,8 @@ export type TMattHoganPurposeValueType =
 export type TSafetyOperatorVettingPurposeValueType =
   | 'safetyOperatorVettingContent'
   | 'safetyOperatorVettingTopContent'
-  | 'safetyOperatorVettingBottomContent';
+  | 'safetyOperatorVettingBottomContent'
+  | 'safetyOperatorVettingFaq';
 
 export type TOnDemandCharterPurposeValueType =
   'onDemandCharterContent' | 'onDemandCharterTop' | 'onDemandCharterBottom';

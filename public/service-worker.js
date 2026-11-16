@@ -18,14 +18,15 @@ self.addEventListener('push', (event) => {
         action: 'close',
       },
     ],
+    // Static file (no env access): use the origin this admin panel is served from.
     data: {
-      url: 'https://dms-admin-development.dedicateddevelopers.us',
+      url: self.location.origin,
     },
     body: payload?.body,
-    icon: 'https://dms-admin-development.dedicateddevelopers.us/favicon.ico',
+    icon: `${self.location.origin}/favicon.ico`,
   };
 
-  event.waitUntil(self.registration.showNotification('DMS Admin Notification', options));
+  event.waitUntil(self.registration.showNotification('Hogani Jets Admin', options));
 });
 
 /**

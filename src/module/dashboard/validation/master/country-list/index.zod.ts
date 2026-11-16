@@ -34,10 +34,17 @@ const requiredImageFieldSchema = (label: string) =>
       { message: 'Invalid image format. Please upload a valid image.' },
     );
 
+const priorityFieldSchema = zod
+  .string()
+  .trim()
+  .refine((v) => v === '' || /^\d+$/.test(v), { message: 'Priority must be a whole number' })
+  .refine((v) => v === '' || Number(v) >= 1, { message: 'Priority must be 1 or greater' })
+  .optional();
+
 export const countryListAddSchema = () => {
   return zod.object({
     name: zod.string().trim().min(1, { message: 'Country is required' }),
-    isCaribbean: zod.boolean().optional(),
+    pageHeading: zod.string().trim().optional(),
     image: imageFieldSchema('Thumbnail image'),
     imageTag: zod.string().trim().optional(),
     bannerImage: requiredImageFieldSchema('Banner image'),
@@ -57,6 +64,7 @@ export const countryListAddSchema = () => {
     metaRobotsIndex: zod.enum(['noindex', 'index']),
     metaRobotsFollow: zod.enum(['nofollow', 'follow']),
     isShowUpdatedAt: zod.boolean().optional(),
+    priority: priorityFieldSchema,
   });
 };
 
@@ -64,7 +72,7 @@ export const countryListEditSchema = () => {
   return zod.object({
     id: zod.string().optional(),
     name: zod.string().trim().min(1, { message: 'Country is required' }),
-    isCaribbean: zod.boolean().optional(),
+    pageHeading: zod.string().trim().optional(),
     image: imageFieldSchema('Thumbnail image'),
     imageTag: zod.string().trim().optional(),
     bannerImage: requiredImageFieldSchema('Banner image'),
@@ -84,6 +92,7 @@ export const countryListEditSchema = () => {
     metaRobotsIndex: zod.enum(['noindex', 'index']),
     metaRobotsFollow: zod.enum(['nofollow', 'follow']),
     isShowUpdatedAt: zod.boolean().optional(),
+    priority: priorityFieldSchema,
   });
 };
 

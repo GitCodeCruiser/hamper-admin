@@ -48,6 +48,7 @@ export type TEachCity = {
   city: TEachCityList;
   redirectUrl?: string;
   isShowUpdatedAt?: boolean;
+  lastUpdatedAt?: string;
   bannerImageSize?: number;
   thumbnailImageSize?: number;
   openGraphImageSize?: number | string;

@@ -51,6 +51,7 @@ const CustomAutocomplete = <T,>(props: TCustomAutocompleteProps<T>) => {
     onChange,
     getOptionLabel,
     id,
+    slotProps: extraSlotProps,
     ...others
   } = props;
 
@@ -120,6 +121,8 @@ const CustomAutocomplete = <T,>(props: TCustomAutocompleteProps<T>) => {
               },
             },
           },
+          // Extra slots (e.g. listbox onScroll) merge in without dropping the popper styling above
+          ...extraSlotProps,
         }}
         {...others}
       />

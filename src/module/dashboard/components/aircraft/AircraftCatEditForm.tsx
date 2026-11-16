@@ -20,6 +20,12 @@ import {
   TAircraftCatEditSchemaType,
 } from '../../validation/aircraft/index.zod';
 
+import GenericHeroField, {
+  appendGenericHero,
+  genericHeroDefaultValues,
+  genericHeroValuesFrom,
+} from './GenericHeroField';
+
 import PageLoader from '@/@core/components/others/PageLoader';
 import { mediaUrl } from '@/api/endpoints';
 import { useAircraftCategoryGet, useAircraftCategoryUpdate } from '@/api/hooks/aircraft/hooks';
@@ -31,6 +37,7 @@ import { TSeoStaticSlug } from '@/types/apps/seo/index.type';
 import InputFieldCommon from '@/ui/CommonInput/CommonInput';
 import CustomButtonPrimary from '@/ui/CustomButtons/CustomButtonPrimary';
 import PlusIconUpload from '@/ui/Icons/PlusIconUpload';
+
 
 type TAircraftCatEditFormProps = {
   slug: TSeoStaticSlug;
@@ -49,6 +56,7 @@ const AircraftCatEditForm = ({ slug, aircraftCategoryId }: TAircraftCatEditFormP
     defaultValues: {
       title: '',
       description: '',
+      ...genericHeroDefaultValues,
       tierOne: undefined,
       tierTwo: undefined,
       tierThree: undefined,
@@ -140,6 +148,7 @@ const AircraftCatEditForm = ({ slug, aircraftCategoryId }: TAircraftCatEditFormP
       formData.append('speedBreakDownAsDistance', JSON.stringify(data?.speedBreakDownAsDistance));
 
     if (data?.featureImage) formData.append('featureImage', data?.featureImage);
+    appendGenericHero(formData, data, { isEdit: true });
 
     aircraftCategoryUpdate(formData);
   };
@@ -190,6 +199,7 @@ const AircraftCatEditForm = ({ slug, aircraftCategoryId }: TAircraftCatEditFormP
           sevenBreak: aircraftCatDetail?.speedBreakDownAsDistance?.sevenBreak ?? undefined,
           otherBreak: aircraftCatDetail?.speedBreakDownAsDistance?.otherBreak ?? undefined,
         },
+        ...genericHeroValuesFrom(aircraftCatDetail),
         ...(aircraftCatDetail?.featureImage && aircraftCatDetail?.featureImage?.length > 0
           ? { featureImage: aircraftCatDetail?.featureImage ?? '' }
           : {}),
@@ -239,6 +249,8 @@ const AircraftCatEditForm = ({ slug, aircraftCategoryId }: TAircraftCatEditFormP
     aircraftCatDetail?.speedBreakDownAsDistance?.otherBreak,
     aircraftCatDetail?.featureImage,
     aircraftCatDetail?.featureImageSize,
+    aircraftCatDetail?.genericHeroImage,
+    aircraftCatDetail?.genericHeroImageTag,
     setFeatureImageSize,
   ]);
 
@@ -1166,6 +1178,13 @@ const AircraftCatEditForm = ({ slug, aircraftCategoryId }: TAircraftCatEditFormP
           ) : null}
         </Box>
       </Grid>
+
+      {/* Generic tail page hero for every model in this class */}
+      <GenericHeroField
+        form={form}
+        label="Generic Hero Image (class)"
+        helper="Generic heading image (not a specific aircraft) for the tail pages of every model in this class. Falls back to the site-wide default on the Tail numbers page."
+      />
 
       <Grid size={{ xs: 12 }} gap={2} display="flex">
         <CustomButtonPrimary

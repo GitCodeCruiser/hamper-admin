@@ -119,7 +119,7 @@ const CountryListAddForm = () => {
     resolver: zodResolver(countryListAddSchema()),
     defaultValues: {
       name: '',
-      isCaribbean: false,
+      pageHeading: '',
       imageTag: '',
       bannerImageTag: '',
       metaTitle: '',
@@ -132,6 +132,7 @@ const CountryListAddForm = () => {
       metaRobotsIndex: 'noindex' as const,
       metaRobotsFollow: 'nofollow' as const,
       isShowUpdatedAt: false,
+      priority: '',
     },
   });
 
@@ -141,14 +142,14 @@ const CountryListAddForm = () => {
     optionalCallback: () => {
       router.replace(PAGE_ROUTE.dashboard.master.countryList.list);
     },
-    errorCallback: () => {},
+    errorCallback: () => { },
   });
 
   const onSubmit = (data: TCountryListAddSchemaType) => {
     const formData = new FormData();
 
     formData.append('name', data?.name ?? '');
-    formData.append('isCaribbean', String(data?.isCaribbean ?? false));
+    formData.append('pageHeading', data?.pageHeading ?? '');
     if (data?.image) {
       formData.append('image', data?.image);
     }
@@ -165,6 +166,7 @@ const CountryListAddForm = () => {
     formData.append('metaRobotsIndex', data?.metaRobotsIndex);
     formData.append('metaRobotsFollow', data?.metaRobotsFollow);
     formData.append('isShowUpdatedAt', String(data?.isShowUpdatedAt ?? false));
+    formData.append('priority', data?.priority ?? '');
 
     if (typeof data?.openGraphImage !== 'string') {
       formData.append('openGraphImage', data?.openGraphImage);
@@ -175,8 +177,8 @@ const CountryListAddForm = () => {
 
   return (
     <Grid container rowSpacing={3}>
-      {/* Country Name */}
-      <Grid size={{ xs: 12 }}>
+      {/* Country Name (short label: listing cards, breadcrumbs, search) */}
+      <Grid size={{ xs: 12, md: 6 }} sx={{ pr: { md: 1.5 } }}>
         <InputLabel sx={{ color: '#FFFFFF' }}>Country Name*</InputLabel>
         <Controller
           control={form.control}
@@ -188,7 +190,55 @@ const CountryListAddForm = () => {
               value={value ?? ''}
               onChange={onChange}
               error={!!errors?.name}
-              helperText={errors?.name?.message}
+              helperText={
+                errors?.name?.message ?? 'Shown on listing cards, breadcrumbs and search.'
+              }
+            />
+          )}
+        />
+      </Grid>
+
+      {/* Page Title (H1 on the country page; falls back to Country Name) */}
+      <Grid size={{ xs: 12, md: 6 }} sx={{ pl: { md: 1.5 } }}>
+        <InputLabel sx={{ color: '#FFFFFF' }}>Page Title (H1) (optional)</InputLabel>
+        <Controller
+          control={form.control}
+          name="pageHeading"
+          render={({ field: { onChange, value } }) => (
+            <InputFieldCommon
+              labelName="Page Title"
+              placeholder="e.g. Private Jet Charter USA"
+              value={value ?? ''}
+              onChange={onChange}
+              error={!!errors?.pageHeading}
+              helperText={
+                errors?.pageHeading?.message ??
+                'Main heading on the country page. Leave blank to use Country Name.'
+              }
+            />
+          )}
+        />
+      </Grid>
+
+      {/* Priority */}
+      <Grid size={{ xs: 12, md: 6 }}>
+        <InputLabel sx={{ color: '#FFFFFF' }}>Priority (optional)</InputLabel>
+        <Controller
+          control={form.control}
+          name="priority"
+          render={({ field: { onChange, value } }) => (
+            <InputFieldCommon
+              labelName="Priority"
+              placeholder="e.g. 1"
+              type="number"
+              slotProps={{ htmlInput: { min: 1, step: 1 } }}
+              value={value ?? ''}
+              onChange={onChange}
+              error={!!errors?.priority}
+              helperText={
+                errors?.priority?.message ??
+                'Lower number shows first. Leave blank to sort alphabetically after numbered countries.'
+              }
             />
           )}
         />
@@ -264,7 +314,7 @@ const CountryListAddForm = () => {
                     thumbnailImage instanceof File
                       ? thumbnailImage.name === thumb.url.split('/').pop()
                       : typeof thumbnailImage === 'string' &&
-                        (thumbnailImage.includes(thumb.url) || thumb.url.includes(thumbnailImage));
+                      (thumbnailImage.includes(thumb.url) || thumb.url.includes(thumbnailImage));
 
                   return (
                     <Box
@@ -405,7 +455,7 @@ const CountryListAddForm = () => {
                     bannerImage instanceof File
                       ? bannerImage.name === banner.url.split('/').pop()
                       : typeof bannerImage === 'string' &&
-                        (bannerImage.includes(banner.url) || banner.url.includes(bannerImage));
+                      (bannerImage.includes(banner.url) || banner.url.includes(bannerImage));
 
                   return (
                     <Box
@@ -468,32 +518,6 @@ const CountryListAddForm = () => {
               onChange={onChange}
               error={!!errors?.bannerImageTag}
               helperText={errors?.bannerImageTag?.message}
-            />
-          )}
-        />
-      </Grid>
-
-      {/* Is Caribbean Checkbox */}
-      <Grid size={{ xs: 12 }}>
-        <Controller
-          control={form.control}
-          name="isCaribbean"
-          render={({ field: { onChange, value } }) => (
-            <FormControlLabel
-              control={
-                <Checkbox
-                  checked={!!value}
-                  onChange={(e) => onChange(e.target.checked)}
-                  sx={{
-                    color: '#FFFFFF',
-                    '&.Mui-checked': {
-                      color: '#FFFFFF',
-                    },
-                  }}
-                />
-              }
-              label="Is Caribbean"
-              sx={{ color: '#FFFFFF' }}
             />
           )}
         />
@@ -705,7 +729,7 @@ const CountryListAddForm = () => {
                     seoOgImage instanceof File
                       ? seoOgImage.name === og.url.split('/').pop()
                       : typeof seoOgImage === 'string' &&
-                        (seoOgImage.includes(og.url) || og.url.includes(seoOgImage));
+                      (seoOgImage.includes(og.url) || og.url.includes(seoOgImage));
 
                   return (
                     <Box

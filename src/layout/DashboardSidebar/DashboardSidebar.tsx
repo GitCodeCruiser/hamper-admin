@@ -174,6 +174,11 @@ export const sidebarNavList: TSidebarItem[] = [
         route: PAGE_ROUTE.dashboard.availableAircraft.list,
       },
       {
+        name: 'Tail Numbers',
+        icon: <FlightIcon />,
+        route: PAGE_ROUTE.dashboard.tailNumbers.list,
+      },
+      {
         name: 'Compare Aircraft',
         icon: <CompareArrowsIcon />,
         route: PAGE_ROUTE.dashboard.compareAircraft,
@@ -325,6 +330,11 @@ export const sidebarNavList: TSidebarItem[] = [
         name: 'Country List',
         icon: <CircleIcon />,
         route: PAGE_ROUTE.dashboard.master.countryList.list,
+      },
+      {
+        name: 'Region List',
+        icon: <CircleIcon />,
+        route: PAGE_ROUTE.dashboard.master.regionList.list,
       },
       {
         name: 'State List',

@@ -68,6 +68,7 @@ export const insiderGuideAddSchema = () => {
     metaRobotsIndex: zod.enum(['noindex', 'index']),
     metaRobotsFollow: zod.enum(['nofollow', 'follow']),
     isShowUpdatedAt: zod.boolean().optional(),
+    lastUpdatedAt: zod.string().optional(),
   });
 };
 
@@ -108,6 +109,7 @@ export const insiderGuideEditSchema = () => {
     metaRobotsIndex: zod.enum(['noindex', 'index']),
     metaRobotsFollow: zod.enum(['nofollow', 'follow']),
     isShowUpdatedAt: zod.boolean().optional(),
+    lastUpdatedAt: zod.string().optional(),
   });
 };
 

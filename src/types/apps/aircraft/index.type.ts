@@ -57,6 +57,8 @@ export type TEachAircraftCategory = {
   multiLegCustomPriceShow?: TCustomPriceShowConfig;
   featureImage?: string;
   featureImageSize?: number;
+  genericHeroImage?: string;
+  genericHeroImageTag?: string;
 };
 
 //  Below Aircraft
@@ -96,6 +98,7 @@ export type TCharterRatePerHr = {
 export type TEachAircraft = {
   _id: string;
   name: string;
+  pageHeading?: string;
   title: string;
   slug: string;
   thumbnailImage: string;
@@ -124,7 +127,11 @@ export type TEachAircraft = {
   cabinPressure?: TCabinPressure;
   cabinPressureAltitude: string;
   cabinNoise: number;
+  /** Max take off weight (lbs) */
+  mtow: number;
+  /** Takeoff distance (ft) */
   takeoffDistance: number;
+  /** Landing distance (ft) */
   landingDistance: number;
   serviceCeiling: number;
   charterRatePerHr: TCharterRatePerHr;
@@ -149,6 +156,13 @@ export type TEachAircraft = {
   thumbnailImageSize?: number;
   openGraphImageSize?: number | string;
   isShowUpdatedAt?: boolean;
+  lastUpdatedAt?: string;
+  typeCertificateHolder?: string;
+  minFlightCrew?: number | null;
+  tcdsNumber?: string;
+  tailPageImage?: string;
+  tailPageImageTag?: string;
+  similarModelIds?: string[];
 };
 
 export type TSlidingImageData = {

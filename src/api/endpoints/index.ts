@@ -212,6 +212,26 @@ export const endpoints = {
         return `/api/${version}/admin/country-state-city/country/show-in-cms`;
       },
     },
+    region: {
+      getAll: (version: TApiVersions) => {
+        return `/api/${version}/admin/region/getall`;
+      },
+      get: (version: TApiVersions) => {
+        return `/api/${version}/admin/region/get`;
+      },
+      create: (version: TApiVersions) => {
+        return `/api/${version}/admin/region/create`;
+      },
+      update: (version: TApiVersions) => {
+        return `/api/${version}/admin/region/update`;
+      },
+      delete: (version: TApiVersions) => {
+        return `/api/${version}/admin/region/delete`;
+      },
+      statusChange: (version: TApiVersions) => {
+        return `/api/${version}/admin/region/status-change`;
+      },
+    },
     state: {
       getAll: (version: TApiVersions) => {
         return `/api/${version}/admin/country-state-city/state/getall`;
@@ -755,6 +775,15 @@ export const endpoints = {
       },
     },
   },
+  tailNumber: {
+    getAll: (version: TApiVersions) => `/api/${version}/admin/tail-number/getall`,
+    get: (version: TApiVersions) => `/api/${version}/admin/tail-number/get`,
+    create: (version: TApiVersions) => `/api/${version}/admin/tail-number/create`,
+    update: (version: TApiVersions) => `/api/${version}/admin/tail-number/update`,
+    delete: (version: TApiVersions) => `/api/${version}/admin/tail-number/delete`,
+    undoDelete: (version: TApiVersions) => `/api/${version}/admin/tail-number/undo-delete`,
+    statusChange: (version: TApiVersions) => `/api/${version}/admin/tail-number/status-change`,
+  },
   aircraftOptions: {
     getAll: (version: TApiVersions) => {
       return `/api/${version}/admin/aircraft-options/getall`;
@@ -1180,4 +1209,9 @@ export const successNotificationEndPoints = [
   endpoints.redirection.update('v1'),
   endpoints.redirection.delete('v1'),
   endpoints.redirection.statusChange('v1'),
+  endpoints.tailNumber.create('v1'),
+  endpoints.tailNumber.update('v1'),
+  endpoints.tailNumber.delete('v1'),
+  endpoints.tailNumber.undoDelete('v1'),
+  endpoints.tailNumber.statusChange('v1'),
 ];

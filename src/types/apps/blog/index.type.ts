@@ -36,6 +36,7 @@ export type TEachBlog = {
   isDeleted: boolean;
   updatedAt: string;
   isShowUpdatedAt?: boolean;
+  lastUpdatedAt?: string;
   bannerImageSize: number;
   thumbnailImageSize: number;
   openGraphImageSize?: number | string;

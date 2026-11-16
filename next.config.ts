@@ -51,16 +51,14 @@ const nextConfig: NextConfig = {
     ],
   },
   env: {
+    // Everything in this block is inlined into the browser bundle: never list secrets here.
     NEXT_PUBLIC_JWT_EXPIRATION: process.env.NEXT_PUBLIC_JWT_EXPIRATION,
-    NEXT_PUBLIC_JWT_SECRET: process.env.NEXT_PUBLIC_JWT_SECRET,
-    NEXT_PUBLIC_JWT_REFRESH_TOKEN_SECRET: process.env.NEXT_PUBLIC_JWT_REFRESH_TOKEN_SECRET,
     NEXT_PUBLIC_BASE_URL: process.env.NEXT_PUBLIC_BASE_URL,
     NEXT_PUBLIC_ADMIN_BASE_URL: process.env.NEXT_PUBLIC_ADMIN_BASE_URL,
     NEXT_PUBLIC_PROJECT_NAME: process.env.NEXT_PUBLIC_PROJECT_NAME,
     NEXT_PUBLIC_TOKEN_NAME: process.env.NEXT_PUBLIC_TOKEN_NAME,
     NEXT_PUBLIC_REFRESH_TOKEN_NAME: process.env.NEXT_PUBLIC_REFRESH_TOKEN_NAME,
     WEB_PUSH_KEY_PUBLIC: process.env.WEB_PUSH_KEY_PUBLIC,
-    WEB_PUSH_KEY_PRIVATE: process.env.WEB_PUSH_KEY_PRIVATE,
 
     //
     NEXT_APP_TOKEN_NAME: process.env.NEXT_APP_TOKEN_NAME,
@@ -69,9 +67,6 @@ const nextConfig: NextConfig = {
     NEXT_APP_MEDIA_BASE_URL: process.env.NEXT_APP_MEDIA_BASE_URL,
     NEXT_APP_FRONTEND_BASE_URL: process.env.NEXT_APP_FRONTEND_BASE_URL,
     NEXT_APP_MAIN_WEBSITE_URL: process.env.NEXT_APP_MAIN_WEBSITE_URL,
-
-    NEXT_APP_ACCESS_KEY: process.env.NEXT_APP_ACCESS_KEY,
-    NEXT_APP_COOKIE_SECRET_KEY: process.env.NEXT_APP_COOKIE_SECRET_KEY,
   },
 
   // async redirects() {

@@ -47,6 +47,7 @@ const tableHeadData = [
   'City',
   'State',
   'Country',
+  'Priority',
   'Status',
   'Published Date',
   'Last Updated Date',
@@ -71,7 +72,7 @@ const CityListMain = () => {
     perPage: limitValue,
     search: cityListSearchValue,
     status: cityListStatusValue,
-    sortField: 'name',
+    sortField: 'priority',
     sortOrder: 'asc',
   });
 
@@ -106,7 +107,7 @@ const CityListMain = () => {
           <Suspense fallback={<PageLoader wrapperCls="page-loader" />}>
             <ReusableDataTable
               headArray={tableHeadData}
-              columnWidths={[undefined, undefined, undefined, undefined, undefined, 200, 200]}
+              columnWidths={[undefined, undefined, undefined, undefined, undefined, undefined, 200, 200]}
               data={
                 (cityListData?.docs?.length ?? 0 > 0) ? (cityListData?.docs as TEachCityList[]) : []
               }
@@ -128,6 +129,7 @@ const CityListMain = () => {
                   <TableCell>{row?.name ?? '-'}</TableCell>
                   <TableCell>{row?.state?.name ?? '-'}</TableCell>
                   <TableCell>{row?.country?.name ?? '-'}</TableCell>
+                  <TableCell>{row?.priority ?? '-'}</TableCell>
                   <TableCell>
                     <Box
                       className="status-chip"

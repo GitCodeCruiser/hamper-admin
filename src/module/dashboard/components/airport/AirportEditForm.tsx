@@ -3,6 +3,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import WestIcon from '@mui/icons-material/West';
 import { Box, Checkbox, FormControlLabel, Grid, InputLabel, MenuItem, Typography, useTheme } from '@mui/material';
+import dayjs from 'dayjs';
 import { useRouter } from 'next/navigation';
 import { useEffect, useMemo, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
@@ -103,6 +104,7 @@ const AirportEditForm = ({ slug, airportId }: TAirportEditFormProps) => {
       metaRobotsIndex: 'noindex' as const,
       metaRobotsFollow: 'nofollow' as const,
       isShowUpdatedAt: false,
+      lastUpdatedAt: '',
     },
   });
 
@@ -225,6 +227,7 @@ const AirportEditForm = ({ slug, airportId }: TAirportEditFormProps) => {
     formData.append('metaRobotsIndex', data?.metaRobotsIndex);
     formData.append('metaRobotsFollow', data?.metaRobotsFollow);
     formData.append('isShowUpdatedAt', String(data?.isShowUpdatedAt ?? false));
+    formData.append('lastUpdatedAt', data?.lastUpdatedAt ?? '');
 
     if (typeof data?.openGraphImage !== 'string') {
       formData.append('openGraphImage', data?.openGraphImage);
@@ -306,6 +309,9 @@ const AirportEditForm = ({ slug, airportId }: TAirportEditFormProps) => {
         metaRobotsIndex: (airportDetails?.metaRobotsIndex ?? 'noindex') as 'noindex' | 'index',
         metaRobotsFollow: (airportDetails?.metaRobotsFollow ?? 'nofollow') as 'nofollow' | 'follow',
         isShowUpdatedAt: airportDetails?.isShowUpdatedAt ?? false,
+        lastUpdatedAt: airportDetails?.lastUpdatedAt
+          ? dayjs(airportDetails?.lastUpdatedAt).format('YYYY-MM-DDTHH:mm')
+          : '',
         airportTypeId: airportDetails?.airportTypeId ?? '',
         icaoCode: airportDetails?.icao ?? '',
         iataCode: airportDetails?.iata ?? '',
@@ -387,6 +393,7 @@ const AirportEditForm = ({ slug, airportId }: TAirportEditFormProps) => {
     airportDetails?.metaRobotsIndex,
     airportDetails?.metaRobotsFollow,
     airportDetails?.isShowUpdatedAt,
+    airportDetails?.lastUpdatedAt,
     setBannerImage,
     setThumbnailImage,
     setSeoOgImage,
@@ -1391,6 +1398,25 @@ const AirportEditForm = ({ slug, airportId }: TAirportEditFormProps) => {
               rows={5}
               error={!!errors?.structuredData}
               helperText={errors?.structuredData?.message}
+            />
+          )}
+        />
+      </Grid>
+
+      {/* Custom Last Updated Date */}
+      <Grid size={{ xs: 12 }}>
+        <InputLabel sx={{ color: '#FFFFFF' }}>
+          Last Updated Date (leave empty to use the automatic date)
+        </InputLabel>
+        <Controller
+          control={form.control}
+          name="lastUpdatedAt"
+          render={({ field: { onChange, value } }) => (
+            <InputFieldCommon
+              labelName="Last Updated Date"
+              type="datetime-local"
+              value={value ?? ''}
+              onChange={onChange}
             />
           )}
         />

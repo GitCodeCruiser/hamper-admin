@@ -7,7 +7,6 @@ export type TAuthAdminLoginParamType = {
 
 export type TAuthAdminForgotPasswordParamType = {
   email: string;
-  baseUrl: string;
 };
 
 export type TAuthAdminResetPasswordParamType = {

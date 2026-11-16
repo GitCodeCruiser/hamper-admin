@@ -15,12 +15,13 @@ export type TCountryListShowInCMSParamType = {
 export type TEachCountryList = {
   _id: string;
   name: string;
+  pageHeading?: string;
   slug: string;
   image: string;
   imageSize: number;
   imageTag?: string;
-  isCaribbean: boolean;
   status: string;
+  priority?: number | null;
   showInCMS?: boolean;
   isDeleted: boolean;
   createdAt: string;
