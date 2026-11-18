@@ -637,8 +637,7 @@ const CKEditorBlock = ({
         },
 
         fontFamily: {
-          // options: ['default', 'Cormorant', 'Google Sans', 'sans-serif'],
-          options: ['default', 'Cormorant', 'Lato', 'sans-serif'],
+          options: ['default', 'Lato, sans-serif', 'Cormorant, serif', 'sans-serif'],
           supportAllValues: false,
         },
 

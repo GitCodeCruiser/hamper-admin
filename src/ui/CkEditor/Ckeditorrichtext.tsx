@@ -140,7 +140,7 @@ const EditorWrapper = styled(Box, {
       overflow: 'visible !important',
       // fontFamily: "'Google Sans', sans-serif !important",
       fontFamily: "'Lato', sans-serif !important",
-      fontSize: `${CustomSize(14)} !important`,
+      fontSize: `${CustomSize(16)} !important`,
       lineHeight: '1.6 !important',
       color: `${theme.palette.text.primary} !important`,
       backgroundColor: 'transparent !important',

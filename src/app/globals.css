@@ -149,9 +149,13 @@
   --spacing: 0.25rem;
   --tracking-normal: 0.025em;
 
-  /* CKEditor Z-index Overrides */
+  /* CKEditor Z-index & Typography Overrides */
   --ck-z-default: 9999 !important;
   --ck-z-panel: 9999 !important;
+  --ck-font-face: 'Lato', sans-serif !important;
+  --ck-content-font-family: 'Lato', sans-serif !important;
+  --ck-content-font-size: 16px !important;
+  --ck-font-size-base: 16px !important;
 }
 
 .dark {
@@ -309,7 +313,8 @@ body.dark-bg select {
 
 /* CKEditor Content Defaults */
 .ck-content {
-  font-family: var(--font-cormorant), 'Cormorant', serif;
+  font-family: 'Lato', sans-serif;
+  font-size: 16px;
 }
 
 /* Custom CKEditor Toolbar Buttons */

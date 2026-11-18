@@ -19,7 +19,7 @@ const CKEditorPlainTextBlock = dynamic(() => import('./CKEditorPlainTextBlock'),
         alignItems: 'center',
         justifyContent: 'center',
         color: 'text.disabled',
-        fontSize: 14,
+        fontSize: 16,
         fontFamily: "'Lato', sans-serif",
       }}
     >
@@ -56,7 +56,7 @@ const PlainEditorWrapper = styled(Box, {
     minHeight: `${CustomSize(editorMinHeight)} !important`,
     overflow: 'visible !important',
     fontFamily: "'Lato', sans-serif !important",
-    fontSize: `${CustomSize(14)} !important`,
+    fontSize: `${CustomSize(16)} !important`,
     lineHeight: '1.6 !important',
     color: `${theme.palette.text.primary} !important`,
     backgroundColor: 'transparent !important',
