@@ -114,6 +114,7 @@ const TailNumberForm = ({ tailNumberId, aircraftId, returnTo }: TTailNumberFormP
   // Aircraft dropdown: searched on the server (debounced) and paged on scroll
   const [aircraftSearchRaw, setAircraftSearchRaw] = useState('');
   const aircraftSearch = useDebounce(aircraftSearchRaw.trim(), 400);
+  const [pickedAircraft, setPickedAircraft] = useState<TTailNumberAircraftRef | null>(null);
   const {
     data: aircraftList,
     isLoading: aircraftListLoading,
@@ -133,6 +134,9 @@ const TailNumberForm = ({ tailNumberId, aircraftId, returnTo }: TTailNumberFormP
     );
     if (details?.aircraft && !map.has(details.aircraft._id))
       map.set(details.aircraft._id, details.aircraft);
+    // Keep the aircraft the admin just picked, even when a later search no longer returns it.
+    // Otherwise the Autocomplete value becomes null and the typed text is wiped.
+    if (pickedAircraft && !map.has(pickedAircraft._id)) map.set(pickedAircraft._id, pickedAircraft);
     if (lockedAircraft?._id && !map.has(lockedAircraft._id))
       map.set(lockedAircraft._id, {
         _id: lockedAircraft._id,
@@ -142,7 +146,7 @@ const TailNumberForm = ({ tailNumberId, aircraftId, returnTo }: TTailNumberFormP
       });
     // Server already sorts A-Z by name; keep that order (no client re-sort across pages)
     return Array.from(map.values());
-  }, [aircraftList, details, lockedAircraft]);
+  }, [aircraftList, details, lockedAircraft, pickedAircraft]);
 
   const backToList = () => router.replace(returnTo);
 
@@ -199,6 +203,17 @@ const TailNumberForm = ({ tailNumberId, aircraftId, returnTo }: TTailNumberFormP
     );
     setSlugTouched(true);
   }, [form, details]);
+
+  // One stable preview URL per selected hero (a new blob URL on every render breaks the preview)
+  const heroSrc = useMemo(() => {
+    if (!heroImage) return '';
+    return typeof heroImage === 'string' ? mediaUrl(heroImage) : URL.createObjectURL(heroImage);
+  }, [heroImage]);
+  useEffect(() => {
+    return () => {
+      if (heroSrc.startsWith('blob:')) URL.revokeObjectURL(heroSrc);
+    };
+  }, [heroSrc]);
 
   const watchedAircraftId = form.watch('aircraftId');
   const watchedSlug = form.watch('slug');
@@ -345,9 +360,11 @@ const TailNumberForm = ({ tailNumberId, aircraftId, returnTo }: TTailNumberFormP
                 },
               }}
               value={aircraftOptions.find((a) => a._id === value) ?? null}
-              onChange={(_e, selected) =>
-                onChange((selected as TTailNumberAircraftRef | null)?._id ?? '')
-              }
+              onChange={(_e, selected) => {
+                const picked = selected as TTailNumberAircraftRef | null;
+                setPickedAircraft(picked);
+                onChange(picked?._id ?? '');
+              }}
               error={!!errors.aircraftId}
               helperText={errors.aircraftId?.message}
             />
@@ -511,15 +528,48 @@ const TailNumberForm = ({ tailNumberId, aircraftId, returnTo }: TTailNumberFormP
         <GroupHeading>Images</GroupHeading>
       </Grid>
 
-      {/* The page heading uses a generic hero (model / aircraft class / site default), never a
-          tail-specific photo, so the tail's own hero image is no longer editable here. Any value
-          already stored stays in form state and is saved back unchanged. */}
       <Grid size={{ xs: 12 }}>
-        <Typography sx={{ color: 'rgba(255,255,255,0.7)', fontSize: '13px' }}>
-          The page heading image is generic: set on the aircraft model, the aircraft class, or the
-          site-wide default on the Tail numbers list page. It is not set per tail.
+        <InputLabel sx={{ ...labelSx, fontSize: '14px', fontWeight: 500, mb: 1 }}>
+          Hero Image (optional)
+        </InputLabel>
+        <Typography sx={{ color: 'rgba(255,255,255,0.7)', fontSize: '13px', mb: 1 }}>
+          Page heading image for this tail. If left empty, the aircraft class image is used, then
+          the site-wide default from the Tail numbers list page.
         </Typography>
+        {!heroImage ? (
+          <SingleImgMainComp
+            dataValueGetter={(file) => {
+              if (file) setHeroFile(file as File);
+            }}
+            errorValueGetter={(message) => form.setError('heroImage', { message })}
+          >
+            <PlusIconUpload />
+          </SingleImgMainComp>
+        ) : (
+          <ImgPreviewMainComp
+            sx={{ width: '320px !important', height: '140px !important', mb: 1 }}
+            src={heroSrc}
+            isPreviewOnly={false}
+            onDeleteHandler={(shouldDelete) => {
+              if (!shouldDelete) return;
+              setHeroImage(null);
+              setHeroImageSize(null);
+              form.setValue('heroImage', null, { shouldDirty: true });
+            }}
+            imageSize={heroImageSize}
+          />
+        )}
+        {errors.heroImage ? (
+          <Typography variant="body1" className="error_msg">
+            {errors.heroImage.message as string}
+          </Typography>
+        ) : null}
       </Grid>
+      {field(
+        { xs: 12 },
+        'Hero Image Alt Tag',
+        textField('heroImageTag', 'Alt Tag', 'e.g. Private jet in flight'),
+      )}
 
       <Grid size={{ xs: 12 }}>
         <InputLabel sx={{ ...labelSx, fontSize: '14px', fontWeight: 500, mb: 1 }}>
