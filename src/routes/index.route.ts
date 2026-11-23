@@ -196,5 +196,10 @@ export const PAGE_ROUTE = {
     jetCardEnquiry: `${RouteConfig.dashboard}/jet-card-enquiry`,
     loyaltyProgramEnquiry: `${RouteConfig.dashboard}/loyalty-program-enquiry`,
     privateOfficeEnquiry: `${RouteConfig.dashboard}/private-office-enquiry`,
+    users: {
+      list: `${RouteConfig.dashboard}/users`,
+      add: `${RouteConfig.dashboard}/users/add`,
+      edit: (id: string) => `${RouteConfig.dashboard}/users/${id}/edit`,
+    },
   },
 };

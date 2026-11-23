@@ -293,6 +293,26 @@ export const endpoints = {
       return `/api/${version}/admin/user/status-change`;
     },
   },
+  users: {
+    getAll: (version: TApiVersions) => {
+      return `/api/${version}/admin/users/getall`;
+    },
+    get: (version: TApiVersions) => {
+      return `/api/${version}/admin/users/details`;
+    },
+    create: (version: TApiVersions) => {
+      return `/api/${version}/admin/users/save`;
+    },
+    update: (version: TApiVersions) => {
+      return `/api/${version}/admin/users/update`;
+    },
+    delete: (version: TApiVersions) => {
+      return `/api/${version}/admin/users/delete`;
+    },
+    statusChange: (version: TApiVersions) => {
+      return `/api/${version}/admin/users/status-change`;
+    },
+  },
   contactUs: {
     getAll: (version: TApiVersions) => {
       return `/api/${version}/admin/contact-us/getall`;

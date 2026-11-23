@@ -20,6 +20,7 @@ import FlightClassIcon from '@mui/icons-material/FlightClass';
 import FlightTakeoffIcon from '@mui/icons-material/FlightTakeoff';
 import ForkRightIcon from '@mui/icons-material/ForkRight';
 import GavelIcon from '@mui/icons-material/Gavel';
+import GroupIcon from '@mui/icons-material/Group';
 import HandshakeIcon from '@mui/icons-material/Handshake';
 import HelpIcon from '@mui/icons-material/Help';
 import HomeIcon from '@mui/icons-material/Home';
@@ -461,6 +462,11 @@ export const sidebarNavList: TSidebarItem[] = [
     name: 'Profile Details',
     icon: <PersonIcon />,
     route: PAGE_ROUTE.dashboard.profileDetails,
+  },
+  {
+    name: 'Users',
+    icon: <GroupIcon />,
+    route: PAGE_ROUTE.dashboard.users.list,
   },
 ];
 
