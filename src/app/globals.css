@@ -82,7 +82,8 @@
   /* Primary & Secondary Colors */
   /* --primary: oklch(0.83 0.13 160.91); */
   --primary: #b3002d;
-  --primary-foreground: oklch(0.26 0.01 166.46); /* white */
+  --primary-foreground: oklch(0.26 0.01 166.46);
+  /* white */
 
   --secondary: #b3002d;
   --secondary-foreground: oklch(0.2 0 0);
@@ -270,6 +271,7 @@
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground;
     letter-spacing: var(--tracking-normal);
@@ -301,12 +303,15 @@ body.dark-bg select {
 .ProseMirror h1 {
   @apply mt-4 mb-2 text-3xl font-bold;
 }
+
 .ProseMirror h2 {
   @apply mt-3 mb-1.5 text-2xl font-semibold;
 }
+
 .ProseMirror ul {
   @apply list-disc pl-6;
 }
+
 .ProseMirror ol {
   @apply list-decimal pl-6;
 }
@@ -319,7 +324,8 @@ body.dark-bg select {
 
 /* Custom CKEditor Toolbar Buttons */
 .ck.ck-button.ck-button-clear-formatting {
-  background-color: #ea5455 !important; /* Golden/Amber */
+  background-color: #ea5455 !important;
+  /* Golden/Amber */
   color: #fff !important;
   border-radius: var(--radius-sm);
   font-weight: 600;
@@ -329,7 +335,8 @@ body.dark-bg select {
 }
 
 .ck.ck-button.ck-button-clear-formatting:hover {
-  background-color: #ed6f70 !important; /* Darker Golden */
+  background-color: #ed6f70 !important;
+  /* Darker Golden */
 }
 
 /* Ensure CKEditor balloons, dropdowns, and modals are rendered on top of MUI Dialogs/Modals (which have z-index 1300) */
