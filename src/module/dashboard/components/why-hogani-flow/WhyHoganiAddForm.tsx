@@ -34,7 +34,7 @@ const metaDescriptionPlaceholder = 'Enter meta description (150-160 characters r
 const metaKeywordsLabel = 'Meta Keywords';
 const metaKeywordsPlaceholder = 'Enter meta keywords';
 const canonicalUrlLabel = 'Canonical URL';
-const canonicalUrlPlaceholder = 'https://example.com/page';
+const canonicalUrlPlaceholder = 'Leave blank to use this page\'s own address';
 const ogTitleLabel = 'OG Title';
 const ogTitlePlaceholder = 'Enter Open Graph title';
 const ogDescriptionLabel = 'OG Description';
@@ -147,7 +147,7 @@ const WhyHoganiAddForm = () => {
     formData.append('metaTitle', data?.metaTitle);
     formData.append('metaDescription', data?.metaDescription);
     formData.append('metaKeywords', data?.metaKeywords);
-    formData.append('canonicalTag', data?.canonicalTag);
+    formData.append('canonicalTag', data?.canonicalTag || '');
     formData.append('openGraphTitle', data?.openGraphTitle);
     formData.append('openGraphDescription', data?.openGraphDescription);
     formData.append('structuredData', data?.structuredData);
@@ -574,7 +574,7 @@ const WhyHoganiAddForm = () => {
 
       {/* Canonical URL */}
       <Grid size={{ xs: 12 }}>
-        <InputLabel sx={{ color: '#FFFFFF' }}>Canonical URL*</InputLabel>
+        <InputLabel sx={{ color: '#FFFFFF' }}>Canonical URL (Leave blank to use this page\'s own address)</InputLabel>
         <Controller
           control={form.control}
           name="canonicalTag"

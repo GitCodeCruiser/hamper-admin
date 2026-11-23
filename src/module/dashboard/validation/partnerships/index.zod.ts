@@ -1,6 +1,7 @@
 import zod from 'zod';
 
 import { IMAGE_ACCEPT } from '@/constant';
+import { canonicalUrlSchema } from '@/utils/canonicalValidation';
 
 const optionalImageFieldSchema = (label: string) =>
   zod
@@ -45,11 +46,7 @@ export const partnershipAddSchema = () => {
     metaTitle: zod.string().trim().min(1, { message: 'Meta title is required' }),
     metaDescription: zod.string().trim().min(1, { message: 'Meta description is required' }),
     metaKeywords: zod.string().trim().min(1, { message: 'Meta keywords is required' }),
-    canonicalTag: zod
-      .string()
-      .trim()
-      .url({ message: 'Please enter a valid URL' })
-      .min(1, { message: 'Canonical URL is required' }),
+    canonicalTag: canonicalUrlSchema(),
     openGraphTitle: zod.string().trim().min(1, { message: 'OG title is required' }),
     openGraphDescription: zod.string().trim().min(1, { message: 'OG description is required' }),
     openGraphImage: imageFieldSchema('OG image'),
@@ -73,11 +70,7 @@ export const partnershipEditSchema = () => {
     metaTitle: zod.string().trim().min(1, { message: 'Meta title is required' }),
     metaDescription: zod.string().trim().min(1, { message: 'Meta description is required' }),
     metaKeywords: zod.string().trim().min(1, { message: 'Meta keywords is required' }),
-    canonicalTag: zod
-      .string()
-      .trim()
-      .url({ message: 'Please enter a valid URL' })
-      .min(1, { message: 'Canonical URL is required' }),
+    canonicalTag: canonicalUrlSchema(),
     openGraphTitle: zod.string().trim().min(1, { message: 'OG title is required' }),
     openGraphDescription: zod.string().trim().min(1, { message: 'OG description is required' }),
     openGraphImage: imageFieldSchema('OG image'),

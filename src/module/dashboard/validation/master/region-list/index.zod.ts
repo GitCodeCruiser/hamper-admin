@@ -1,6 +1,7 @@
 import zod from 'zod';
 
 import { IMAGE_ACCEPT } from '@/constant';
+import { canonicalUrlSchema } from '@/utils/canonicalValidation';
 
 const optionalImageFieldSchema = (label: string) =>
   zod
@@ -46,7 +47,7 @@ const regionListBaseSchema = {
   metaTitle: zod.string().optional(),
   metaDescription: zod.string().optional(),
   metaKeywords: zod.string().optional(),
-  canonicalTag: zod.string().optional(),
+  canonicalTag: canonicalUrlSchema(),
   openGraphTitle: zod.string().optional(),
   openGraphDescription: zod.string().optional(),
   structuredData: zod.string().optional(),
