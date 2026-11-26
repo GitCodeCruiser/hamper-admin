@@ -1,32 +1,29 @@
 import type { Metadata } from 'next';
-import localFont from 'next/font/local';
+import { Bricolage_Grotesque, Cormorant, Fraunces } from 'next/font/google';
 
 import '../styles/global.scss';
 import Providers from './providers';
 
 import { projectConfig } from '@/config';
 
-const cormorant = localFont({
-  src: [
-    { path: './fonts/cormorant-latin-wght-normal.woff2', weight: '300 700', style: 'normal' },
-    { path: './fonts/cormorant-latin-wght-italic.woff2', weight: '300 700', style: 'italic' },
-  ],
+const cormorant = Cormorant({
+  weight: ['300', '400', '500', '600', '700'],
+  style: ['normal', 'italic'],
+  subsets: ['latin'],
   display: 'swap',
   variable: '--font-cormorant',
 });
 
-const fraunces = localFont({
-  src: './fonts/fraunces-latin-wght-normal.woff2',
-  weight: '100 900',
-  style: 'normal',
+const fraunces = Fraunces({
+  weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
+  subsets: ['latin'],
   display: 'swap',
   variable: '--font-fraunces',
 });
 
-const bricolageGrotesque = localFont({
-  src: './fonts/bricolage-grotesque-latin-wght-normal.woff2',
-  weight: '200 800',
-  style: 'normal',
+const bricolageGrotesque = Bricolage_Grotesque({
+  weight: ['300', '400', '500', '600', '700', '800'],
+  subsets: ['latin'],
   display: 'swap',
   variable: '--font-bricolage_grotesque',
 });

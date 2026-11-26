@@ -34,7 +34,7 @@ const metaDescriptionPlaceholder = 'Enter meta description (150-160 characters r
 const metaKeywordsLabel = 'Meta Keywords';
 const metaKeywordsPlaceholder = 'Enter meta keywords';
 const canonicalUrlLabel = 'Canonical URL';
-const canonicalUrlPlaceholder = 'Leave blank to use this page\'s own address';
+const canonicalUrlPlaceholder = "Leave blank to use this page's own address";
 const ogTitleLabel = 'OG Title';
 const ogTitlePlaceholder = 'Enter Open Graph title';
 const ogDescriptionLabel = 'OG Description';
@@ -81,7 +81,7 @@ const AircraftOptionsAddForm = () => {
       optionalCallback: () => {
         router.replace(PAGE_ROUTE.dashboard.aircraftOptions.list);
       },
-      errorCallback: () => {},
+      errorCallback: () => { },
     });
 
   const handleSelectDefaultThumbnail = async (url: string) => {
@@ -296,7 +296,7 @@ const AircraftOptionsAddForm = () => {
                     thumbnailImage instanceof File
                       ? thumbnailImage.name === thumb.url.split('/').pop()
                       : typeof thumbnailImage === 'string' &&
-                        (thumbnailImage.includes(thumb.url) || thumb.url.includes(thumbnailImage));
+                      (thumbnailImage.includes(thumb.url) || thumb.url.includes(thumbnailImage));
 
                   return (
                     <Box
@@ -563,7 +563,7 @@ const AircraftOptionsAddForm = () => {
                     seoOgImage instanceof File
                       ? seoOgImage.name === og.url.split('/').pop()
                       : typeof seoOgImage === 'string' &&
-                        (seoOgImage.includes(og.url) || og.url.includes(seoOgImage));
+                      (seoOgImage.includes(og.url) || og.url.includes(seoOgImage));
 
                   return (
                     <Box

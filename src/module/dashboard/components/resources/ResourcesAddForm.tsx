@@ -45,7 +45,7 @@ const metaDescriptionPlaceholder = 'Enter meta description (150-160 characters r
 const metaKeywordsLabel = 'Meta Keywords';
 const metaKeywordsPlaceholder = 'Enter meta keywords';
 const canonicalUrlLabel = 'Canonical URL';
-const canonicalUrlPlaceholder = 'Leave blank to use this page\'s own address';
+const canonicalUrlPlaceholder = "Leave blank to use this page's own address";
 const ogTitleLabel = 'OG Title';
 const ogTitlePlaceholder = 'Enter Open Graph title';
 const ogDescriptionLabel = 'OG Description';
@@ -130,7 +130,7 @@ const ResourcesAddForm = ({ resourcesCatId }: TResourcesAddFormProps) => {
     optionalCallback: () => {
       router.replace(`${PAGE_ROUTE.dashboard.resources.list}/${resourcesCatId}/resources`);
     },
-    errorCallback: () => {},
+    errorCallback: () => { },
   });
 
   const handleSelectDefaultBanner = async (url: string) => {
@@ -310,7 +310,7 @@ const ResourcesAddForm = ({ resourcesCatId }: TResourcesAddFormProps) => {
                     thumbnailImage instanceof File
                       ? thumbnailImage.name === thumb.url.split('/').pop()
                       : typeof thumbnailImage === 'string' &&
-                        (thumbnailImage.includes(thumb.url) || thumb.url.includes(thumbnailImage));
+                      (thumbnailImage.includes(thumb.url) || thumb.url.includes(thumbnailImage));
 
                   return (
                     <Box
@@ -447,7 +447,7 @@ const ResourcesAddForm = ({ resourcesCatId }: TResourcesAddFormProps) => {
                     bannerImage instanceof File
                       ? bannerImage.name === banner.url.split('/').pop()
                       : typeof bannerImage === 'string' &&
-                        (bannerImage.includes(banner.url) || banner.url.includes(bannerImage));
+                      (bannerImage.includes(banner.url) || banner.url.includes(bannerImage));
 
                   return (
                     <Box
@@ -584,7 +584,7 @@ const ResourcesAddForm = ({ resourcesCatId }: TResourcesAddFormProps) => {
 
       {/* Canonical URL */}
       <Grid size={{ xs: 12 }}>
-        <InputLabel sx={{ color: '#FFFFFF' }}>Canonical URL (Leave blank to use this page\'s own address)</InputLabel>
+        <InputLabel sx={{ color: '#FFFFFF' }}>Canonical URL (Leave blank to use this page&apos;s own address)</InputLabel>
         <Controller
           control={form.control}
           name="canonicalTag"
@@ -712,7 +712,7 @@ const ResourcesAddForm = ({ resourcesCatId }: TResourcesAddFormProps) => {
                     seoOgImage instanceof File
                       ? seoOgImage.name === og.url.split('/').pop()
                       : typeof seoOgImage === 'string' &&
-                        (seoOgImage.includes(og.url) || og.url.includes(seoOgImage));
+                      (seoOgImage.includes(og.url) || og.url.includes(seoOgImage));
 
                   return (
                     <Box

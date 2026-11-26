@@ -4,8 +4,39 @@ import type { NextConfig } from 'next';
 
 const isProd = process.env.NODE_ENV === 'production';
 
+// Content-Security-Policy, REPORT-ONLY for now: the browser logs violations in the console but blocks
+// nothing. Once the console is clean on production, rename the header below to
+// 'Content-Security-Policy'. frame-ancestors 'none' = the admin can never be embedded in any frame.
+const contentSecurityPolicy = [
+  "default-src 'self'",
+  "script-src 'self' 'unsafe-inline' 'unsafe-eval' https:",
+  "style-src 'self' 'unsafe-inline' https:",
+  "img-src 'self' data: blob: https:",
+  "font-src 'self' data: https:",
+  "media-src 'self' blob: https:",
+  "connect-src 'self' https: wss:",
+  "worker-src 'self' blob:",
+  'frame-src https:',
+  "frame-ancestors 'none'",
+  "object-src 'none'",
+  "base-uri 'self'",
+  "form-action 'self'",
+].join('; ');
+
+const securityHeaders = [
+  { key: 'Strict-Transport-Security', value: 'max-age=31536000' },
+  { key: 'X-Frame-Options', value: 'DENY' },
+  { key: 'X-Content-Type-Options', value: 'nosniff' },
+  { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
+  { key: 'Permissions-Policy', value: 'camera=(), microphone=(), geolocation=()' },
+  // Keeps every admin page (login included) out of Google, even if a link to it exists elsewhere
+  { key: 'X-Robots-Tag', value: 'noindex, nofollow, noarchive' },
+  { key: 'Content-Security-Policy-Report-Only', value: contentSecurityPolicy },
+];
+
 const nextConfig: NextConfig = {
   reactStrictMode: true,
+  poweredByHeader: false, // stop announcing "X-Powered-By: Next.js"
   trailingSlash: false,
   compress: true,
   sassOptions: {
@@ -78,6 +109,10 @@ const nextConfig: NextConfig = {
   //     },
   //   ];
   // },
+
+  async headers() {
+    return [{ source: '/:path*', headers: securityHeaders }];
+  },
 
   async rewrites() {
     return [

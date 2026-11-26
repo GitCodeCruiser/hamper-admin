@@ -34,7 +34,7 @@ const metaDescriptionPlaceholder = 'Enter meta description (150-160 characters r
 const metaKeywordsLabel = 'Meta Keywords';
 const metaKeywordsPlaceholder = 'Enter meta keywords';
 const canonicalUrlLabel = 'Canonical URL';
-const canonicalUrlPlaceholder = 'Leave blank to use this page\'s own address';
+const canonicalUrlPlaceholder = "Leave blank to use this page's own address";
 const ogTitleLabel = 'OG Title';
 const ogTitlePlaceholder = 'Enter Open Graph title';
 const ogDescriptionLabel = 'OG Description';
@@ -83,7 +83,7 @@ const PartnershipAddForm = ({ slug }: TPartnershipAddFormProps) => {
     optionalCallback: () => {
       router.replace(PAGE_ROUTE.dashboard.lifestyle.partnerships.list);
     },
-    errorCallback: () => {},
+    errorCallback: () => { },
   });
 
   const onSubmit = (data: TPartnershipAddSchemaType) => {
@@ -404,7 +404,7 @@ const PartnershipAddForm = ({ slug }: TPartnershipAddFormProps) => {
 
       {/* Canonical URL */}
       <Grid size={{ xs: 12 }}>
-        <InputLabel sx={{ color: '#FFFFFF' }}>Canonical URL (Leave blank to use this page\'s own address)</InputLabel>
+        <InputLabel sx={{ color: '#FFFFFF' }}>Canonical URL (Leave blank to use this page&apos;s own address)</InputLabel>
         <Controller
           control={form.control}
           name="canonicalTag"
@@ -419,15 +419,15 @@ const PartnershipAddForm = ({ slug }: TPartnershipAddFormProps) => {
             />
           )}
         />
-      </Grid>
+      </Grid >
 
       {/* Social Sharing (Open Graph) */}
-      <Grid size={{ xs: 12 }}>
+      < Grid size={{ xs: 12 }}>
         <GroupHeading>Social Sharing (Open Graph)</GroupHeading>
-      </Grid>
+      </Grid >
 
       {/* OG Title */}
-      <Grid size={{ xs: 12 }}>
+      < Grid size={{ xs: 12 }}>
         <InputLabel sx={{ color: '#FFFFFF' }}>OG Title*</InputLabel>
         <Controller
           control={form.control}
@@ -443,10 +443,10 @@ const PartnershipAddForm = ({ slug }: TPartnershipAddFormProps) => {
             />
           )}
         />
-      </Grid>
+      </Grid >
 
       {/* OG Description */}
-      <Grid size={{ xs: 12 }}>
+      < Grid size={{ xs: 12 }}>
         <InputLabel sx={{ color: '#FFFFFF' }}>OG Description*</InputLabel>
         <Controller
           control={form.control}
@@ -464,10 +464,10 @@ const PartnershipAddForm = ({ slug }: TPartnershipAddFormProps) => {
             />
           )}
         />
-      </Grid>
+      </Grid >
 
       {/* OG Image Upload */}
-      <Grid size={{ xs: 12 }}>
+      < Grid size={{ xs: 12 }}>
         <Box>
           <InputLabel
             sx={{
@@ -529,15 +529,15 @@ const PartnershipAddForm = ({ slug }: TPartnershipAddFormProps) => {
             </Typography>
           ) : null}
         </Box>
-      </Grid>
+      </Grid >
 
       {/* Robots Meta Directives */}
-      <Grid size={{ xs: 12 }}>
+      < Grid size={{ xs: 12 }}>
         <GroupHeading>Robots Meta Directives</GroupHeading>
-      </Grid>
+      </Grid >
 
       {/* Meta Robots Index */}
-      <Grid size={{ xs: 12, md: 6 }}>
+      < Grid size={{ xs: 12, md: 6 }}>
         <InputLabel sx={{ color: '#FFFFFF' }}>Meta Robots Index</InputLabel>
         <Controller
           control={form.control}
@@ -555,10 +555,10 @@ const PartnershipAddForm = ({ slug }: TPartnershipAddFormProps) => {
             </CustomSelect>
           )}
         />
-      </Grid>
+      </Grid >
 
       {/* Meta Robots Follow */}
-      <Grid size={{ xs: 12, md: 6 }}>
+      < Grid size={{ xs: 12, md: 6 }}>
         <InputLabel sx={{ color: '#FFFFFF' }}>Meta Robots Follow</InputLabel>
         <Controller
           control={form.control}
@@ -576,15 +576,15 @@ const PartnershipAddForm = ({ slug }: TPartnershipAddFormProps) => {
             </CustomSelect>
           )}
         />
-      </Grid>
+      </Grid >
 
       {/* Structured Data */}
-      <Grid size={{ xs: 12 }}>
+      < Grid size={{ xs: 12 }}>
         <GroupHeading>Structured Data</GroupHeading>
-      </Grid>
+      </Grid >
 
       {/* Schema (JSON-LD) */}
-      <Grid size={{ xs: 12 }}>
+      < Grid size={{ xs: 12 }}>
         <InputLabel sx={{ color: '#FFFFFF' }}>Schema (JSON-LD)*</InputLabel>
         <Controller
           control={form.control}
@@ -602,10 +602,10 @@ const PartnershipAddForm = ({ slug }: TPartnershipAddFormProps) => {
             />
           )}
         />
-      </Grid>
+      </Grid >
 
       {/* Submit / Back Buttons */}
-      <Grid size={{ xs: 12 }} gap={2} display="flex">
+      < Grid size={{ xs: 12 }} gap={2} display="flex" >
         <CustomButtonPrimary
           variant="outlined"
           color="secondary"
@@ -629,8 +629,8 @@ const PartnershipAddForm = ({ slug }: TPartnershipAddFormProps) => {
         >
           Save
         </CustomButtonPrimary>
-      </Grid>
-    </Grid>
+      </Grid >
+    </Grid >
   );
 };
 

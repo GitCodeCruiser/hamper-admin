@@ -45,7 +45,7 @@ const metaDescriptionPlaceholder = 'Enter meta description (150-160 characters r
 const metaKeywordsLabel = 'Meta Keywords';
 const metaKeywordsPlaceholder = 'Enter meta keywords';
 const canonicalUrlLabel = 'Canonical URL';
-const canonicalUrlPlaceholder = 'Leave blank to use this page\'s own address';
+const canonicalUrlPlaceholder = "Leave blank to use this page's own address";
 const ogTitleLabel = 'OG Title';
 const ogTitlePlaceholder = 'Enter Open Graph title';
 const ogDescriptionLabel = 'OG Description';
@@ -598,7 +598,7 @@ const CountryListAddForm = () => {
 
       {/* Canonical URL */}
       <Grid size={{ xs: 12 }}>
-        <InputLabel sx={{ color: '#FFFFFF' }}>Canonical URL (Leave blank to use this page\'s own address)</InputLabel>
+        <InputLabel sx={{ color: '#FFFFFF' }}>Canonical URL (Leave blank to use this page&apos;s own address)</InputLabel>
         <Controller
           control={form.control}
           name="canonicalTag"
@@ -613,17 +613,17 @@ const CountryListAddForm = () => {
             />
           )}
         />
-      </Grid>
+      </Grid >
 
       {/* ═══════════════════════════════════════════════════════════════════
           SOCIAL SHARING (OPEN GRAPH)
          ═══════════════════════════════════════════════════════════════════ */}
-      <Grid size={{ xs: 12 }}>
+      < Grid size={{ xs: 12 }}>
         <GroupHeading>Social Sharing (Open Graph)</GroupHeading>
-      </Grid>
+      </Grid >
 
       {/* OG Title */}
-      <Grid size={{ xs: 12 }}>
+      < Grid size={{ xs: 12 }}>
         <InputLabel sx={{ color: '#FFFFFF' }}>OG Title*</InputLabel>
         <Controller
           control={form.control}
@@ -639,10 +639,10 @@ const CountryListAddForm = () => {
             />
           )}
         />
-      </Grid>
+      </Grid >
 
       {/* OG Description */}
-      <Grid size={{ xs: 12 }}>
+      < Grid size={{ xs: 12 }}>
         <InputLabel sx={{ color: '#FFFFFF' }}>OG Description*</InputLabel>
         <Controller
           control={form.control}
@@ -660,10 +660,10 @@ const CountryListAddForm = () => {
             />
           )}
         />
-      </Grid>
+      </Grid >
 
       {/* OG Image Upload */}
-      <Grid size={{ xs: 12 }}>
+      < Grid size={{ xs: 12 }}>
         <Box>
           <InputLabel
             sx={{
@@ -776,17 +776,17 @@ const CountryListAddForm = () => {
             </Typography>
           ) : null}
         </Box>
-      </Grid>
+      </Grid >
 
       {/* ═══════════════════════════════════════════════════════════════════
           ROBOTS META DIRECTIVES
          ═══════════════════════════════════════════════════════════════════ */}
-      <Grid size={{ xs: 12 }}>
+      < Grid size={{ xs: 12 }}>
         <GroupHeading>Robots Meta Directives</GroupHeading>
-      </Grid>
+      </Grid >
 
       {/* Meta Robots Index */}
-      <Grid size={{ xs: 12, md: 6 }}>
+      < Grid size={{ xs: 12, md: 6 }}>
         <InputLabel sx={{ color: '#FFFFFF' }}>Meta Robots Index</InputLabel>
         <Controller
           control={form.control}
@@ -804,10 +804,10 @@ const CountryListAddForm = () => {
             </CustomSelect>
           )}
         />
-      </Grid>
+      </Grid >
 
       {/* Meta Robots Follow */}
-      <Grid size={{ xs: 12, md: 6 }}>
+      < Grid size={{ xs: 12, md: 6 }}>
         <InputLabel sx={{ color: '#FFFFFF' }}>Meta Robots Follow</InputLabel>
         <Controller
           control={form.control}
@@ -825,17 +825,17 @@ const CountryListAddForm = () => {
             </CustomSelect>
           )}
         />
-      </Grid>
+      </Grid >
 
       {/* ═══════════════════════════════════════════════════════════════════
           STRUCTURED DATA
          ═══════════════════════════════════════════════════════════════════ */}
-      <Grid size={{ xs: 12 }}>
+      < Grid size={{ xs: 12 }}>
         <GroupHeading>Structured Data</GroupHeading>
-      </Grid>
+      </Grid >
 
       {/* Schema (JSON-LD) */}
-      <Grid size={{ xs: 12 }}>
+      < Grid size={{ xs: 12 }}>
         <InputLabel sx={{ color: '#FFFFFF' }}>Schema (JSON-LD)*</InputLabel>
         <Controller
           control={form.control}
@@ -853,10 +853,10 @@ const CountryListAddForm = () => {
             />
           )}
         />
-      </Grid>
+      </Grid >
 
       {/* Show Last Updated Date Checkbox */}
-      <Grid size={{ xs: 12 }}>
+      < Grid size={{ xs: 12 }}>
         <Controller
           control={form.control}
           name="isShowUpdatedAt"
@@ -879,7 +879,7 @@ const CountryListAddForm = () => {
             />
           )}
         />
-      </Grid>
+      </Grid >
 
       <Grid size={{ xs: 12 }} gap={2} display="flex">
         <CustomButtonPrimary
@@ -906,7 +906,7 @@ const CountryListAddForm = () => {
           Save
         </CustomButtonPrimary>
       </Grid>
-    </Grid>
+    </Grid >
   );
 };
 

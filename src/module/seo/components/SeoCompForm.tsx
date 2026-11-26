@@ -29,7 +29,7 @@ const metaKeywordsPlaceholder = 'Enter meta keywords';
 // const slugLabel = 'Slug';
 // const slugPlaceholder = 'e.g. about-us';
 const canonicalUrlLabel = 'Canonical URL';
-const canonicalUrlPlaceholder = 'Leave blank to use this page\'s own address';
+const canonicalUrlPlaceholder = "Leave blank to use this page's own address";
 const ogTitleLabel = 'OG Title';
 const ogTitlePlaceholder = 'Enter Open Graph title';
 const ogDescriptionLabel = 'OG Description';
@@ -95,8 +95,8 @@ const SeoCompForm = ({ slug }: TSeoCompFormProps) => {
 
   const { mutateAsync: seoDetailsUpdate, isPending: seoDetailsUpdateLoading } = useSeoDetailsUpdate(
     {
-      optionalCallback: () => {},
-      errorCallback: () => {},
+      optionalCallback: () => { },
+      errorCallback: () => { },
     },
   );
 
@@ -167,7 +167,7 @@ const SeoCompForm = ({ slug }: TSeoCompFormProps) => {
       seoData?.openGraphImageSize ? Number(seoData.openGraphImageSize) : null,
     );
 
-    return () => {};
+    return () => { };
   }, [
     form.reset,
     seoData?.metaTitle,
@@ -284,7 +284,7 @@ const SeoCompForm = ({ slug }: TSeoCompFormProps) => {
 
       {/* Canonical URL */}
       <Grid size={{ xs: 12 }}>
-        <InputLabel sx={{ color: '#FFFFFF' }}>Canonical URL (Leave blank to use this page\'s own address)</InputLabel>
+        <InputLabel sx={{ color: '#FFFFFF' }}>Canonical URL (Leave blank to use this page&apos;s own address)</InputLabel>
         <Controller
           control={form.control}
           name="seoCanonicalUrl"
@@ -299,17 +299,17 @@ const SeoCompForm = ({ slug }: TSeoCompFormProps) => {
             />
           )}
         />
-      </Grid>
+      </Grid >
 
       {/* ═══════════════════════════════════════════════════════════════════
           SOCIAL SHARING (OPEN GRAPH)
          ═══════════════════════════════════════════════════════════════════ */}
-      <Grid size={{ xs: 12 }}>
+      < Grid size={{ xs: 12 }}>
         <GroupHeading>Social Sharing (Open Graph)</GroupHeading>
-      </Grid>
+      </Grid >
 
       {/* OG Title */}
-      <Grid size={{ xs: 12 }}>
+      < Grid size={{ xs: 12 }}>
         <InputLabel sx={{ color: '#FFFFFF' }}>OG Title*</InputLabel>
         <Controller
           control={form.control}
@@ -325,10 +325,10 @@ const SeoCompForm = ({ slug }: TSeoCompFormProps) => {
             />
           )}
         />
-      </Grid>
+      </Grid >
 
       {/* OG Description */}
-      <Grid size={{ xs: 12 }}>
+      < Grid size={{ xs: 12 }}>
         <InputLabel sx={{ color: '#FFFFFF' }}>OG Description*</InputLabel>
         <Controller
           control={form.control}
@@ -346,10 +346,10 @@ const SeoCompForm = ({ slug }: TSeoCompFormProps) => {
             />
           )}
         />
-      </Grid>
+      </Grid >
 
       {/* OG Image Upload */}
-      <Grid size={{ xs: 12 }}>
+      < Grid size={{ xs: 12 }}>
         <Box>
           <InputLabel
             sx={{
@@ -447,7 +447,7 @@ const SeoCompForm = ({ slug }: TSeoCompFormProps) => {
                     preSeoOgImage instanceof File
                       ? preSeoOgImage.name === og.url.split('/').pop()
                       : typeof preSeoOgImage === 'string' &&
-                        (preSeoOgImage.includes(og.url) || og.url.includes(preSeoOgImage));
+                      (preSeoOgImage.includes(og.url) || og.url.includes(preSeoOgImage));
 
                   return (
                     <Box
@@ -494,17 +494,17 @@ const SeoCompForm = ({ slug }: TSeoCompFormProps) => {
             </Typography>
           ) : null}
         </Box>
-      </Grid>
+      </Grid >
 
       {/* ═══════════════════════════════════════════════════════════════════
           ROBOTS META DIRECTIVES
          ═══════════════════════════════════════════════════════════════════ */}
-      <Grid size={{ xs: 12 }}>
+      < Grid size={{ xs: 12 }}>
         <GroupHeading>Robots Meta Directives</GroupHeading>
-      </Grid>
+      </Grid >
 
       {/* Meta Robots Index */}
-      <Grid size={{ xs: 12, md: 6 }}>
+      < Grid size={{ xs: 12, md: 6 }}>
         <InputLabel sx={{ color: '#FFFFFF' }}>Meta Robots Index</InputLabel>
         <Controller
           control={form.control}
@@ -522,10 +522,10 @@ const SeoCompForm = ({ slug }: TSeoCompFormProps) => {
             </CustomSelect>
           )}
         />
-      </Grid>
+      </Grid >
 
       {/* Meta Robots Follow */}
-      <Grid size={{ xs: 12, md: 6 }}>
+      < Grid size={{ xs: 12, md: 6 }}>
         <InputLabel sx={{ color: '#FFFFFF' }}>Meta Robots Follow</InputLabel>
         <Controller
           control={form.control}
@@ -543,17 +543,17 @@ const SeoCompForm = ({ slug }: TSeoCompFormProps) => {
             </CustomSelect>
           )}
         />
-      </Grid>
+      </Grid >
 
       {/* ═══════════════════════════════════════════════════════════════════
           STRUCTURED DATA
          ═══════════════════════════════════════════════════════════════════ */}
-      <Grid size={{ xs: 12 }}>
+      < Grid size={{ xs: 12 }}>
         <GroupHeading>Structured Data</GroupHeading>
-      </Grid>
+      </Grid >
 
       {/* Schema (JSON-LD) */}
-      <Grid size={{ xs: 12 }}>
+      < Grid size={{ xs: 12 }}>
         <InputLabel sx={{ color: '#FFFFFF' }}>Schema (JSON-LD)*</InputLabel>
         <Controller
           control={form.control}
@@ -571,7 +571,7 @@ const SeoCompForm = ({ slug }: TSeoCompFormProps) => {
             />
           )}
         />
-      </Grid>
+      </Grid >
 
       <Grid size={{ xs: 12 }}>
         <CustomButtonPrimary
@@ -585,7 +585,7 @@ const SeoCompForm = ({ slug }: TSeoCompFormProps) => {
           Update
         </CustomButtonPrimary>
       </Grid>
-    </Grid>
+    </Grid >
   );
 };
 

@@ -69,6 +69,9 @@ const defaultValues: TTailNumberSchemaType = {
   yearOfManufacture: '',
   seats: '',
   homeBase: '',
+  seatsConfigured: '',
+  exterior: '',
+  baseCabinSource: '',
   avionics: '',
   airframeTotalTime: '',
   exteriorRefurbYear: '',
@@ -170,6 +173,9 @@ const TailNumberForm = ({ tailNumberId, aircraftId, returnTo }: TTailNumberFormP
       yearOfManufacture: toStr(details.yearOfManufacture),
       seats: toStr(details.seats),
       homeBase: details.homeBase ?? '',
+      seatsConfigured: details.seatsConfigured ?? '',
+      exterior: details.exterior ?? '',
+      baseCabinSource: details.baseCabinSource ?? '',
       avionics: details.avionics ?? '',
       airframeTotalTime: details.airframeTotalTime ?? '',
       exteriorRefurbYear: toStr(details.exteriorRefurbYear),
@@ -469,8 +475,35 @@ const TailNumberForm = ({ tailNumberId, aircraftId, returnTo }: TTailNumberFormP
       </Grid>
       {field(
         { xs: 12, md: 6 },
-        'Home Base (city / airport)',
-        textField('homeBase', 'Home Base', 'e.g. Teterboro, NJ (KTEB)'),
+        'Home Base (city / airport) - also shown in "Base & cabin"',
+        textField(
+          'homeBase',
+          'Home Base',
+          'e.g. DeKalb-Peachtree Airport (KPDK), Atlanta, Georgia',
+        ),
+      )}
+      {field(
+        { xs: 12, md: 6 },
+        'Seats as configured (Base & cabin)',
+        textField(
+          'seatsConfigured',
+          'Seats as configured',
+          'e.g. 9 passengers (plus a belted lavatory seat)',
+        ),
+      )}
+      {field(
+        { xs: 12, md: 6 },
+        'Exterior (Base & cabin)',
+        textField('exterior', 'Exterior', 'e.g. White with navy stripes'),
+      )}
+      {field(
+        { xs: 12, md: 6 },
+        'Base & cabin source note',
+        textField(
+          'baseCabinSource',
+          'Source note',
+          "e.g. Source: operator's public charter listing, checked Nov 2026",
+        ),
       )}
       {field(
         { xs: 12, md: 6 },

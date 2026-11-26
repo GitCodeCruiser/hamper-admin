@@ -38,7 +38,7 @@ const metaDescriptionPlaceholder = 'Enter meta description (150-160 characters r
 const metaKeywordsLabel = 'Meta Keywords';
 const metaKeywordsPlaceholder = 'Enter meta keywords';
 const canonicalUrlLabel = 'Canonical URL';
-const canonicalUrlPlaceholder = 'Leave blank to use this page\'s own address';
+const canonicalUrlPlaceholder = "Leave blank to use this page's own address";
 const ogTitleLabel = 'OG Title';
 const ogTitlePlaceholder = 'Enter Open Graph title';
 const ogDescriptionLabel = 'OG Description';
@@ -88,7 +88,7 @@ const TravelResourcesEditForm = ({ travelResourcesId }: TTravelResourcesEditForm
       optionalCallback: () => {
         router.replace(PAGE_ROUTE.dashboard.travelResources.list);
       },
-      errorCallback: () => {},
+      errorCallback: () => { },
     });
 
   const { data: travelResourcesDetail, isLoading: travelResourcesDetailLoading } =
@@ -197,14 +197,14 @@ const TravelResourcesEditForm = ({ travelResourcesId }: TTravelResourcesEditForm
           | 'follow',
 
         ...(travelResourcesDetail?.openGraphImage &&
-        travelResourcesDetail?.openGraphImage?.length > 0
+          travelResourcesDetail?.openGraphImage?.length > 0
           ? { openGraphImage: travelResourcesDetail?.openGraphImage ?? '' }
           : {}),
         // ...(travelResourcesDetail?.bannerImage && travelResourcesDetail?.bannerImage?.length > 0
         //   ? { bannerImage: travelResourcesDetail?.bannerImage ?? '' }
         //   : {}),
         ...(travelResourcesDetail?.thumbnailImage &&
-        travelResourcesDetail?.thumbnailImage?.length > 0
+          travelResourcesDetail?.thumbnailImage?.length > 0
           ? { thumbnailImage: travelResourcesDetail?.thumbnailImage ?? '' }
           : {}),
       });
@@ -421,7 +421,7 @@ const TravelResourcesEditForm = ({ travelResourcesId }: TTravelResourcesEditForm
                     thumbnailImage instanceof File
                       ? thumbnailImage.name === thumb.url.split('/').pop()
                       : typeof thumbnailImage === 'string' &&
-                        (thumbnailImage.includes(thumb.url) || thumb.url.includes(thumbnailImage));
+                      (thumbnailImage.includes(thumb.url) || thumb.url.includes(thumbnailImage));
 
                   return (
                     <Box
@@ -663,7 +663,7 @@ const TravelResourcesEditForm = ({ travelResourcesId }: TTravelResourcesEditForm
 
       {/* Canonical URL */}
       <Grid size={{ xs: 12 }}>
-        <InputLabel sx={{ color: '#FFFFFF' }}>Canonical URL (Leave blank to use this page\'s own address)</InputLabel>
+        <InputLabel sx={{ color: '#FFFFFF' }}>Canonical URL (Leave blank to use this page&apos;s own address)</InputLabel>
         <Controller
           control={form.control}
           name="canonicalTag"
@@ -678,15 +678,15 @@ const TravelResourcesEditForm = ({ travelResourcesId }: TTravelResourcesEditForm
             />
           )}
         />
-      </Grid>
+      </Grid >
 
       {/* Social Sharing */}
-      <Grid size={{ xs: 12 }}>
+      < Grid size={{ xs: 12 }}>
         <GroupHeading>Social Sharing (Open Graph)</GroupHeading>
-      </Grid>
+      </Grid >
 
       {/* OG Title */}
-      <Grid size={{ xs: 12 }}>
+      < Grid size={{ xs: 12 }}>
         <InputLabel sx={{ color: '#FFFFFF' }}>OG Title*</InputLabel>
         <Controller
           control={form.control}
@@ -702,10 +702,10 @@ const TravelResourcesEditForm = ({ travelResourcesId }: TTravelResourcesEditForm
             />
           )}
         />
-      </Grid>
+      </Grid >
 
       {/* OG Description */}
-      <Grid size={{ xs: 12 }}>
+      < Grid size={{ xs: 12 }}>
         <InputLabel sx={{ color: '#FFFFFF' }}>OG Description*</InputLabel>
         <Controller
           control={form.control}
@@ -723,10 +723,10 @@ const TravelResourcesEditForm = ({ travelResourcesId }: TTravelResourcesEditForm
             />
           )}
         />
-      </Grid>
+      </Grid >
 
       {/* OG Image Upload */}
-      <Grid size={{ xs: 12 }}>
+      < Grid size={{ xs: 12 }}>
         <Box>
           <InputLabel
             sx={{
@@ -792,7 +792,7 @@ const TravelResourcesEditForm = ({ travelResourcesId }: TTravelResourcesEditForm
                     seoOgImage instanceof File
                       ? seoOgImage.name === og.url.split('/').pop()
                       : typeof seoOgImage === 'string' &&
-                        (seoOgImage.includes(og.url) || og.url.includes(seoOgImage));
+                      (seoOgImage.includes(og.url) || og.url.includes(seoOgImage));
 
                   return (
                     <Box
@@ -839,15 +839,15 @@ const TravelResourcesEditForm = ({ travelResourcesId }: TTravelResourcesEditForm
             </Typography>
           ) : null}
         </Box>
-      </Grid>
+      </Grid >
 
       {/* Robots Meta Directives */}
-      <Grid size={{ xs: 12 }}>
+      < Grid size={{ xs: 12 }}>
         <GroupHeading>Robots Meta Directives</GroupHeading>
-      </Grid>
+      </Grid >
 
       {/* Meta Robots Index */}
-      <Grid size={{ xs: 12, md: 6 }}>
+      < Grid size={{ xs: 12, md: 6 }}>
         <InputLabel sx={{ color: '#FFFFFF' }}>Meta Robots Index</InputLabel>
         <Controller
           control={form.control}
@@ -865,10 +865,10 @@ const TravelResourcesEditForm = ({ travelResourcesId }: TTravelResourcesEditForm
             </CustomSelect>
           )}
         />
-      </Grid>
+      </Grid >
 
       {/* Meta Robots Follow */}
-      <Grid size={{ xs: 12, md: 6 }}>
+      < Grid size={{ xs: 12, md: 6 }}>
         <InputLabel sx={{ color: '#FFFFFF' }}>Meta Robots Follow</InputLabel>
         <Controller
           control={form.control}
@@ -886,15 +886,15 @@ const TravelResourcesEditForm = ({ travelResourcesId }: TTravelResourcesEditForm
             </CustomSelect>
           )}
         />
-      </Grid>
+      </Grid >
 
       {/* Structured Data */}
-      <Grid size={{ xs: 12 }}>
+      < Grid size={{ xs: 12 }}>
         <GroupHeading>Structured Data</GroupHeading>
-      </Grid>
+      </Grid >
 
       {/* Schema (JSON-LD) */}
-      <Grid size={{ xs: 12 }}>
+      < Grid size={{ xs: 12 }}>
         <InputLabel sx={{ color: '#FFFFFF' }}>Schema (JSON-LD)*</InputLabel>
         <Controller
           control={form.control}
@@ -912,7 +912,7 @@ const TravelResourcesEditForm = ({ travelResourcesId }: TTravelResourcesEditForm
             />
           )}
         />
-      </Grid>
+      </Grid >
 
       <Grid size={{ xs: 12 }} gap={2} display="flex">
         <CustomButtonPrimary
@@ -939,7 +939,7 @@ const TravelResourcesEditForm = ({ travelResourcesId }: TTravelResourcesEditForm
           Update
         </CustomButtonPrimary>
       </Grid>
-    </Grid>
+    </Grid >
   );
 };
 

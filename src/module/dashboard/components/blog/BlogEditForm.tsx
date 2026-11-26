@@ -48,7 +48,7 @@ const metaKeywordsPlaceholder = 'Enter meta keywords';
 // const slugLabel = 'Slug';
 // const slugPlaceholder = 'e.g. about-us';
 const canonicalUrlLabel = 'Canonical URL';
-const canonicalUrlPlaceholder = 'Leave blank to use this page\'s own address';
+const canonicalUrlPlaceholder = "Leave blank to use this page's own address";
 const ogTitleLabel = 'OG Title';
 const ogTitlePlaceholder = 'Enter Open Graph title';
 const ogDescriptionLabel = 'OG Description';
@@ -136,7 +136,7 @@ const BlogEditForm = ({ slug, blogId }: TBlogEditFormProps) => {
     optionalCallback: () => {
       // router.replace(PAGE_ROUTE.dashboard.blog.list);
     },
-    errorCallback: () => {},
+    errorCallback: () => { },
   });
 
   const { data: blogDetails, isLoading: blogDetailLoading } = useBlogGet({
@@ -253,7 +253,7 @@ const BlogEditForm = ({ slug, blogId }: TBlogEditFormProps) => {
       blogDetails?.openGraphImageSize ? Number(blogDetails.openGraphImageSize) : null,
     );
 
-    return () => {};
+    return () => { };
   }, [
     form.reset,
     blogDetails?._id,
@@ -422,7 +422,7 @@ const BlogEditForm = ({ slug, blogId }: TBlogEditFormProps) => {
                     thumbnailImage instanceof File
                       ? thumbnailImage.name === thumb.url.split('/').pop()
                       : typeof thumbnailImage === 'string' &&
-                        (thumbnailImage.includes(thumb.url) || thumb.url.includes(thumbnailImage));
+                      (thumbnailImage.includes(thumb.url) || thumb.url.includes(thumbnailImage));
 
                   return (
                     <Box
@@ -560,7 +560,7 @@ const BlogEditForm = ({ slug, blogId }: TBlogEditFormProps) => {
                     bannerImage instanceof File
                       ? bannerImage.name === banner.url.split('/').pop()
                       : typeof bannerImage === 'string' &&
-                        (bannerImage.includes(banner.url) || banner.url.includes(bannerImage));
+                      (bannerImage.includes(banner.url) || banner.url.includes(bannerImage));
 
                   return (
                     <Box
@@ -743,7 +743,7 @@ const BlogEditForm = ({ slug, blogId }: TBlogEditFormProps) => {
 
       {/* Canonical URL */}
       <Grid size={{ xs: 12 }}>
-        <InputLabel sx={{ color: '#FFFFFF' }}>Canonical URL (Leave blank to use this page\'s own address)</InputLabel>
+        <InputLabel sx={{ color: '#FFFFFF' }}>Canonical URL (Leave blank to use this page&apos;s own address)</InputLabel>
         <Controller
           control={form.control}
           name="canonicalTag"
@@ -876,7 +876,7 @@ const BlogEditForm = ({ slug, blogId }: TBlogEditFormProps) => {
                     seoOgImage instanceof File
                       ? seoOgImage.name === og.url.split('/').pop()
                       : typeof seoOgImage === 'string' &&
-                        (seoOgImage.includes(og.url) || og.url.includes(seoOgImage));
+                      (seoOgImage.includes(og.url) || og.url.includes(seoOgImage));
 
                   return (
                     <Box

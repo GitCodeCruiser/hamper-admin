@@ -80,7 +80,6 @@ const RegionListForm = ({ regionListId }: TRegionListFormProps) => {
       image: null,
       imageTag: '',
       countries: [],
-      priority: '',
       metaTitle: '',
       metaDescription: '',
       metaKeywords: '',
@@ -145,10 +144,6 @@ const RegionListForm = ({ regionListId }: TRegionListFormProps) => {
         image: regionDetails.image || null,
         imageTag: regionDetails.imageTag ?? '',
         countries: (regionDetails.countries ?? []).map((c) => c._id),
-        priority:
-          regionDetails.priority !== null && regionDetails.priority !== undefined
-            ? String(regionDetails.priority)
-            : '',
         metaTitle: regionDetails.metaTitle ?? '',
         metaDescription: regionDetails.metaDescription ?? '',
         metaKeywords: regionDetails.metaKeywords ?? '',
@@ -268,30 +263,6 @@ const RegionListForm = ({ regionListId }: TRegionListFormProps) => {
       <Grid size={{ xs: 12 }}>
         <InputLabel sx={labelSx}>Page Heading (banner title)</InputLabel>
         {textField('pageHeading', 'Page Heading', 'e.g. Western Europe Private Jet Charter')}
-      </Grid>
-
-      {/* Priority: where this region's card sits among the countries on /private-jet-charter/ */}
-      <Grid size={{ xs: 12, md: 6 }}>
-        <InputLabel sx={labelSx}>Priority (optional)</InputLabel>
-        <Controller
-          control={form.control}
-          name="priority"
-          render={({ field: { onChange, value } }) => (
-            <InputFieldCommon
-              labelName="Priority"
-              placeholder="e.g. 1"
-              type="number"
-              slotProps={{ htmlInput: { min: 1, step: 1 } }}
-              value={value ?? ''}
-              onChange={onChange}
-              error={!!errors?.priority}
-              helperText={
-                errors?.priority?.message ??
-                'Position in the countries list, on the same numbering as country priority. Lower number shows first. Leave blank to sort alphabetically after numbered ones.'
-              }
-            />
-          )}
-        />
       </Grid>
 
       <Grid size={{ xs: 12 }}>
@@ -486,11 +457,9 @@ const RegionListForm = ({ regionListId }: TRegionListFormProps) => {
               noOptionsText="No Country Found"
               loading={countryListLoading}
               loadingText="Loading Countries..."
-              value={
-                (value ?? [])
-                  .map((id) => countryOptions.find((c) => c._id === id))
-                  .filter(Boolean) as TRegionListCountryOption[]
-              }
+              value={(value ?? [])
+                .map((id) => countryOptions.find((c) => c._id === id))
+                .filter(Boolean) as TRegionListCountryOption[]}
               onChange={(_e, selected) =>
                 onChange((selected as TRegionListCountryOption[]).map((c) => c._id))
               }
@@ -525,7 +494,7 @@ const RegionListForm = ({ regionListId }: TRegionListFormProps) => {
         <GroupHeading>URL Management</GroupHeading>
       </Grid>
       <Grid size={{ xs: 12 }}>
-        <InputLabel sx={labelSx}>Canonical URL</InputLabel>
+        <InputLabel sx={labelSx}>Canonical URL (Leave blank to use this page&apos;s own address)</InputLabel>
         {textField('canonicalTag', 'Canonical URL', 'https://example.com/page')}
       </Grid>
 

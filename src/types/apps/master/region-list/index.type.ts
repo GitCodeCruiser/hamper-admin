@@ -29,8 +29,6 @@ export type TEachRegionList = {
   countriesCount?: number;
   countries?: TRegionListCountryOption[];
   sortOrder?: number;
-  /** Position among countries on the public listing. null = alphabetical after numbered ones. */
-  priority?: number | null;
   status: string;
   isDeleted: boolean;
   createdAt: string;

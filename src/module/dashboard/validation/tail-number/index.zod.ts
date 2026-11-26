@@ -54,6 +54,9 @@ export const tailNumberSchema = () =>
       .trim()
       .refine((v) => v === '' || /^\d{1,3}$/.test(v), { message: 'Seats must be a whole number' }),
     homeBase: zod.string().trim().optional(),
+    seatsConfigured: zod.string().trim().optional(),
+    exterior: zod.string().trim().optional(),
+    baseCabinSource: zod.string().trim().optional(),
     avionics: zod.string().trim().optional(),
     airframeTotalTime: zod.string().trim().optional(),
     exteriorRefurbYear: optionalYear('Exterior refurb year'),

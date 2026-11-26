@@ -40,7 +40,7 @@ const metaDescriptionPlaceholder = 'Enter meta description (150-160 characters r
 const metaKeywordsLabel = 'Meta Keywords';
 const metaKeywordsPlaceholder = 'Enter meta keywords';
 const canonicalUrlLabel = 'Canonical URL';
-const canonicalUrlPlaceholder = 'Leave blank to use this page\'s own address';
+const canonicalUrlPlaceholder = "Leave blank to use this page's own address";
 const ogTitleLabel = 'OG Title';
 const ogTitlePlaceholder = 'Enter Open Graph title';
 const ogDescriptionLabel = 'OG Description';
@@ -125,7 +125,7 @@ const InsiderGuideEditForm = ({ slug, guideId }: TInsiderGuideEditFormProps) => 
     optionalCallback: () => {
       router.replace(PAGE_ROUTE.dashboard.lifestyle.insiderGuide.list);
     },
-    errorCallback: () => {},
+    errorCallback: () => { },
   });
 
   const { data: guideDetails, isLoading: guideDetailLoading } = useInsiderGuideGet({
@@ -241,7 +241,7 @@ const InsiderGuideEditForm = ({ slug, guideId }: TInsiderGuideEditFormProps) => 
     setBannerImageSize(guideDetails?.bannerImageSize ?? null);
     setThumbnailImageSize(guideDetails?.thumbnailImageSize ?? null);
 
-    return () => {};
+    return () => { };
   }, [
     form.reset,
     guideDetails?._id,
@@ -409,7 +409,7 @@ const InsiderGuideEditForm = ({ slug, guideId }: TInsiderGuideEditFormProps) => 
                     thumbnailImage instanceof File
                       ? thumbnailImage.name === thumb.url.split('/').pop()
                       : typeof thumbnailImage === 'string' &&
-                        (thumbnailImage.includes(thumb.url) || thumb.url.includes(thumbnailImage));
+                      (thumbnailImage.includes(thumb.url) || thumb.url.includes(thumbnailImage));
 
                   return (
                     <Box
@@ -527,7 +527,7 @@ const InsiderGuideEditForm = ({ slug, guideId }: TInsiderGuideEditFormProps) => 
                     bannerImage instanceof File
                       ? bannerImage.name === banner.url.split('/').pop()
                       : typeof bannerImage === 'string' &&
-                        (bannerImage.includes(banner.url) || banner.url.includes(bannerImage));
+                      (bannerImage.includes(banner.url) || banner.url.includes(bannerImage));
 
                   return (
                     <Box
@@ -688,7 +688,7 @@ const InsiderGuideEditForm = ({ slug, guideId }: TInsiderGuideEditFormProps) => 
 
       {/* Canonical URL */}
       <Grid size={{ xs: 12 }}>
-        <InputLabel sx={{ color: '#FFFFFF' }}>Canonical URL (Leave blank to use this page\'s own address)</InputLabel>
+        <InputLabel sx={{ color: '#FFFFFF' }}>Canonical URL (Leave blank to use this page&apos;s own address)</InputLabel>
         <Controller
           control={form.control}
           name="canonicalTag"
@@ -703,15 +703,15 @@ const InsiderGuideEditForm = ({ slug, guideId }: TInsiderGuideEditFormProps) => 
             />
           )}
         />
-      </Grid>
+      </Grid >
 
       {/* Social Sharing (Open Graph) */}
-      <Grid size={{ xs: 12 }}>
+      < Grid size={{ xs: 12 }}>
         <GroupHeading>Social Sharing (Open Graph)</GroupHeading>
-      </Grid>
+      </Grid >
 
       {/* OG Title */}
-      <Grid size={{ xs: 12 }}>
+      < Grid size={{ xs: 12 }}>
         <InputLabel sx={{ color: '#FFFFFF' }}>OG Title*</InputLabel>
         <Controller
           control={form.control}
@@ -727,10 +727,10 @@ const InsiderGuideEditForm = ({ slug, guideId }: TInsiderGuideEditFormProps) => 
             />
           )}
         />
-      </Grid>
+      </Grid >
 
       {/* OG Description */}
-      <Grid size={{ xs: 12 }}>
+      < Grid size={{ xs: 12 }}>
         <InputLabel sx={{ color: '#FFFFFF' }}>OG Description*</InputLabel>
         <Controller
           control={form.control}
@@ -748,10 +748,10 @@ const InsiderGuideEditForm = ({ slug, guideId }: TInsiderGuideEditFormProps) => 
             />
           )}
         />
-      </Grid>
+      </Grid >
 
       {/* OG Image Upload */}
-      <Grid size={{ xs: 12 }}>
+      < Grid size={{ xs: 12 }}>
         <Box>
           <InputLabel
             sx={{
@@ -816,7 +816,7 @@ const InsiderGuideEditForm = ({ slug, guideId }: TInsiderGuideEditFormProps) => 
                     seoOgImage instanceof File
                       ? seoOgImage.name === og.url.split('/').pop()
                       : typeof seoOgImage === 'string' &&
-                        (seoOgImage.includes(og.url) || og.url.includes(seoOgImage));
+                      (seoOgImage.includes(og.url) || og.url.includes(seoOgImage));
 
                   return (
                     <Box
@@ -863,15 +863,15 @@ const InsiderGuideEditForm = ({ slug, guideId }: TInsiderGuideEditFormProps) => 
             </Typography>
           ) : null}
         </Box>
-      </Grid>
+      </Grid >
 
       {/* Robots Meta Directives */}
-      <Grid size={{ xs: 12 }}>
+      < Grid size={{ xs: 12 }}>
         <GroupHeading>Robots Meta Directives</GroupHeading>
-      </Grid>
+      </Grid >
 
       {/* Meta Robots Index */}
-      <Grid size={{ xs: 12, md: 6 }}>
+      < Grid size={{ xs: 12, md: 6 }}>
         <InputLabel sx={{ color: '#FFFFFF' }}>Meta Robots Index</InputLabel>
         <Controller
           control={form.control}
@@ -889,10 +889,10 @@ const InsiderGuideEditForm = ({ slug, guideId }: TInsiderGuideEditFormProps) => 
             </CustomSelect>
           )}
         />
-      </Grid>
+      </Grid >
 
       {/* Meta Robots Follow */}
-      <Grid size={{ xs: 12, md: 6 }}>
+      < Grid size={{ xs: 12, md: 6 }}>
         <InputLabel sx={{ color: '#FFFFFF' }}>Meta Robots Follow</InputLabel>
         <Controller
           control={form.control}
@@ -910,15 +910,15 @@ const InsiderGuideEditForm = ({ slug, guideId }: TInsiderGuideEditFormProps) => 
             </CustomSelect>
           )}
         />
-      </Grid>
+      </Grid >
 
       {/* Structured Data */}
-      <Grid size={{ xs: 12 }}>
+      < Grid size={{ xs: 12 }}>
         <GroupHeading>Structured Data</GroupHeading>
-      </Grid>
+      </Grid >
 
       {/* Schema (JSON-LD) */}
-      <Grid size={{ xs: 12 }}>
+      < Grid size={{ xs: 12 }}>
         <InputLabel sx={{ color: '#FFFFFF' }}>Schema (JSON-LD)*</InputLabel>
         <Controller
           control={form.control}
@@ -936,10 +936,10 @@ const InsiderGuideEditForm = ({ slug, guideId }: TInsiderGuideEditFormProps) => 
             />
           )}
         />
-      </Grid>
+      </Grid >
 
       {/* Custom Last Updated Date */}
-      <Grid size={{ xs: 12 }}>
+      < Grid size={{ xs: 12 }}>
         <InputLabel sx={{ color: '#FFFFFF' }}>
           Last Updated Date (leave empty to use the automatic date)
         </InputLabel>
@@ -955,10 +955,10 @@ const InsiderGuideEditForm = ({ slug, guideId }: TInsiderGuideEditFormProps) => 
             />
           )}
         />
-      </Grid>
+      </Grid >
 
       {/* Show Last Updated Date Checkbox */}
-      <Grid size={{ xs: 12 }}>
+      < Grid size={{ xs: 12 }}>
         <Controller
           control={form.control}
           name="isShowUpdatedAt"
@@ -981,10 +981,10 @@ const InsiderGuideEditForm = ({ slug, guideId }: TInsiderGuideEditFormProps) => 
             />
           )}
         />
-      </Grid>
+      </Grid >
 
       {/* Submit / Back Buttons */}
-      <Grid size={{ xs: 12 }} gap={2} display="flex">
+      < Grid size={{ xs: 12 }} gap={2} display="flex" >
         <CustomButtonPrimary
           variant="outlined"
           color="secondary"
@@ -1008,8 +1008,8 @@ const InsiderGuideEditForm = ({ slug, guideId }: TInsiderGuideEditFormProps) => 
         >
           Update
         </CustomButtonPrimary>
-      </Grid>
-    </Grid>
+      </Grid >
+    </Grid >
   );
 };
 

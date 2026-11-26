@@ -18,24 +18,13 @@ const optionalImageFieldSchema = (label: string) =>
       { message: 'Invalid image format. Please upload a valid image.' },
     );
 
-// Same rules as the country priority field (the two share one ordering on the public listing)
-const priorityFieldSchema = zod
-  .string()
-  .trim()
-  .refine((v) => v === '' || /^\d+$/.test(v), { message: 'Priority must be a whole number' })
-  .refine((v) => v === '' || Number(v) >= 1, { message: 'Priority must be 1 or greater' })
-  .optional();
-
 const regionListBaseSchema = {
   name: zod.string().trim().min(1, 'Region name is required'),
   slug: zod
     .string()
     .trim()
     .min(1, 'Slug is required')
-    .regex(
-      /^[a-z0-9]+(?:-[a-z0-9]+)*$/,
-      'Slug must be lowercase letters, numbers and hyphens only',
-    ),
+    .regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, 'Slug must be lowercase letters, numbers and hyphens only'),
   pageHeading: zod.string().optional(),
   description: zod.string().optional(),
   bannerImage: optionalImageFieldSchema('Hero image'),
@@ -43,7 +32,6 @@ const regionListBaseSchema = {
   image: optionalImageFieldSchema('Thumbnail image'),
   imageTag: zod.string().trim().optional(),
   countries: zod.array(zod.string()),
-  priority: priorityFieldSchema,
   metaTitle: zod.string().optional(),
   metaDescription: zod.string().optional(),
   metaKeywords: zod.string().optional(),

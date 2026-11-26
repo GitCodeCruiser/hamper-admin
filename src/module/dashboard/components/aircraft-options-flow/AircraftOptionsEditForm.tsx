@@ -38,7 +38,7 @@ const metaDescriptionPlaceholder = 'Enter meta description (150-160 characters r
 const metaKeywordsLabel = 'Meta Keywords';
 const metaKeywordsPlaceholder = 'Enter meta keywords';
 const canonicalUrlLabel = 'Canonical URL';
-const canonicalUrlPlaceholder = 'Leave blank to use this page\'s own address';
+const canonicalUrlPlaceholder = "Leave blank to use this page's own address";
 const ogTitleLabel = 'OG Title';
 const ogTitlePlaceholder = 'Enter Open Graph title';
 const ogDescriptionLabel = 'OG Description';
@@ -87,7 +87,7 @@ const AircraftOptionsEditForm = ({ aircraftOptionsId }: TAircraftOptionsEditForm
       optionalCallback: () => {
         router.replace(PAGE_ROUTE.dashboard.aircraftOptions.list);
       },
-      errorCallback: () => {},
+      errorCallback: () => { },
     });
 
   const { data: aircraftOptionsDetail, isLoading: aircraftOptionsDetailLoading } =
@@ -179,11 +179,11 @@ const AircraftOptionsEditForm = ({ aircraftOptionsId }: TAircraftOptionsEditForm
           'nofollow' | 'follow',
 
         ...(aircraftOptionsDetail?.openGraphImage &&
-        aircraftOptionsDetail?.openGraphImage?.length > 0
+          aircraftOptionsDetail?.openGraphImage?.length > 0
           ? { openGraphImage: aircraftOptionsDetail?.openGraphImage ?? '' }
           : {}),
         ...(aircraftOptionsDetail?.thumbnailImage &&
-        aircraftOptionsDetail?.thumbnailImage?.length > 0
+          aircraftOptionsDetail?.thumbnailImage?.length > 0
           ? { thumbnailImage: aircraftOptionsDetail?.thumbnailImage ?? '' }
           : {}),
       });
@@ -391,7 +391,7 @@ const AircraftOptionsEditForm = ({ aircraftOptionsId }: TAircraftOptionsEditForm
                     thumbnailImage instanceof File
                       ? thumbnailImage.name === thumb.url.split('/').pop()
                       : typeof thumbnailImage === 'string' &&
-                        (thumbnailImage.includes(thumb.url) || thumb.url.includes(thumbnailImage));
+                      (thumbnailImage.includes(thumb.url) || thumb.url.includes(thumbnailImage));
 
                   return (
                     <Box
@@ -529,7 +529,7 @@ const AircraftOptionsEditForm = ({ aircraftOptionsId }: TAircraftOptionsEditForm
 
       {/* Canonical URL */}
       <Grid size={{ xs: 12 }}>
-        <InputLabel sx={{ color: '#FFFFFF' }}>Canonical URL (Leave blank to use this page\'s own address)</InputLabel>
+        <InputLabel sx={{ color: '#FFFFFF' }}>Canonical URL (Leave blank to use this page&apos;s own address)</InputLabel>
         <Controller
           control={form.control}
           name="canonicalTag"
@@ -658,7 +658,7 @@ const AircraftOptionsEditForm = ({ aircraftOptionsId }: TAircraftOptionsEditForm
                     seoOgImage instanceof File
                       ? seoOgImage.name === og.url.split('/').pop()
                       : typeof seoOgImage === 'string' &&
-                        (seoOgImage.includes(og.url) || og.url.includes(seoOgImage));
+                      (seoOgImage.includes(og.url) || og.url.includes(seoOgImage));
 
                   return (
                     <Box

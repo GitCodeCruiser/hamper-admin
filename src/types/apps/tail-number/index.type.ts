@@ -40,6 +40,9 @@ export type TEachTailNumber = {
   yearOfManufacture?: number | null;
   seats?: number | null;
   homeBase?: string;
+  seatsConfigured?: string;
+  exterior?: string;
+  baseCabinSource?: string;
   avionics?: string;
   airframeTotalTime?: string;
   exteriorRefurbYear?: number | null;

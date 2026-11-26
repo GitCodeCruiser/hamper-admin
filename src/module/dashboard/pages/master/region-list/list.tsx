@@ -47,7 +47,6 @@ const tableHeadData = [
   'Action',
   'Region',
   'Countries',
-  'Priority',
   'Status',
   'Published Date',
   'Last Updated Date',
@@ -140,7 +139,6 @@ const RegionListMain = () => {
                     {row?.name}
                   </TableCell>
                   <TableCell>{row?.countriesCount ?? 0}</TableCell>
-                  <TableCell>{row?.priority ?? '-'}</TableCell>
                   <TableCell>
                     <Box
                       className="status-chip"
@@ -240,15 +238,16 @@ const RegionListActionComp = ({
     },
   });
 
-  const { mutateAsync: statusRegion, isPending: statusRegionLoading } = useRegionListChangeStatus({
-    optionalCallback: () => {
-      closeStatusModal();
-      refetchRegionList();
-    },
-    errorCallback: () => {
-      closeStatusModal();
-    },
-  });
+  const { mutateAsync: statusRegion, isPending: statusRegionLoading } =
+    useRegionListChangeStatus({
+      optionalCallback: () => {
+        closeStatusModal();
+        refetchRegionList();
+      },
+      errorCallback: () => {
+        closeStatusModal();
+      },
+    });
 
   return (
     <>
